@@ -7,7 +7,7 @@
     "groupLabel": "Spain",
     "date": "2025-12-20",
     "error": "Failed to download image: Not Found",
-    "scrapedAt": "2025-12-20T22:17:04.523Z"
+    "scrapedAt": "2025-12-20T22:24:08.474Z"
   },
   {
     "id": "as-2025-12-20",
@@ -17,7 +17,7 @@
     "groupLabel": "Spain",
     "date": "2025-12-20",
     "error": "Failed to download image: Not Found",
-    "scrapedAt": "2025-12-20T22:17:05.696Z"
+    "scrapedAt": "2025-12-20T22:24:09.776Z"
   },
   {
     "id": "mundodeportivo-2025-12-20",
@@ -27,7 +27,7 @@
     "groupLabel": "Spain",
     "date": "2025-12-20",
     "error": "Failed to download image: Not Found",
-    "scrapedAt": "2025-12-20T22:17:05.999Z"
+    "scrapedAt": "2025-12-20T22:24:10.149Z"
   },
   {
     "id": "sport-2025-12-20",
@@ -37,7 +37,7 @@
     "groupLabel": "Spain",
     "date": "2025-12-20",
     "error": "Failed to download image: Not Found",
-    "scrapedAt": "2025-12-20T22:17:07.150Z"
+    "scrapedAt": "2025-12-20T22:24:11.440Z"
   },
   {
     "id": "lesportiu-2025-12-20",
@@ -47,7 +47,7 @@
     "groupLabel": "Spain",
     "date": "2025-12-20",
     "error": "No fetcher for lesportiu",
-    "scrapedAt": "2025-12-20T22:17:07.151Z"
+    "scrapedAt": "2025-12-20T22:24:11.440Z"
   },
   {
     "id": "superdeporte-2025-12-20",
@@ -57,7 +57,7 @@
     "groupLabel": "Spain",
     "date": "2025-12-20",
     "error": "No fetcher for superdeporte",
-    "scrapedAt": "2025-12-20T22:17:07.151Z"
+    "scrapedAt": "2025-12-20T22:24:11.441Z"
   },
   {
     "id": "estadiodeportivo-2025-12-20",
@@ -67,7 +67,7 @@
     "groupLabel": "Spain",
     "date": "2025-12-20",
     "error": "No fetcher for estadiodeportivo",
-    "scrapedAt": "2025-12-20T22:17:07.151Z"
+    "scrapedAt": "2025-12-20T22:24:11.441Z"
   },
   {
     "id": "spherasports-2025-12-20",
@@ -77,7 +77,7 @@
     "groupLabel": "Spain",
     "date": "2025-12-20",
     "error": "No fetcher for spherasports",
-    "scrapedAt": "2025-12-20T22:17:07.151Z"
+    "scrapedAt": "2025-12-20T22:24:11.441Z"
   },
   {
     "id": "lequipe-2025-12-20",
@@ -87,7 +87,7 @@
     "groupLabel": "France",
     "date": "2025-12-20",
     "error": "Cover not found after trying all methods",
-    "scrapedAt": "2025-12-20T22:17:07.416Z"
+    "scrapedAt": "2025-12-20T22:24:11.761Z"
   },
   {
     "id": "corriere-2025-12-20",
@@ -97,7 +97,7 @@
     "groupLabel": "Italy",
     "date": "2025-12-20",
     "error": "Failed to download image: Not Found",
-    "scrapedAt": "2025-12-20T22:17:07.828Z"
+    "scrapedAt": "2025-12-20T22:24:12.272Z"
   },
   {
     "id": "tuttosport-2025-12-20",
@@ -107,7 +107,7 @@
     "groupLabel": "Italy",
     "date": "2025-12-20",
     "error": "Failed to download image: Not Found",
-    "scrapedAt": "2025-12-20T22:17:08.251Z"
+    "scrapedAt": "2025-12-20T22:24:12.793Z"
   },
   {
     "id": "gazzetta-2025-12-20",
@@ -117,7 +117,7 @@
     "groupLabel": "Italy",
     "date": "2025-12-20",
     "error": "Failed to download image: Not Found",
-    "scrapedAt": "2025-12-20T22:17:08.561Z"
+    "scrapedAt": "2025-12-20T22:24:13.153Z"
   },
   {
     "id": "dailystar-2025-12-20",
@@ -127,7 +127,7 @@
     "groupLabel": "UK Back Pages",
     "date": "2025-12-20",
     "error": "Failed to download image: Not Found",
-    "scrapedAt": "2025-12-20T22:17:08.970Z"
+    "scrapedAt": "2025-12-20T22:24:13.602Z"
   },
   {
     "id": "star-sport-2025-12-20",
@@ -137,7 +137,7 @@
     "groupLabel": "UK Back Pages",
     "date": "2025-12-20",
     "error": "No fetcher for star-sport",
-    "scrapedAt": "2025-12-20T22:17:08.970Z"
+    "scrapedAt": "2025-12-20T22:24:13.603Z"
   },
   {
     "id": "mirror-2025-12-20",
@@ -147,7 +147,7 @@
     "groupLabel": "UK Back Pages",
     "date": "2025-12-20",
     "error": "Failed to download image: Not Found",
-    "scrapedAt": "2025-12-20T22:17:09.369Z"
+    "scrapedAt": "2025-12-20T22:24:14.056Z"
   },
   {
     "id": "express-2025-12-20",
@@ -157,7 +157,7 @@
     "groupLabel": "UK Back Pages",
     "date": "2025-12-20",
     "error": "No fetcher for express",
-    "scrapedAt": "2025-12-20T22:17:09.369Z"
+    "scrapedAt": "2025-12-20T22:24:14.056Z"
   },
   {
     "id": "abola-2025-12-20",
@@ -167,7 +167,7 @@
     "groupLabel": "Portugal",
     "date": "2025-12-20",
     "error": "Failed to download image: Not Found",
-    "scrapedAt": "2025-12-20T22:17:09.767Z"
+    "scrapedAt": "2025-12-20T22:24:14.574Z"
   },
   {
     "id": "record-2025-12-20",
@@ -177,7 +177,7 @@
     "groupLabel": "Portugal",
     "date": "2025-12-20",
     "error": "Cover not found after trying all methods",
-    "scrapedAt": "2025-12-20T22:17:10.047Z"
+    "scrapedAt": "2025-12-20T22:24:14.918Z"
   },
   {
     "id": "ojogo-2025-12-20",
@@ -187,7 +187,7 @@
     "groupLabel": "Portugal",
     "date": "2025-12-20",
     "error": "Failed to download image: Not Found",
-    "scrapedAt": "2025-12-20T22:17:10.436Z"
+    "scrapedAt": "2025-12-20T22:24:15.420Z"
   },
   {
     "id": "kicker-2025-12-20",
@@ -197,6 +197,6 @@
     "groupLabel": "Germany",
     "date": "2025-12-20",
     "error": "No fetcher for kicker",
-    "scrapedAt": "2025-12-20T22:17:10.436Z"
+    "scrapedAt": "2025-12-20T22:24:15.420Z"
   }
 ]
