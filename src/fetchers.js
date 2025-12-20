@@ -6,6 +6,12 @@ import { pipeline } from 'stream/promises';
 const USER_AGENT = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36';
 
 async function downloadImage(url, filepath) {
+  // Fix protocol-relative URLs (e.g. //img.kiosko.net/...)
+  if (url.startsWith('//')) {
+    url = 'https:' + url;
+  }
+  
+  console.log(`Downloading image from: ${url}`);
   const response = await fetch(url, {
     headers: { 'User-Agent': USER_AGENT }
   });
@@ -16,7 +22,7 @@ async function downloadImage(url, filepath) {
 async function fetchWithFallback(urls) {
   for (const url of urls) {
     try {
-      console.log(`Trying to fetch: ${url}`);
+      console.log(`Trying to fetch page: ${url}`);
       const response = await fetch(url, {
         headers: {
           'User-Agent': USER_AGENT,
@@ -41,33 +47,25 @@ function findBestCoverImage($, html) {
   // Candidates array
   const candidates = [];
 
-  // 1. Open Graph (The "Silver Bullet" for Frontpages.com)
-<<<<<<< HEAD
+  // 1. Kiosko.net specific (The "Golden Selector")
+  // We found this in the raw HTML: <img id="portada" ...>
+  const kioskoPortada = $('#portada').attr('src');
+  if (kioskoPortada) {
+    console.log(`Found Kiosko #portada: ${kioskoPortada}`);
+    candidates.push(kioskoPortada);
+  }
+
+  // 2. Open Graph (Universal fallback)
   const ogImg = $('meta[property="og:image"]').attr('content');
   if (ogImg) candidates.push(ogImg);
-=======
-  // Since the main image is lazy-loaded via JS, we grab the social share image
-  // which is ALWAYS present in the raw HTML.
-  const ogImg = $('meta[property="og:image"]').attr('content');
-  if (ogImg) {
-    console.log(`Found Open Graph image: ${ogImg}`);
-    candidates.push(ogImg);
-  }
->>>>>>> 84ceb855bd7c5253fd290cca87e300e1945f57f6
 
-  // 2. Twitter Card Image (Backup)
+  // 3. Twitter Card Image
   const twitterImg = $('meta[name="twitter:image"]').attr('content');
   if (twitterImg) candidates.push(twitterImg);
 
-  // 3. Kiosko.net specific
-  $('img').each((i, el) => {
-    const src = $(el).attr('src');
-    if (!src) return;
-    
-    if (src.includes('750') || src.includes('portada') || src.includes('front-page')) {
-      candidates.push(src);
-    }
-  });
+  // 4. Frontpages.com specific (ID: giornale-img)
+  const giornaleImg = $('#giornale-img').attr('src');
+  if (giornaleImg) candidates.push(giornaleImg);
 
   // FILTERING LOGIC
   for (const img of candidates) {
@@ -83,36 +81,6 @@ function findBestCoverImage($, html) {
   }
   
   return null;
-}
-
-// Main fetcher function called by build.js
-export async function fetchCover(publisher, date, outputDir) {
-  const fetcher = fetchers[publisher.id];
-  if (!fetcher) throw new Error(`No fetcher for ${publisher.id}`);
-
-  // Execute the fetcher logic which now handles multiple sources internally
-  const imageUrl = await fetcher();
-  
-  if (!imageUrl) {
-    console.error(`[FAILURE] Could not find any cover for ${publisher.id}`);
-    return null; // Return null instead of throwing to allow other papers to proceed
-  }
-
-  // Download the image
-  const filename = `${date}-medium.jpg`;
-  const filepath = path.join(outputDir, filename);
-  
-  // Handle relative URLs (Kiosko sometimes uses them)
-  const finalUrl = imageUrl.startsWith('http') ? imageUrl : `https://es.kiosko.net${imageUrl}`;
-  
-  try {
-    await downloadImage(finalUrl, filepath);
-    console.log(`[SUCCESS] Downloaded cover for ${publisher.id}`);
-    return { localFile: filename, url: finalUrl };
-  } catch (err) {
-    console.error(`[ERROR] Failed to download image from ${finalUrl}: ${err.message}`);
-    return null;
-  }
 }
 
 // Helper to try multiple sources sequentially
@@ -135,9 +103,35 @@ async function trySources(sources) {
   return null;
 }
 
+// Main fetcher function called by build.js
+export async function fetchCover(publisher, date, outputDir) {
+  const fetcher = fetchers[publisher.id];
+  if (!fetcher) throw new Error(`No fetcher for ${publisher.id}`);
+
+  // Execute the fetcher logic which now handles multiple sources internally
+  const imageUrl = await fetcher();
+  
+  if (!imageUrl) {
+    console.error(`[FAILURE] Could not find any cover for ${publisher.id}`);
+    return null; // Return null instead of throwing
+  }
+
+  // Download the image
+  const filename = `${date}-medium.jpg`;
+  const filepath = path.join(outputDir, filename);
+  
+  try {
+    await downloadImage(imageUrl, filepath);
+    console.log(`[SUCCESS] Downloaded cover for ${publisher.id}`);
+    return { localFile: filename, url: imageUrl };
+  } catch (err) {
+    console.error(`[ERROR] Failed to download image from ${imageUrl}: ${err.message}`);
+    return null;
+  }
+}
+
 export const fetchers = {
   // --- SPAIN ---
-<<<<<<< HEAD
   marca: async () => trySources([
     'https://www.frontpages.com/marca/',
     'https://es.kiosko.net/es/np/marca.html'
@@ -224,168 +218,4 @@ export const fetchers = {
     'https://www.frontpages.com/sport-bild/',
     'https://de.kiosko.net/de/np/bild.html'
   ])
-=======
-  marca: async () => {
-    const { html, success } = await fetchWithFallback([
-      'https://www.frontpages.com/marca/',
-      'https://es.kiosko.net/es/np/marca.html'
-    ]);
-    if (!success) return null;
-    return findBestCoverImage(cheerio.load(html));
-  },
-  as: async () => {
-    const { html, success } = await fetchWithFallback([
-      'https://www.frontpages.com/as/',
-      'https://es.kiosko.net/es/np/as.html'
-    ]);
-    if (!success) return null;
-    return findBestCoverImage(cheerio.load(html));
-  },
-  mundodeportivo: async () => {
-    const { html, success } = await fetchWithFallback([
-      'https://www.frontpages.com/mundo-deportivo/',
-      'https://es.kiosko.net/es/np/mundo_deportivo.html'
-    ]);
-    if (!success) return null;
-    return findBestCoverImage(cheerio.load(html));
-  },
-  sport: async () => {
-    const { html, success } = await fetchWithFallback([
-      'https://www.frontpages.com/sport-es/',
-      'https://es.kiosko.net/es/np/sport.html'
-    ]);
-    if (!success) return null;
-    return findBestCoverImage(cheerio.load(html));
-  },
-  estadiodeportivo: async () => {
-    const { html, success } = await fetchWithFallback([
-      'https://www.frontpages.com/estadio-deportivo/',
-      'https://es.kiosko.net/es/np/estadio_deportivo.html'
-    ]);
-    if (!success) return null;
-    return findBestCoverImage(cheerio.load(html));
-  },
-  superdeporte: async () => {
-    const { html, success } = await fetchWithFallback([
-      'https://www.frontpages.com/superdeporte/',
-      'https://es.kiosko.net/es/np/superdeporte.html'
-    ]);
-    if (!success) return null;
-    return findBestCoverImage(cheerio.load(html));
-  },
-  lesportiu: async () => {
-    const { html, success } = await fetchWithFallback([
-      'https://www.frontpages.com/l-esportiu/',
-      'https://es.kiosko.net/es/np/lesportiu.html'
-    ]);
-    if (!success) return null;
-    return findBestCoverImage(cheerio.load(html));
-  },
-
-  // --- ITALY ---
-  gazzetta: async () => {
-    const { html, success } = await fetchWithFallback([
-      'https://www.frontpages.com/la-gazzetta-dello-sport/',
-      'https://it.kiosko.net/it/np/gazzetta_sport.html'
-    ]);
-    if (!success) return null;
-    return findBestCoverImage(cheerio.load(html));
-  },
-  corrieredellosport: async () => {
-    const { html, success } = await fetchWithFallback([
-      'https://www.frontpages.com/corriere-dello-sport/',
-      'https://it.kiosko.net/it/np/corriere_sport.html'
-    ]);
-    if (!success) return null;
-    return findBestCoverImage(cheerio.load(html));
-  },
-  tuttosport: async () => {
-    const { html, success } = await fetchWithFallback([
-      'https://www.frontpages.com/tuttosport/',
-      'https://it.kiosko.net/it/np/tuttosport.html'
-    ]);
-    if (!success) return null;
-    return findBestCoverImage(cheerio.load(html));
-  },
-
-  // --- FRANCE ---
-  lequipe: async () => {
-    const { html, success } = await fetchWithFallback([
-      'https://www.frontpages.com/l-equipe/',
-      'https://fr.kiosko.net/fr/np/lequipe.html'
-    ]);
-    if (!success) return null;
-    return findBestCoverImage(cheerio.load(html));
-  },
-
-  // --- PORTUGAL ---
-  abola: async () => {
-    const { html, success } = await fetchWithFallback([
-      'https://www.frontpages.com/a-bola/',
-      'https://pt.kiosko.net/pt/np/abola.html'
-    ]);
-    if (!success) return null;
-    return findBestCoverImage(cheerio.load(html));
-  },
-  record: async () => {
-    const { html, success } = await fetchWithFallback([
-      'https://www.frontpages.com/record/',
-      'https://pt.kiosko.net/pt/np/record.html'
-    ]);
-    if (!success) return null;
-    return findBestCoverImage(cheerio.load(html));
-  },
-  ojogo: async () => {
-    const { html, success } = await fetchWithFallback([
-      'https://www.frontpages.com/o-jogo/',
-      'https://pt.kiosko.net/pt/np/ojogo.html'
-    ]);
-    if (!success) return null;
-    return findBestCoverImage(cheerio.load(html));
-  },
-
-  // --- UK ---
-  mirrorsport: async () => {
-    const { html, success } = await fetchWithFallback([
-      'https://www.frontpages.com/daily-mirror-sport/',
-      'https://uk.kiosko.net/uk/np/mirror_sport.html'
-    ]);
-    if (!success) return null;
-    return findBestCoverImage(cheerio.load(html));
-  },
-  sun: async () => {
-    const { html, success } = await fetchWithFallback([
-      'https://www.frontpages.com/the-sun-sport/',
-      'https://uk.kiosko.net/uk/np/sun_sport.html'
-    ]);
-    if (!success) return null;
-    return findBestCoverImage(cheerio.load(html));
-  },
-  dailymail: async () => {
-    const { html, success } = await fetchWithFallback([
-      'https://www.frontpages.com/daily-mail-sport/',
-      'https://uk.kiosko.net/uk/np/daily_mail_sport.html'
-    ]);
-    if (!success) return null;
-    return findBestCoverImage(cheerio.load(html));
-  },
-
-  // --- GERMANY ---
-  kicker: async () => {
-    const { html, success } = await fetchWithFallback([
-      'https://www.frontpages.com/kicker/',
-      'https://de.kiosko.net/de/np/kicker.html'
-    ]);
-    if (!success) return null;
-    return findBestCoverImage(cheerio.load(html));
-  },
-  bild: async () => {
-    const { html, success } = await fetchWithFallback([
-      'https://www.frontpages.com/sport-bild/',
-      'https://de.kiosko.net/de/np/bild.html'
-    ]);
-    if (!success) return null;
-    return findBestCoverImage(cheerio.load(html));
-  }
->>>>>>> 84ceb855bd7c5253fd290cca87e300e1945f57f6
 };
