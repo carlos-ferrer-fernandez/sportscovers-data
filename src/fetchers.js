@@ -41,12 +41,16 @@ function findBestCoverImage($, html) {
   // Candidates array
   const candidates = [];
 
-  // 1. Frontpages.com specific (High Res)
-  // They use a specific structure for the main image
+  // 1. Frontpages.com specific (ID: giornale-img)
+  // This is the most reliable selector for this site
+  const giornaleImg = $('#giornale-img').attr('src');
+  if (giornaleImg) candidates.push(giornaleImg);
+
+  // 2. Frontpages.com fallback (class: wp-post-image)
   const frontpagesImg = $('.wp-post-image').attr('src');
   if (frontpagesImg) candidates.push(frontpagesImg);
 
-  // 2. Kiosko.net specific
+  // 3. Kiosko.net specific
   // They often put the cover in an image with "750" or "portada" in the name
   $('img').each((i, el) => {
     const src = $(el).attr('src');
@@ -57,7 +61,7 @@ function findBestCoverImage($, html) {
     }
   });
 
-  // 3. Open Graph (often reliable, but sometimes is a logo)
+  // 4. Open Graph (often reliable, but sometimes is a logo)
   const ogImg = $('meta[property="og:image"]').attr('content');
   if (ogImg) candidates.push(ogImg);
 
@@ -70,9 +74,6 @@ function findBestCoverImage($, html) {
       console.log(`Skipping logo-like image: ${img}`);
       continue;
     }
-    
-    // Reject tiny images (often tracking pixels or icons)
-    // (We can't check dimensions without downloading, but we can check filename hints)
     
     return img; // Return the first non-logo candidate
   }
@@ -110,7 +111,6 @@ export const fetchers = {
     if (!success) return null;
     return findBestCoverImage(cheerio.load(html));
   },
-
   as: async () => {
     const { html, success } = await fetchWithFallback([
       'https://www.frontpages.com/as/',
@@ -119,7 +119,6 @@ export const fetchers = {
     if (!success) return null;
     return findBestCoverImage(cheerio.load(html));
   },
-
   mundodeportivo: async () => {
     const { html, success } = await fetchWithFallback([
       'https://www.frontpages.com/mundo-deportivo/',
@@ -128,21 +127,34 @@ export const fetchers = {
     if (!success) return null;
     return findBestCoverImage(cheerio.load(html));
   },
-
   sport: async () => {
     const { html, success } = await fetchWithFallback([
-      'https://www.frontpages.com/sport/',
+      'https://www.frontpages.com/sport-es/',
       'https://es.kiosko.net/es/np/sport.html'
     ]);
     if (!success) return null;
     return findBestCoverImage(cheerio.load(html));
   },
-
-  // --- FRANCE ---
-  lequipe: async () => {
+  estadiodeportivo: async () => {
     const { html, success } = await fetchWithFallback([
-      'https://www.frontpages.com/lequipe/',
-      'https://es.kiosko.net/fr/np/le_equipe.html'
+      'https://www.frontpages.com/estadio-deportivo/',
+      'https://es.kiosko.net/es/np/estadio_deportivo.html'
+    ]);
+    if (!success) return null;
+    return findBestCoverImage(cheerio.load(html));
+  },
+  superdeporte: async () => {
+    const { html, success } = await fetchWithFallback([
+      'https://www.frontpages.com/superdeporte/',
+      'https://es.kiosko.net/es/np/superdeporte.html'
+    ]);
+    if (!success) return null;
+    return findBestCoverImage(cheerio.load(html));
+  },
+  lesportiu: async () => {
+    const { html, success } = await fetchWithFallback([
+      'https://www.frontpages.com/l-esportiu/',
+      'https://es.kiosko.net/es/np/lesportiu.html'
     ]);
     if (!success) return null;
     return findBestCoverImage(cheerio.load(html));
@@ -152,44 +164,33 @@ export const fetchers = {
   gazzetta: async () => {
     const { html, success } = await fetchWithFallback([
       'https://www.frontpages.com/la-gazzetta-dello-sport/',
-      'https://es.kiosko.net/it/np/gazzetta_sport.html'
+      'https://it.kiosko.net/it/np/gazzetta_sport.html'
     ]);
     if (!success) return null;
     return findBestCoverImage(cheerio.load(html));
   },
-
-  corriere: async () => {
+  corrieredellosport: async () => {
     const { html, success } = await fetchWithFallback([
       'https://www.frontpages.com/corriere-dello-sport/',
-      'https://es.kiosko.net/it/np/corriere_sport.html'
+      'https://it.kiosko.net/it/np/corriere_sport.html'
     ]);
     if (!success) return null;
     return findBestCoverImage(cheerio.load(html));
   },
-
   tuttosport: async () => {
     const { html, success } = await fetchWithFallback([
       'https://www.frontpages.com/tuttosport/',
-      'https://es.kiosko.net/it/np/tuttosport.html'
+      'https://it.kiosko.net/it/np/tuttosport.html'
     ]);
     if (!success) return null;
     return findBestCoverImage(cheerio.load(html));
   },
 
-  // --- UK ---
-  dailystar: async () => {
+  // --- FRANCE ---
+  lequipe: async () => {
     const { html, success } = await fetchWithFallback([
-      'https://www.frontpages.com/daily-star-sunday/',
-      'https://es.kiosko.net/uk/np/daily_star.html'
-    ]);
-    if (!success) return null;
-    return findBestCoverImage(cheerio.load(html));
-  },
-
-  mirror: async () => {
-    const { html, success } = await fetchWithFallback([
-      'https://www.frontpages.com/sunday-mirror/',
-      'https://es.kiosko.net/uk/np/mirror.html'
+      'https://www.frontpages.com/l-equipe/',
+      'https://fr.kiosko.net/fr/np/lequipe.html'
     ]);
     if (!success) return null;
     return findBestCoverImage(cheerio.load(html));
@@ -199,25 +200,67 @@ export const fetchers = {
   abola: async () => {
     const { html, success } = await fetchWithFallback([
       'https://www.frontpages.com/a-bola/',
-      'https://es.kiosko.net/pt/np/abola.html'
+      'https://pt.kiosko.net/pt/np/abola.html'
     ]);
     if (!success) return null;
     return findBestCoverImage(cheerio.load(html));
   },
-
   record: async () => {
     const { html, success } = await fetchWithFallback([
       'https://www.frontpages.com/record/',
-      'https://es.kiosko.net/pt/np/record.html'
+      'https://pt.kiosko.net/pt/np/record.html'
+    ]);
+    if (!success) return null;
+    return findBestCoverImage(cheerio.load(html));
+  },
+  ojogo: async () => {
+    const { html, success } = await fetchWithFallback([
+      'https://www.frontpages.com/o-jogo/',
+      'https://pt.kiosko.net/pt/np/ojogo.html'
     ]);
     if (!success) return null;
     return findBestCoverImage(cheerio.load(html));
   },
 
-  ojogo: async () => {
+  // --- UK ---
+  mirrorsport: async () => {
     const { html, success } = await fetchWithFallback([
-      'https://www.frontpages.com/o-jogo/',
-      'https://es.kiosko.net/pt/np/ojogo.html'
+      'https://www.frontpages.com/daily-mirror-sport/',
+      'https://uk.kiosko.net/uk/np/mirror_sport.html'
+    ]);
+    if (!success) return null;
+    return findBestCoverImage(cheerio.load(html));
+  },
+  sun: async () => {
+    const { html, success } = await fetchWithFallback([
+      'https://www.frontpages.com/the-sun-sport/',
+      'https://uk.kiosko.net/uk/np/sun_sport.html'
+    ]);
+    if (!success) return null;
+    return findBestCoverImage(cheerio.load(html));
+  },
+  dailymail: async () => {
+    const { html, success } = await fetchWithFallback([
+      'https://www.frontpages.com/daily-mail-sport/',
+      'https://uk.kiosko.net/uk/np/daily_mail_sport.html'
+    ]);
+    if (!success) return null;
+    return findBestCoverImage(cheerio.load(html));
+  },
+
+  // --- GERMANY ---
+  kicker: async () => {
+    const { html, success } = await fetchWithFallback([
+      'https://www.frontpages.com/kicker/',
+      'https://de.kiosko.net/de/np/kicker.html'
+    ]);
+    if (!success) return null;
+    return findBestCoverImage(cheerio.load(html));
+  },
+  bild: async () => {
+    const { html, success } = await fetchWithFallback([
+      'https://www.frontpages.com/sport-bild/',
+      'https://de.kiosko.net/de/np/bild.html'
     ]);
     if (!success) return null;
     return findBestCoverImage(cheerio.load(html));
