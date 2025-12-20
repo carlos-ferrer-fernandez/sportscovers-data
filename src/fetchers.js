@@ -41,17 +41,20 @@ function findBestCoverImage($, html) {
   // Candidates array
   const candidates = [];
 
-  // 1. Frontpages.com specific (ID: giornale-img)
-  // This is the most reliable selector for this site
-  const giornaleImg = $('#giornale-img').attr('src');
-  if (giornaleImg) candidates.push(giornaleImg);
+  // 1. Open Graph (The "Silver Bullet" for Frontpages.com)
+  // Since the main image is lazy-loaded via JS, we grab the social share image
+  // which is ALWAYS present in the raw HTML.
+  const ogImg = $('meta[property="og:image"]').attr('content');
+  if (ogImg) {
+    console.log(`Found Open Graph image: ${ogImg}`);
+    candidates.push(ogImg);
+  }
 
-  // 2. Frontpages.com fallback (class: wp-post-image)
-  const frontpagesImg = $('.wp-post-image').attr('src');
-  if (frontpagesImg) candidates.push(frontpagesImg);
+  // 2. Twitter Card Image (Backup)
+  const twitterImg = $('meta[name="twitter:image"]').attr('content');
+  if (twitterImg) candidates.push(twitterImg);
 
   // 3. Kiosko.net specific
-  // They often put the cover in an image with "750" or "portada" in the name
   $('img').each((i, el) => {
     const src = $(el).attr('src');
     if (!src) return;
@@ -60,10 +63,6 @@ function findBestCoverImage($, html) {
       candidates.push(src);
     }
   });
-
-  // 4. Open Graph (often reliable, but sometimes is a logo)
-  const ogImg = $('meta[property="og:image"]').attr('content');
-  if (ogImg) candidates.push(ogImg);
 
   // FILTERING LOGIC
   for (const img of candidates) {
@@ -75,7 +74,7 @@ function findBestCoverImage($, html) {
       continue;
     }
     
-    return img; // Return the first non-logo candidate
+    return img; // Return the first valid candidate
   }
   
   return null;
