@@ -1,123 +1,195 @@
-import axios from 'axios';
 import * as cheerio from 'cheerio';
-import fs from 'fs';
-import path from 'path';
 
 const USER_AGENT = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36';
 
-// Configure axios defaults
-axios.defaults.headers.common['User-Agent'] = USER_AGENT;
-
-// Helper to download image
-async function downloadImage(url, filepath) {
-  const response = await axios({
-    url,
-    method: 'GET',
-    responseType: 'stream',
-    validateStatus: status => status === 200
-  });
-  return new Promise((resolve, reject) => {
-    const writer = fs.createWriteStream(filepath);
-    response.data.pipe(writer);
-    writer.on('finish', resolve);
-    writer.on('error', reject);
-  });
+async function fetchWithFallback(urls) {
+  for (const url of urls) {
+    try {
+      console.log(`Trying to fetch: ${url}`);
+      const response = await fetch(url, {
+        headers: {
+          'User-Agent': USER_AGENT,
+          'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,*/*;q=0.8',
+          'Accept-Language': 'en-US,en;q=0.5',
+        }
+      });
+      
+      if (response.ok) {
+        const html = await response.text();
+        return { html, url, success: true };
+      }
+      console.log(`Failed to fetch ${url}: ${response.status}`);
+    } catch (error) {
+      console.log(`Error fetching ${url}: ${error.message}`);
+    }
+  }
+  return { success: false };
 }
 
-// Fetchers for different methods
-const fetchers = {
-  'og:image': async (url, selector) => {
-    try {
-      const { data } = await axios.get(url);
-      const $ = cheerio.load(data);
-      // Default selector for og:image if not provided
-      const sel = selector || "meta[property='og:image']";
-      const imageUrl = $(sel).attr('content');
-      if (imageUrl) return imageUrl;
-      throw new Error('og:image not found');
-    } catch (e) {
-      console.error(`    og:image failed for ${url}: ${e.message}`);
-      return null;
-    }
-  },
-  'dom:page_scan': async (url, selector) => {
-    try {
-      const { data } = await axios.get(url);
-      const $ = cheerio.load(data);
-      const img = $(selector).first();
-      let imageUrl = img.attr('src') || img.attr('data-src') || img.attr('srcset');
-      
-      // Handle srcset (take the last/largest one)
-      if (imageUrl && imageUrl.includes(',')) {
-        imageUrl = imageUrl.split(',').pop().trim().split(' ')[0];
-      }
-
-      // Handle relative URLs
-      if (imageUrl && !imageUrl.startsWith('http')) {
-        const baseUrl = new URL(url).origin;
-        imageUrl = new URL(imageUrl, baseUrl).href;
-      }
-      
-      if (imageUrl) return imageUrl;
-      throw new Error('dom:page_scan image not found');
-    } catch (e) {
-      console.error(`    dom:page_scan failed for ${url}: ${e.message}`);
-      return null;
-    }
-  },
-  'social:x_latest_media': async (url) => {
-    // Placeholder: In a real env, this would use Puppeteer or Twitter API
-    // For this static scraper, we can't easily scrape X without auth
-    console.log(`    social:x_latest_media skipped for ${url} (requires auth)`);
-    return null;
-  },
-  'site': async (url) => {
-    // Generic fallback: try to find og:image on the main site
-    return fetchers['og:image'](url, "meta[property='og:image']");
-  },
-  'none': async () => null
-};
-
-export async function fetchCover(publisher, dateStr, outputDir) {
-  let imageUrl = null;
-
-  // 1. Try Primary Method
-  console.log(`  Trying primary: ${publisher.primary.method} on ${publisher.primary.url}`);
-  if (fetchers[publisher.primary.method]) {
-    imageUrl = await fetchers[publisher.primary.method](
-      publisher.primary.url, 
-      publisher.primary.selector
-    );
-  }
-
-  // 2. Try Fallbacks if primary failed
-  if (!imageUrl && publisher.fallbacks) {
-    for (const fallback of publisher.fallbacks) {
-      console.log(`  Trying fallback: ${fallback.type} on ${fallback.url}`);
-      
-      // Map fallback types to fetcher methods
-      let method = 'none';
-      if (fallback.type === 'site') method = 'site';
-      else if (fallback.type === 'x_profile') method = 'social:x_latest_media';
-      
-      if (fetchers[method]) {
-        imageUrl = await fetchers[method](fallback.url);
-        if (imageUrl) break; // Found one!
-      }
-    }
-  }
-
-  if (imageUrl) {
-    const ext = path.extname(imageUrl).split('?')[0] || '.jpg';
-    const filename = `${dateStr}-medium${ext}`;
-    const filepath = path.join(outputDir, filename);
+export const fetchers = {
+  // --- SPAIN ---
+  marca: async () => {
+    const { html, success } = await fetchWithFallback([
+      'https://www.marca.com/primer-plano/portada.html',
+      'https://es.kiosko.net/es/np/marca.html' // Reliable backup
+    ]);
+    if (!success) return null;
     
-    await downloadImage(imageUrl, filepath);
-    return {
-      url: imageUrl,
-      localFile: filename
-    };
-  }
+    const $ = cheerio.load(html);
+    // Try direct Marca structure
+    let img = $('.main-cover img').attr('src') || $('.cover-image').attr('src');
+    // Try Open Graph
+    if (!img) img = $('meta[property="og:image"]').attr('content');
+    // Try Kiosko structure
+    if (!img) img = $('img[src*="portada"]').attr('src');
+    
+    return img;
+  },
 
-  throw new Error('Cover not found after trying all methods');
-}
+  as: async () => {
+    const { html, success } = await fetchWithFallback([
+      'https://as.com/noticias/portada/',
+      'https://es.kiosko.net/es/np/as.html'
+    ]);
+    if (!success) return null;
+    
+    const $ = cheerio.load(html);
+    let img = $('meta[property="og:image"]').attr('content');
+    if (!img) img = $('.portada-img img').attr('src');
+    if (!img) img = $('img[src*="portada"]').attr('src'); // Kiosko fallback
+    
+    return img;
+  },
+
+  mundodeportivo: async () => {
+    const { html, success } = await fetchWithFallback([
+      'https://www.mundodeportivo.com/primer-plano/portada.html',
+      'https://es.kiosko.net/es/np/mundo_deportivo.html'
+    ]);
+    if (!success) return null;
+    
+    const $ = cheerio.load(html);
+    let img = $('.cover-image img').attr('src');
+    if (!img) img = $('meta[property="og:image"]').attr('content');
+    if (!img) img = $('img[src*="portada"]').attr('src');
+    
+    return img;
+  },
+
+  sport: async () => {
+    const { html, success } = await fetchWithFallback([
+      'https://www.sport.es/es/primer-plano/portada.html',
+      'https://es.kiosko.net/es/np/sport.html'
+    ]);
+    if (!success) return null;
+    
+    const $ = cheerio.load(html);
+    let img = $('.cover img').attr('src');
+    if (!img) img = $('meta[property="og:image"]').attr('content');
+    if (!img) img = $('img[src*="portada"]').attr('src');
+    
+    return img;
+  },
+
+  // --- FRANCE ---
+  lequipe: async () => {
+    const { html, success } = await fetchWithFallback([
+      'https://www.lequipe.fr/journal/la-une',
+      'https://es.kiosko.net/fr/np/le_equipe.html'
+    ]);
+    if (!success) return null;
+    
+    const $ = cheerio.load(html);
+    let img = $('.une-container img').attr('src');
+    if (!img) img = $('meta[property="og:image"]').attr('content');
+    if (!img) img = $('img[src*="portada"]').attr('src');
+    
+    return img;
+  },
+
+  // --- ITALY ---
+  gazzetta: async () => {
+    const { html, success } = await fetchWithFallback([
+      'https://www.gazzetta.it/',
+      'https://es.kiosko.net/it/np/gazzetta_sport.html'
+    ]);
+    if (!success) return null;
+    
+    const $ = cheerio.load(html);
+    // Gazzetta is tricky, often Kiosko is better for the full cover
+    let img = $('img[src*="portada"]').attr('src'); 
+    if (!img) img = $('meta[property="og:image"]').attr('content');
+    
+    return img;
+  },
+
+  corriere: async () => {
+    const { html, success } = await fetchWithFallback([
+      'https://es.kiosko.net/it/np/corriere_sport.html' // Direct to Kiosko is safer for this one
+    ]);
+    if (!success) return null;
+    const $ = cheerio.load(html);
+    return $('img[src*="portada"]').attr('src');
+  },
+
+  tuttosport: async () => {
+    const { html, success } = await fetchWithFallback([
+      'https://es.kiosko.net/it/np/tuttosport.html'
+    ]);
+    if (!success) return null;
+    const $ = cheerio.load(html);
+    return $('img[src*="portada"]').attr('src');
+  },
+
+  // --- UK ---
+  dailystar: async () => {
+    const { html, success } = await fetchWithFallback([
+      'https://www.frontpages.com/daily-star-sunday/', // Good source for UK
+      'https://es.kiosko.net/uk/np/daily_star.html'
+    ]);
+    if (!success) return null;
+    const $ = cheerio.load(html);
+    return $('img[src*="front-page"]').attr('src') || $('img[src*="portada"]').attr('src');
+  },
+
+  mirror: async () => {
+    const { html, success } = await fetchWithFallback([
+      'https://www.frontpages.com/sunday-mirror/',
+      'https://es.kiosko.net/uk/np/mirror.html'
+    ]);
+    if (!success) return null;
+    const $ = cheerio.load(html);
+    return $('img[src*="front-page"]').attr('src') || $('img[src*="portada"]').attr('src');
+  },
+
+  // --- PORTUGAL ---
+  abola: async () => {
+    const { html, success } = await fetchWithFallback([
+      'https://www.abola.pt/',
+      'https://es.kiosko.net/pt/np/abola.html'
+    ]);
+    if (!success) return null;
+    const $ = cheerio.load(html);
+    let img = $('img[src*="portada"]').attr('src');
+    if (!img) img = $('meta[property="og:image"]').attr('content');
+    return img;
+  },
+
+  record: async () => {
+    const { html, success } = await fetchWithFallback([
+      'https://es.kiosko.net/pt/np/record.html'
+    ]);
+    if (!success) return null;
+    const $ = cheerio.load(html);
+    return $('img[src*="portada"]').attr('src');
+  },
+
+  ojogo: async () => {
+    const { html, success } = await fetchWithFallback([
+      'https://es.kiosko.net/pt/np/ojogo.html'
+    ]);
+    if (!success) return null;
+    const $ = cheerio.load(html);
+    return $('img[src*="portada"]').attr('src');
+  }
+};
