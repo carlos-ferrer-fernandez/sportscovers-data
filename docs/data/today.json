@@ -1,0 +1,213 @@
+[
+  {
+    "id": "marca-2025-12-17",
+    "publisherId": "marca",
+    "publisherName": "Marca",
+    "country": "ES",
+    "groupLabel": "Spain",
+    "date": "2025-12-17",
+    "imageMediumUrl": "./data/images/es/marca/2025-12-17-medium.jpg",
+    "sourceUrl": "https://e01-marca.uecdn.es/assets/v31/img/destacadas/marca__logo-generica.jpg",
+    "scrapedAt": "2025-12-17T08:39:09.683Z"
+  },
+  {
+    "id": "as-2025-12-17",
+    "publisherId": "as",
+    "publisherName": "AS",
+    "country": "ES",
+    "groupLabel": "Spain",
+    "date": "2025-12-17",
+    "imageMediumUrl": "./data/images/es/as/2025-12-17-medium.svg",
+    "sourceUrl": "https://static.as.com/dist/resources/images/logos/as/as.svg",
+    "scrapedAt": "2025-12-17T08:39:10.588Z"
+  },
+  {
+    "id": "mundodeportivo-2025-12-17",
+    "publisherId": "mundodeportivo",
+    "publisherName": "Mundo Deportivo",
+    "country": "ES",
+    "groupLabel": "Spain",
+    "date": "2025-12-17",
+    "imageMediumUrl": "./data/images/es/mundodeportivo/2025-12-17-medium.png",
+    "sourceUrl": "https://www.mundodeportivo.com/rsc/images/default_md_social_card.png",
+    "scrapedAt": "2025-12-17T08:39:10.965Z"
+  },
+  {
+    "id": "sport-2025-12-17",
+    "publisherId": "sport",
+    "publisherName": "Sport",
+    "country": "ES",
+    "groupLabel": "Spain",
+    "date": "2025-12-17",
+    "imageMediumUrl": "./data/images/es/sport/2025-12-17-medium.png",
+    "sourceUrl": "https://estaticos-cdn.sport.es/sport/logos/sport.png",
+    "scrapedAt": "2025-12-17T08:39:11.404Z"
+  },
+  {
+    "id": "lesportiu-2025-12-17",
+    "publisherId": "lesportiu",
+    "publisherName": "L'Esportiu",
+    "country": "ES",
+    "groupLabel": "Spain",
+    "date": "2025-12-17",
+    "error": "Cover not found after trying all methods",
+    "scrapedAt": "2025-12-17T08:39:12.090Z"
+  },
+  {
+    "id": "superdeporte-2025-12-17",
+    "publisherId": "superdeporte",
+    "publisherName": "Super Deporte",
+    "country": "ES",
+    "groupLabel": "Spain",
+    "date": "2025-12-17",
+    "error": "Cover not found after trying all methods",
+    "scrapedAt": "2025-12-17T08:39:12.227Z"
+  },
+  {
+    "id": "estadiodeportivo-2025-12-17",
+    "publisherId": "estadiodeportivo",
+    "publisherName": "Estadio Deportivo",
+    "country": "ES",
+    "groupLabel": "Spain",
+    "date": "2025-12-17",
+    "error": "Cover not found after trying all methods",
+    "scrapedAt": "2025-12-17T08:39:12.326Z"
+  },
+  {
+    "id": "spherasports-2025-12-17",
+    "publisherId": "spherasports",
+    "publisherName": "Sphera Sports",
+    "country": "ES",
+    "groupLabel": "Spain",
+    "date": "2025-12-17",
+    "imageMediumUrl": "./data/images/es/spherasports/2025-12-17-medium.jpg",
+    "sourceUrl": "https://www.spherasports.com/wp-content/uploads/2024/09/Cabecera-Sphera.jpg",
+    "scrapedAt": "2025-12-17T08:39:14.071Z"
+  },
+  {
+    "id": "lequipe-2025-12-17",
+    "publisherId": "lequipe",
+    "publisherName": "L'Équipe",
+    "country": "FR",
+    "groupLabel": "France",
+    "date": "2025-12-17",
+    "imageMediumUrl": "./data/images/fr/lequipe/2025-12-17-medium.png",
+    "sourceUrl": "https://medias.lequipe.fr/img-photo-png/-/1500000000833469/0-0-0-70/0cb67.png",
+    "scrapedAt": "2025-12-17T08:39:14.904Z"
+  },
+  {
+    "id": "corriere-2025-12-17",
+    "publisherId": "corriere",
+    "publisherName": "Corriere dello Sport",
+    "country": "IT",
+    "groupLabel": "Italy",
+    "date": "2025-12-17",
+    "error": "Cover not found after trying all methods",
+    "scrapedAt": "2025-12-17T08:39:15.611Z"
+  },
+  {
+    "id": "tuttosport-2025-12-17",
+    "publisherId": "tuttosport",
+    "publisherName": "Tuttosport",
+    "country": "IT",
+    "groupLabel": "Italy",
+    "date": "2025-12-17",
+    "error": "Cover not found after trying all methods",
+    "scrapedAt": "2025-12-17T08:39:16.204Z"
+  },
+  {
+    "id": "gazzetta-2025-12-17",
+    "publisherId": "gazzetta",
+    "publisherName": "La Gazzetta dello Sport",
+    "country": "IT",
+    "groupLabel": "Italy",
+    "date": "2025-12-17",
+    "imageMediumUrl": "./data/images/it/gazzetta/2025-12-17-medium.jpg",
+    "sourceUrl": "https://images2.gazzettaobjects.it/libs4/css/assets/defaultShareFB.jpg",
+    "scrapedAt": "2025-12-17T08:39:16.544Z"
+  },
+  {
+    "id": "dailystar-2025-12-17",
+    "publisherId": "dailystar",
+    "publisherName": "Daily Star Sport (Back Page)",
+    "country": "UK",
+    "groupLabel": "UK Back Pages",
+    "date": "2025-12-17",
+    "imageMediumUrl": "./data/images/uk/dailystar/2025-12-17-medium.png",
+    "sourceUrl": "https://s2-prod.dailystar.co.uk/@trinitymirrordigital/chameleon-branding/publications/dailystar/img/logo-dailystar-social-sharing.png",
+    "scrapedAt": "2025-12-17T08:39:17.262Z"
+  },
+  {
+    "id": "star-sport-2025-12-17",
+    "publisherId": "star-sport",
+    "publisherName": "Star Sport (Alias of Daily Star Sport)",
+    "country": "UK",
+    "groupLabel": "UK Back Pages",
+    "date": "2025-12-17",
+    "error": "Cover not found after trying all methods",
+    "scrapedAt": "2025-12-17T08:39:17.263Z"
+  },
+  {
+    "id": "mirror-2025-12-17",
+    "publisherId": "mirror",
+    "publisherName": "Mirror Sport (Back Page)",
+    "country": "UK",
+    "groupLabel": "UK Back Pages",
+    "date": "2025-12-17",
+    "imageMediumUrl": "./data/images/uk/mirror/2025-12-17-medium.png",
+    "sourceUrl": "https://s2-prod.mirror.co.uk/@trinitymirrordigital/chameleon-branding/publications/mirror/img/logo-mirror-social-sharing.png",
+    "scrapedAt": "2025-12-17T08:39:17.932Z"
+  },
+  {
+    "id": "express-2025-12-17",
+    "publisherId": "express",
+    "publisherName": "Daily Express Sport (Back Page)",
+    "country": "UK",
+    "groupLabel": "UK Back Pages",
+    "date": "2025-12-17",
+    "error": "Cover not found after trying all methods",
+    "scrapedAt": "2025-12-17T08:39:18.050Z"
+  },
+  {
+    "id": "abola-2025-12-17",
+    "publisherId": "abola",
+    "publisherName": "A Bola",
+    "country": "PT",
+    "groupLabel": "Portugal",
+    "date": "2025-12-17",
+    "imageMediumUrl": "./data/images/pt/abola/2025-12-17-medium.jpg",
+    "sourceUrl": "https://cdn.abola.pt/0f316c38-b381-4b97-855d-43dd7e40b753/theme/pt/assets/og-image-CtqOal_D.jpg",
+    "scrapedAt": "2025-12-17T08:39:19.334Z"
+  },
+  {
+    "id": "record-2025-12-17",
+    "publisherId": "record",
+    "publisherName": "Record",
+    "country": "PT",
+    "groupLabel": "Portugal",
+    "date": "2025-12-17",
+    "error": "Cover not found after trying all methods",
+    "scrapedAt": "2025-12-17T08:39:21.245Z"
+  },
+  {
+    "id": "ojogo-2025-12-17",
+    "publisherId": "ojogo",
+    "publisherName": "O Jogo",
+    "country": "PT",
+    "groupLabel": "Portugal",
+    "date": "2025-12-17",
+    "imageMediumUrl": "./data/images/pt/ojogo/2025-12-17-medium.jpg",
+    "sourceUrl": "https://staticx.noticiasilimitadas.pt/oj/default_1200x675.jpg",
+    "scrapedAt": "2025-12-17T08:39:22.152Z"
+  },
+  {
+    "id": "kicker-2025-12-17",
+    "publisherId": "kicker",
+    "publisherName": "kicker",
+    "country": "DE",
+    "groupLabel": "Germany",
+    "date": "2025-12-17",
+    "error": "Cover not found after trying all methods",
+    "scrapedAt": "2025-12-17T08:39:22.163Z"
+  }
+]

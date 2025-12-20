@@ -1,0 +1,400 @@
+{
+  "version": "1.1",
+  "updatedAt": "2025-12-17T00:00:00Z",
+  "legal": {
+    "display": "thumbnails_only",
+    "archiveDays": 7,
+    "attributionRequired": true
+  },
+  "publishers": [
+    {
+      "id": "marca",
+      "name": "Marca",
+      "country": "ES",
+      "type": "sports_daily",
+      "timezone": "Europe/Madrid",
+      "frequency": "daily",
+      "primary": {
+        "url": "https://www.marca.com/primer-plano/portada.html",
+        "method": "og:image",
+        "selector": "meta[property='og:image']",
+        "note": "Daily 'La portada de MARCA' article."
+      },
+      "fallbacks": [
+        { "type": "x_profile", "url": "https://twitter.com/marca" },
+        { "type": "site", "url": "https://www.marca.com/" }
+      ],
+      "groupLabel": "Spain",
+      "enabled": true
+    },
+    {
+      "id": "as",
+      "name": "AS",
+      "country": "ES",
+      "type": "sports_daily",
+      "timezone": "Europe/Madrid",
+      "frequency": "daily",
+      "primary": {
+        "url": "https://as.com/portada.html",
+        "method": "og:image",
+        "selector": "meta[property='og:image']",
+        "note": "Daily 'Portada de AS'."
+      },
+      "fallbacks": [
+        { "type": "x_profile", "url": "https://twitter.com/diarioas" },
+        { "type": "site", "url": "https://as.com/" }
+      ],
+      "groupLabel": "Spain",
+      "enabled": true
+    },
+    {
+      "id": "mundodeportivo",
+      "name": "Mundo Deportivo",
+      "country": "ES",
+      "type": "sports_daily",
+      "timezone": "Europe/Madrid",
+      "frequency": "daily",
+      "primary": {
+        "url": "https://www.mundodeportivo.com/portada",
+        "method": "og:image",
+        "selector": "meta[property='og:image']",
+        "note": "Daily 'Portada' article."
+      },
+      "fallbacks": [
+        { "type": "x_profile", "url": "https://twitter.com/mundodeportivo" },
+        { "type": "site", "url": "https://www.mundodeportivo.com/" }
+      ],
+      "groupLabel": "Spain",
+      "enabled": true
+    },
+    {
+      "id": "sport",
+      "name": "Sport",
+      "country": "ES",
+      "type": "sports_daily",
+      "timezone": "Europe/Madrid",
+      "frequency": "daily",
+      "primary": {
+        "url": "https://www.sport.es/es/portada/",
+        "method": "og:image",
+        "selector": "meta[property='og:image']",
+        "note": "Stable 'Portada' endpoint."
+      },
+      "fallbacks": [
+        { "type": "x_profile", "url": "https://twitter.com/sport" },
+        { "type": "site", "url": "https://www.sport.es/" }
+      ],
+      "groupLabel": "Spain",
+      "enabled": true
+    },
+    {
+      "id": "lesportiu",
+      "name": "L'Esportiu",
+      "country": "ES",
+      "type": "sports_daily_regional",
+      "timezone": "Europe/Madrid",
+      "frequency": "daily",
+      "primary": {
+        "url": "https://www.lesportiudecatalunya.cat/",
+        "method": "dom:page_scan",
+        "selector": "img[alt*='Portada'], img[alt*='Portada d']",
+        "note": "Find 'Portada d'avui' on homepage/section; then resolve image."
+      },
+      "fallbacks": [
+        { "type": "x_profile", "url": "https://twitter.com/lesportiucat" }
+      ],
+      "groupLabel": "Spain",
+      "enabled": true
+    },
+    {
+      "id": "superdeporte",
+      "name": "Super Deporte",
+      "country": "ES",
+      "type": "sports_daily_regional",
+      "timezone": "Europe/Madrid",
+      "frequency": "daily",
+      "primary": {
+        "url": "https://www.superdeporte.es/",
+        "method": "dom:page_scan",
+        "selector": "img[alt*='Portada']",
+        "note": "Regional daily (València). Cover appears as 'Portada'."
+      },
+      "fallbacks": [
+        { "type": "x_profile", "url": "https://twitter.com/superdeporte_es" }
+      ],
+      "groupLabel": "Spain",
+      "enabled": true
+    },
+    {
+      "id": "estadiodeportivo",
+      "name": "Estadio Deportivo",
+      "country": "ES",
+      "type": "sports_daily_regional",
+      "timezone": "Europe/Madrid",
+      "frequency": "daily",
+      "primary": {
+        "url": "https://www.estadiodeportivo.com/",
+        "method": "dom:page_scan",
+        "selector": "img[alt*='Portada'], img[alt*='Portada Estadio']",
+        "note": "Regional daily (Sevilla). Cover labeled 'Portada'."
+      },
+      "fallbacks": [
+        { "type": "x_profile", "url": "https://twitter.com/Estadio_ED" }
+      ],
+      "groupLabel": "Spain",
+      "enabled": true
+    },
+    {
+      "id": "spherasports",
+      "name": "Sphera Sports",
+      "country": "ES",
+      "type": "digital",
+      "timezone": "Europe/Madrid",
+      "frequency": "daily",
+      "primary": {
+        "url": "https://twitter.com/SpheraSports",
+        "method": "social:x_latest_media",
+        "selector": "",
+        "note": "Digital brand; uses social posts for 'cover' style images."
+      },
+      "fallbacks": [
+        { "type": "site", "url": "https://www.spherasports.com/" }
+      ],
+      "groupLabel": "Spain",
+      "enabled": true
+    },
+    {
+      "id": "lequipe",
+      "name": "L'Équipe",
+      "country": "FR",
+      "type": "sports_daily",
+      "timezone": "Europe/Paris",
+      "frequency": "daily",
+      "primary": {
+        "url": "https://www.lequipe.fr/les-unes",
+        "method": "dom:page_scan",
+        "selector": "first main cover image",
+        "note": "Find today's 'La Une' and resolve its og:image."
+      },
+      "fallbacks": [
+        { "type": "x_profile", "url": "https://twitter.com/lequipe" },
+        { "type": "site", "url": "https://www.lequipe.fr/" }
+      ],
+      "groupLabel": "France",
+      "enabled": true
+    },
+    {
+      "id": "corriere",
+      "name": "Corriere dello Sport",
+      "country": "IT",
+      "type": "sports_daily",
+      "timezone": "Europe/Rome",
+      "frequency": "daily",
+      "primary": {
+        "url": "https://www.corrieredellosport.it/prima_pagina",
+        "method": "og:image",
+        "selector": "meta[property='og:image']",
+        "note": "Official 'Prima pagina'."
+      },
+      "fallbacks": [
+        { "type": "x_profile", "url": "https://twitter.com/CorSport" },
+        { "type": "site", "url": "https://www.corrieredellosport.it/" }
+      ],
+      "groupLabel": "Italy",
+      "enabled": true
+    },
+    {
+      "id": "tuttosport",
+      "name": "Tuttosport",
+      "country": "IT",
+      "type": "sports_daily",
+      "timezone": "Europe/Rome",
+      "frequency": "daily",
+      "primary": {
+        "url": "https://www.tuttosport.com/prima_pagina",
+        "method": "og:image",
+        "selector": "meta[property='og:image']",
+        "note": "Official 'Prima pagina'."
+      },
+      "fallbacks": [
+        { "type": "x_profile", "url": "https://twitter.com/tuttosport" },
+        { "type": "site", "url": "https://www.tuttosport.com/" }
+      ],
+      "groupLabel": "Italy",
+      "enabled": true
+    },
+    {
+      "id": "gazzetta",
+      "name": "La Gazzetta dello Sport",
+      "country": "IT",
+      "type": "sports_daily",
+      "timezone": "Europe/Rome",
+      "frequency": "daily",
+      "primary": {
+        "url": "https://www.gazzetta.it/prima-pagina/",
+        "method": "og:image",
+        "selector": "meta[property='og:image']",
+        "note": "Official 'Prima pagina'."
+      },
+      "fallbacks": [
+        { "type": "x_profile", "url": "https://twitter.com/Gazzetta_it" },
+        { "type": "site", "url": "https://www.gazzetta.it/" }
+      ],
+      "groupLabel": "Italy",
+      "enabled": true
+    },
+    {
+      "id": "dailystar",
+      "name": "Daily Star Sport (Back Page)",
+      "country": "UK",
+      "type": "back_page",
+      "timezone": "Europe/London",
+      "frequency": "daily",
+      "primary": {
+        "url": "https://twitter.com/DailyStar_Sport",
+        "method": "social:x_latest_media",
+        "selector": "",
+        "note": "Use latest posted back page image."
+      },
+      "fallbacks": [
+        { "type": "nitter_proxy", "url": "https://nitter.net/DailyStar_Sport" },
+        { "type": "site", "url": "https://www.dailystar.co.uk/sport/" }
+      ],
+      "groupLabel": "UK Back Pages",
+      "enabled": true
+    },
+    {
+      "id": "star-sport",
+      "name": "Star Sport (Alias of Daily Star Sport)",
+      "country": "UK",
+      "type": "alias",
+      "aliasOf": "dailystar",
+      "timezone": "Europe/London",
+      "frequency": "daily",
+      "primary": { "url": "", "method": "alias", "selector": "", "note": "Use dailystar entry." },
+      "fallbacks": [],
+      "groupLabel": "UK Back Pages",
+      "enabled": true
+    },
+    {
+      "id": "mirror",
+      "name": "Mirror Sport (Back Page)",
+      "country": "UK",
+      "type": "back_page",
+      "timezone": "Europe/London",
+      "frequency": "daily",
+      "primary": {
+        "url": "https://twitter.com/MirrorFootball",
+        "method": "social:x_latest_media",
+        "selector": "",
+        "note": "Mirror uses @MirrorFootball for back page posts."
+      },
+      "fallbacks": [
+        { "type": "nitter_proxy", "url": "https://nitter.net/MirrorFootball" },
+        { "type": "site", "url": "https://www.mirror.co.uk/sport/" }
+      ],
+      "groupLabel": "UK Back Pages",
+      "enabled": true
+    },
+    {
+      "id": "express",
+      "name": "Daily Express Sport (Back Page)",
+      "country": "UK",
+      "type": "back_page",
+      "timezone": "Europe/London",
+      "frequency": "daily",
+      "primary": {
+        "url": "https://twitter.com/Express_Sport",
+        "method": "social:x_latest_media",
+        "selector": "",
+        "note": "Use latest posted back page image."
+      },
+      "fallbacks": [
+        { "type": "nitter_proxy", "url": "https://nitter.net/Express_Sport" },
+        { "type": "site", "url": "https://www.express.co.uk/sport" }
+      ],
+      "groupLabel": "UK Back Pages",
+      "enabled": true
+    },
+    {
+      "id": "abola",
+      "name": "A Bola",
+      "country": "PT",
+      "type": "sports_daily",
+      "timezone": "Europe/Lisbon",
+      "frequency": "daily",
+      "primary": {
+        "url": "https://www.abola.pt/jornal",
+        "method": "dom:page_scan",
+        "selector": "img[alt*='Capa']",
+        "note": "Daily 'Jornal/Capa' section."
+      },
+      "fallbacks": [
+        { "type": "x_profile", "url": "https://twitter.com/abolapt" },
+        { "type": "site", "url": "https://www.abola.pt/" }
+      ],
+      "groupLabel": "Portugal",
+      "enabled": true
+    },
+    {
+      "id": "record",
+      "name": "Record",
+      "country": "PT",
+      "type": "sports_daily",
+      "timezone": "Europe/Lisbon",
+      "frequency": "daily",
+      "primary": {
+        "url": "https://www.record.pt/jornal",
+        "method": "dom:page_scan",
+        "selector": "img[alt*='Capa']",
+        "note": "Daily 'Capa' appears in Jornal section."
+      },
+      "fallbacks": [
+        { "type": "x_profile", "url": "https://twitter.com/Record_Portugal" },
+        { "type": "site", "url": "https://www.record.pt/" }
+      ],
+      "groupLabel": "Portugal",
+      "enabled": true
+    },
+    {
+      "id": "ojogo",
+      "name": "O Jogo",
+      "country": "PT",
+      "type": "sports_daily",
+      "timezone": "Europe/Lisbon",
+      "frequency": "daily",
+      "primary": {
+        "url": "https://www.ojogo.pt/jornal",
+        "method": "dom:page_scan",
+        "selector": "img[alt*='Capa']",
+        "note": "Journal section shows today's 'Capa'."
+      },
+      "fallbacks": [
+        { "type": "x_profile", "url": "https://twitter.com/ojogo" },
+        { "type": "site", "url": "https://www.ojogo.pt/" }
+      ],
+      "groupLabel": "Portugal",
+      "enabled": true
+    },
+    {
+      "id": "kicker",
+      "name": "kicker",
+      "country": "DE",
+      "type": "magazine",
+      "timezone": "Europe/Berlin",
+      "frequency": "biweekly",
+      "primary": {
+        "url": "https://www.kicker.de/",
+        "method": "none",
+        "selector": "",
+        "note": "Print issues typically Mon/Thu; cover appears on issue days."
+      },
+      "fallbacks": [
+        { "type": "x_profile", "url": "https://twitter.com/kicker" },
+        { "type": "site", "url": "https://kiosk.kicker.de/" }
+      ],
+      "groupLabel": "Germany",
+      "enabled": true
+    }
+  ]
+}
