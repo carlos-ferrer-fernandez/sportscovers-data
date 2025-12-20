@@ -419,7 +419,7 @@
     "date": "2025-12-20",
     "imageMediumUrl": "./data/images/es/marca/2025-12-20-medium.jpg",
     "sourceUrl": "https://e01-marca.uecdn.es/assets/v31/img/destacadas/marca__logo-generica.jpg",
-    "scrapedAt": "2025-12-20T21:50:49.414Z"
+    "scrapedAt": "2025-12-20T21:58:47.444Z"
   },
   {
     "id": "as-2025-12-20",
@@ -430,7 +430,7 @@
     "date": "2025-12-20",
     "imageMediumUrl": "./data/images/es/as/2025-12-20-medium.svg",
     "sourceUrl": "https://static.as.com/dist/resources/images/logos/as/as.svg",
-    "scrapedAt": "2025-12-20T21:50:51.027Z"
+    "scrapedAt": "2025-12-20T21:58:48.941Z"
   },
   {
     "id": "mundodeportivo-2025-12-20",
@@ -441,7 +441,7 @@
     "date": "2025-12-20",
     "imageMediumUrl": "./data/images/es/mundodeportivo/2025-12-20-medium.png",
     "sourceUrl": "https://www.mundodeportivo.com/rsc/images/default_md_social_card.png",
-    "scrapedAt": "2025-12-20T21:50:52.547Z"
+    "scrapedAt": "2025-12-20T21:58:51.380Z"
   },
   {
     "id": "sport-2025-12-20",
@@ -452,7 +452,7 @@
     "date": "2025-12-20",
     "imageMediumUrl": "./data/images/es/sport/2025-12-20-medium.png",
     "sourceUrl": "https://estaticos-cdn.sport.es/sport/logos/sport.png",
-    "scrapedAt": "2025-12-20T21:50:53.198Z"
+    "scrapedAt": "2025-12-20T21:58:52.330Z"
   },
   {
     "id": "lesportiu-2025-12-20",
@@ -462,7 +462,7 @@
     "groupLabel": "Spain",
     "date": "2025-12-20",
     "error": "Cover not found after trying all methods",
-    "scrapedAt": "2025-12-20T21:50:54.191Z"
+    "scrapedAt": "2025-12-20T21:58:53.451Z"
   },
   {
     "id": "superdeporte-2025-12-20",
@@ -472,7 +472,7 @@
     "groupLabel": "Spain",
     "date": "2025-12-20",
     "error": "Cover not found after trying all methods",
-    "scrapedAt": "2025-12-20T21:50:54.448Z"
+    "scrapedAt": "2025-12-20T21:58:54.476Z"
   },
   {
     "id": "estadiodeportivo-2025-12-20",
@@ -482,7 +482,7 @@
     "groupLabel": "Spain",
     "date": "2025-12-20",
     "error": "Cover not found after trying all methods",
-    "scrapedAt": "2025-12-20T21:50:55.003Z"
+    "scrapedAt": "2025-12-20T21:58:55.512Z"
   },
   {
     "id": "spherasports-2025-12-20",
@@ -493,7 +493,7 @@
     "date": "2025-12-20",
     "imageMediumUrl": "./data/images/es/spherasports/2025-12-20-medium.jpg",
     "sourceUrl": "https://www.spherasports.com/wp-content/uploads/2024/09/Cabecera-Sphera.jpg",
-    "scrapedAt": "2025-12-20T21:50:57.797Z"
+    "scrapedAt": "2025-12-20T21:58:58.568Z"
   },
   {
     "id": "lequipe-2025-12-20",
@@ -504,7 +504,7 @@
     "date": "2025-12-20",
     "imageMediumUrl": "./data/images/fr/lequipe/2025-12-20-medium.png",
     "sourceUrl": "https://medias.lequipe.fr/img-photo-png/-/1500000000833469/0-0-0-70/0cb67.png",
-    "scrapedAt": "2025-12-20T21:50:59.402Z"
+    "scrapedAt": "2025-12-20T21:59:00.468Z"
   },
   {
     "id": "corriere-2025-12-20",
@@ -514,7 +514,7 @@
     "groupLabel": "Italy",
     "date": "2025-12-20",
     "error": "Cover not found after trying all methods",
-    "scrapedAt": "2025-12-20T21:51:01.004Z"
+    "scrapedAt": "2025-12-20T21:59:01.933Z"
   },
   {
     "id": "tuttosport-2025-12-20",
@@ -524,7 +524,7 @@
     "groupLabel": "Italy",
     "date": "2025-12-20",
     "error": "Cover not found after trying all methods",
-    "scrapedAt": "2025-12-20T21:51:02.911Z"
+    "scrapedAt": "2025-12-20T21:59:03.599Z"
   },
   {
     "id": "gazzetta-2025-12-20",
@@ -535,7 +535,7 @@
     "date": "2025-12-20",
     "imageMediumUrl": "./data/images/it/gazzetta/2025-12-20-medium.jpg",
     "sourceUrl": "https://images2.gazzettaobjects.it/libs4/css/assets/defaultShareFB.jpg",
-    "scrapedAt": "2025-12-20T21:51:04.143Z"
+    "scrapedAt": "2025-12-20T21:59:05.325Z"
   },
   {
     "id": "dailystar-2025-12-20",
@@ -546,7 +546,7 @@
     "date": "2025-12-20",
     "imageMediumUrl": "./data/images/uk/dailystar/2025-12-20-medium.png",
     "sourceUrl": "https://s2-prod.dailystar.co.uk/@trinitymirrordigital/chameleon-branding/publications/dailystar/img/logo-dailystar-social-sharing.png",
-    "scrapedAt": "2025-12-20T21:51:05.252Z"
+    "scrapedAt": "2025-12-20T21:59:06.462Z"
   },
   {
     "id": "star-sport-2025-12-20",
@@ -556,7 +556,7 @@
     "groupLabel": "UK Back Pages",
     "date": "2025-12-20",
     "error": "Cover not found after trying all methods",
-    "scrapedAt": "2025-12-20T21:51:05.252Z"
+    "scrapedAt": "2025-12-20T21:59:06.462Z"
   },
   {
     "id": "mirror-2025-12-20",
@@ -567,7 +567,7 @@
     "date": "2025-12-20",
     "imageMediumUrl": "./data/images/uk/mirror/2025-12-20-medium.png",
     "sourceUrl": "https://s2-prod.mirror.co.uk/@trinitymirrordigital/chameleon-branding/publications/mirror/img/logo-mirror-social-sharing.png",
-    "scrapedAt": "2025-12-20T21:51:06.405Z"
+    "scrapedAt": "2025-12-20T21:59:07.783Z"
   },
   {
     "id": "express-2025-12-20",
@@ -577,7 +577,7 @@
     "groupLabel": "UK Back Pages",
     "date": "2025-12-20",
     "error": "Cover not found after trying all methods",
-    "scrapedAt": "2025-12-20T21:51:07.300Z"
+    "scrapedAt": "2025-12-20T21:59:09.334Z"
   },
   {
     "id": "abola-2025-12-20",
@@ -588,7 +588,7 @@
     "date": "2025-12-20",
     "imageMediumUrl": "./data/images/pt/abola/2025-12-20-medium.jpg",
     "sourceUrl": "https://cdn.abola.pt/83222f03-df53-4f32-94a4-db9703c16c56/theme/pt/assets/og-image-CtqOal_D.jpg",
-    "scrapedAt": "2025-12-20T21:51:08.878Z"
+    "scrapedAt": "2025-12-20T21:59:10.947Z"
   },
   {
     "id": "record-2025-12-20",
@@ -598,7 +598,7 @@
     "groupLabel": "Portugal",
     "date": "2025-12-20",
     "error": "Cover not found after trying all methods",
-    "scrapedAt": "2025-12-20T21:51:11.300Z"
+    "scrapedAt": "2025-12-20T21:59:13.385Z"
   },
   {
     "id": "ojogo-2025-12-20",
@@ -609,7 +609,7 @@
     "date": "2025-12-20",
     "imageMediumUrl": "./data/images/pt/ojogo/2025-12-20-medium.jpg",
     "sourceUrl": "https://staticx.noticiasilimitadas.pt/oj/default_1200x675.jpg",
-    "scrapedAt": "2025-12-20T21:51:13.136Z"
+    "scrapedAt": "2025-12-20T21:59:15.570Z"
   },
   {
     "id": "kicker-2025-12-20",
@@ -619,6 +619,6 @@
     "groupLabel": "Germany",
     "date": "2025-12-20",
     "error": "Cover not found after trying all methods",
-    "scrapedAt": "2025-12-20T21:51:13.264Z"
+    "scrapedAt": "2025-12-20T21:59:15.734Z"
   }
 ]
