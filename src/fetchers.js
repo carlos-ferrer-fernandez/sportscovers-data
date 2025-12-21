@@ -10,7 +10,7 @@ async function downloadImage(url, filepath) {
   if (url.startsWith('//')) {
     url = 'https:' + url;
   }
-  
+
   console.log(`Downloading image from: ${url}`);
   const response = await fetch(url, {
     headers: { 'User-Agent': USER_AGENT }
@@ -48,7 +48,6 @@ function findBestCoverImage($, html) {
   const candidates = [];
 
   // 1. Kiosko.net specific (The "Golden Selector")
-  // We found this in the raw HTML: <img id="portada" ...>
   const kioskoPortada = $('#portada').attr('src');
   if (kioskoPortada) {
     console.log(`Found Kiosko #portada: ${kioskoPortada}`);
@@ -84,7 +83,11 @@ function findBestCoverImage($, html) {
 }
 
 // Helper to try multiple sources sequentially
-async function trySources(sources) {
+// NOW WITH INTEGRATED DOWNLOAD CHECK
+async function trySourcesAndDownload(sources, outputDir, date) {
+  const filename = `${date}-medium.jpg`;
+  const filepath = path.join(outputDir, filename);
+
   for (const sourceUrl of sources) {
     console.log(`Attempting source: ${sourceUrl}`);
     const { html, success } = await fetchWithFallback([sourceUrl]);
@@ -92,14 +95,33 @@ async function trySources(sources) {
     if (success) {
       const $ = cheerio.load(html);
       const image = findBestCoverImage($, html);
+      
       if (image) {
-        console.log(`Found image on ${sourceUrl}: ${image}`);
-        return image;
+        // CLEANUP: Some sites might return a URL with a trailing dot or weird chars
+        let cleanImage = image.trim();
+        if (cleanImage.endsWith('.webp.jpg')) {
+            cleanImage = cleanImage.slice(0, -4);
+        }
+        
+        console.log(`Found candidate image on ${sourceUrl}: ${cleanImage}`);
+        
+        // TRY TO DOWNLOAD IMMEDIATELY
+        try {
+            await downloadImage(cleanImage, filepath);
+            console.log(`[SUCCESS] Downloaded cover from ${sourceUrl}`);
+            return { localFile: filename, url: cleanImage };
+        } catch (err) {
+            console.error(`[WARNING] Found image but failed to download: ${err.message}`);
+            console.log(`Trying next source...`);
+            // Continue to next source in the loop!
+        }
       } else {
         console.log(`Page loaded but NO image found on ${sourceUrl}`);
       }
     }
   }
+  
+  console.error(`[FAILURE] Exhausted all sources. No cover found.`);
   return null;
 }
 
@@ -108,114 +130,86 @@ export async function fetchCover(publisher, date, outputDir) {
   const fetcher = fetchers[publisher.id];
   if (!fetcher) throw new Error(`No fetcher for ${publisher.id}`);
 
-  // Execute the fetcher logic which now handles multiple sources internally
-  const imageUrl = await fetcher();
-  
-  if (!imageUrl) {
-    console.error(`[FAILURE] Could not find any cover for ${publisher.id}`);
-    return null; // Return null instead of throwing
-  }
-
-  // Download the image
-  const filename = `${date}-medium.jpg`;
-  const filepath = path.join(outputDir, filename);
-  
-  try {
-    await downloadImage(imageUrl, filepath);
-    console.log(`[SUCCESS] Downloaded cover for ${publisher.id}`);
-    return { localFile: filename, url: imageUrl };
-  } catch (err) {
-    console.error(`[ERROR] Failed to download image from ${imageUrl}: ${err.message}`);
-    return null;
-  }
+  // Execute the fetcher logic which now handles multiple sources AND downloading
+  return await fetcher(outputDir, date);
 }
 
 export const fetchers = {
   // --- SPAIN ---
-  marca: async () => trySources([
+  marca: async (dir, date) => trySourcesAndDownload([
     'https://www.frontpages.com/marca/',
     'https://es.kiosko.net/es/np/marca.html'
-  ]),
-  as: async () => trySources([
+  ], dir, date),
+  as: async (dir, date) => trySourcesAndDownload([
     'https://www.frontpages.com/as/',
     'https://es.kiosko.net/es/np/as.html'
-  ]),
-  mundodeportivo: async () => trySources([
+  ], dir, date),
+  mundodeportivo: async (dir, date) => trySourcesAndDownload([
     'https://www.frontpages.com/mundo-deportivo/',
     'https://es.kiosko.net/es/np/mundo_deportivo.html'
-  ]),
-  sport: async () => trySources([
+  ], dir, date),
+  sport: async (dir, date) => trySourcesAndDownload([
     'https://www.frontpages.com/sport-es/',
     'https://es.kiosko.net/es/np/sport.html'
-  ]),
-  estadiodeportivo: async () => trySources([
+  ], dir, date),
+  estadiodeportivo: async (dir, date) => trySourcesAndDownload([
     'https://www.frontpages.com/estadio-deportivo/',
     'https://es.kiosko.net/es/np/estadio_deportivo.html'
-  ]),
-  superdeporte: async () => trySources([
+  ], dir, date),
+  superdeporte: async (dir, date) => trySourcesAndDownload([
     'https://www.frontpages.com/superdeporte/',
     'https://es.kiosko.net/es/np/superdeporte.html'
-  ]),
-  lesportiu: async () => trySources([
+  ], dir, date),
+  lesportiu: async (dir, date) => trySourcesAndDownload([
     'https://www.frontpages.com/l-esportiu/',
     'https://es.kiosko.net/es/np/lesportiu.html'
-  ]),
+  ], dir, date),
 
   // --- ITALY ---
-  gazzetta: async () => trySources([
+  gazzetta: async (dir, date) => trySourcesAndDownload([
     'https://www.frontpages.com/la-gazzetta-dello-sport/',
     'https://it.kiosko.net/it/np/gazzetta_sport.html'
-  ]),
-  corrieredellosport: async () => trySources([
+  ], dir, date),
+  corrieredellosport: async (dir, date) => trySourcesAndDownload([
     'https://www.frontpages.com/corriere-dello-sport/',
     'https://it.kiosko.net/it/np/corriere_sport.html'
-  ]),
-  tuttosport: async () => trySources([
+  ], dir, date),
+  tuttosport: async (dir, date) => trySourcesAndDownload([
     'https://www.frontpages.com/tuttosport/',
     'https://it.kiosko.net/it/np/tuttosport.html'
-  ]),
+  ], dir, date),
 
   // --- FRANCE ---
-  lequipe: async () => trySources([
+  lequipe: async (dir, date) => trySourcesAndDownload([
     'https://www.frontpages.com/l-equipe/',
     'https://fr.kiosko.net/fr/np/lequipe.html'
-  ]),
+  ], dir, date),
 
   // --- PORTUGAL ---
-  abola: async () => trySources([
+  abola: async (dir, date) => trySourcesAndDownload([
     'https://www.frontpages.com/a-bola/',
     'https://pt.kiosko.net/pt/np/abola.html'
-  ]),
-  record: async () => trySources([
+  ], dir, date),
+  record: async (dir, date) => trySourcesAndDownload([
     'https://www.frontpages.com/record/',
     'https://pt.kiosko.net/pt/np/record.html'
-  ]),
-  ojogo: async () => trySources([
+  ], dir, date),
+  ojogo: async (dir, date) => trySourcesAndDownload([
     'https://www.frontpages.com/o-jogo/',
     'https://pt.kiosko.net/pt/np/ojogo.html'
-  ]),
+  ], dir, date),
 
   // --- UK ---
-  mirrorsport: async () => trySources([
+  mirrorsport: async (dir, date) => trySourcesAndDownload([
     'https://www.frontpages.com/daily-mirror-sport/',
     'https://uk.kiosko.net/uk/np/mirror_sport.html'
-  ]),
-  sun: async () => trySources([
+  ], dir, date),
+  sun: async (dir, date) => trySourcesAndDownload([
     'https://www.frontpages.com/the-sun-sport/',
     'https://uk.kiosko.net/uk/np/sun_sport.html'
-  ]),
-  dailymail: async () => trySources([
+  ], dir, date),
+  dailymail: async (dir, date) => trySourcesAndDownload([
     'https://www.frontpages.com/daily-mail-sport/',
     'https://uk.kiosko.net/uk/np/daily_mail_sport.html'
-  ]),
-
-  // --- GERMANY ---
-  kicker: async () => trySources([
-    'https://www.frontpages.com/kicker/',
-    'https://de.kiosko.net/de/np/kicker.html'
-  ]),
-  bild: async () => trySources([
-    'https://www.frontpages.com/sport-bild/',
-    'https://de.kiosko.net/de/np/bild.html'
-  ])
+  ], dir, date)
 };
