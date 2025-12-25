@@ -1027,7 +1027,7 @@
     "date": "2025-12-25",
     "imageMediumUrl": "./data/images/es/marca/2025-12-25-medium.jpg",
     "sourceUrl": "//img.kiosko.net/2025/12/24/es/marca.750.jpg",
-    "scrapedAt": "2025-12-25T04:34:52.267Z"
+    "scrapedAt": "2025-12-25T05:15:39.353Z"
   },
   {
     "id": "as-2025-12-25",
@@ -1038,7 +1038,7 @@
     "date": "2025-12-25",
     "imageMediumUrl": "./data/images/es/as/2025-12-25-medium.jpg",
     "sourceUrl": "//img.kiosko.net/2025/12/24/es/as.750.jpg",
-    "scrapedAt": "2025-12-25T04:34:53.218Z"
+    "scrapedAt": "2025-12-25T05:15:40.251Z"
   },
   {
     "id": "mundodeportivo-2025-12-25",
@@ -1048,7 +1048,7 @@
     "groupLabel": "Spain",
     "date": "2025-12-25",
     "error": "Cannot read properties of null (reading 'localFile')",
-    "scrapedAt": "2025-12-25T04:34:53.734Z"
+    "scrapedAt": "2025-12-25T05:15:40.766Z"
   },
   {
     "id": "sport-2025-12-25",
@@ -1059,7 +1059,7 @@
     "date": "2025-12-25",
     "imageMediumUrl": "./data/images/es/sport/2025-12-25-medium.jpg",
     "sourceUrl": "//img.kiosko.net/2025/12/24/es/sport.750.jpg",
-    "scrapedAt": "2025-12-25T04:34:54.562Z"
+    "scrapedAt": "2025-12-25T05:15:41.674Z"
   },
   {
     "id": "lesportiu-2025-12-25",
@@ -1069,7 +1069,7 @@
     "groupLabel": "Spain",
     "date": "2025-12-25",
     "error": "Cannot read properties of null (reading 'localFile')",
-    "scrapedAt": "2025-12-25T04:34:55.106Z"
+    "scrapedAt": "2025-12-25T05:15:42.204Z"
   },
   {
     "id": "superdeporte-2025-12-25",
@@ -1080,7 +1080,7 @@
     "date": "2025-12-25",
     "imageMediumUrl": "./data/images/es/superdeporte/2025-12-25-medium.jpg",
     "sourceUrl": "//img.kiosko.net/2025/07/11/es/superdeporte.750.jpg",
-    "scrapedAt": "2025-12-25T04:34:55.915Z"
+    "scrapedAt": "2025-12-25T05:15:43.130Z"
   },
   {
     "id": "estadiodeportivo-2025-12-25",
@@ -1090,7 +1090,7 @@
     "groupLabel": "Spain",
     "date": "2025-12-25",
     "error": "Cannot read properties of null (reading 'localFile')",
-    "scrapedAt": "2025-12-25T04:34:56.177Z"
+    "scrapedAt": "2025-12-25T05:15:43.394Z"
   },
   {
     "id": "spherasports-2025-12-25",
@@ -1100,7 +1100,7 @@
     "groupLabel": "Spain",
     "date": "2025-12-25",
     "error": "No fetcher for spherasports",
-    "scrapedAt": "2025-12-25T04:34:56.178Z"
+    "scrapedAt": "2025-12-25T05:15:43.395Z"
   },
   {
     "id": "lequipe-2025-12-25",
@@ -1110,7 +1110,7 @@
     "groupLabel": "France",
     "date": "2025-12-25",
     "error": "Cannot read properties of null (reading 'localFile')",
-    "scrapedAt": "2025-12-25T04:34:57.182Z"
+    "scrapedAt": "2025-12-25T05:15:44.474Z"
   },
   {
     "id": "corriere-2025-12-25",
@@ -1120,7 +1120,7 @@
     "groupLabel": "Italy",
     "date": "2025-12-25",
     "error": "No fetcher for corriere",
-    "scrapedAt": "2025-12-25T04:34:57.182Z"
+    "scrapedAt": "2025-12-25T05:15:44.474Z"
   },
   {
     "id": "tuttosport-2025-12-25",
@@ -1130,7 +1130,7 @@
     "groupLabel": "Italy",
     "date": "2025-12-25",
     "error": "Cannot read properties of null (reading 'localFile')",
-    "scrapedAt": "2025-12-25T04:34:57.739Z"
+    "scrapedAt": "2025-12-25T05:15:45.099Z"
   },
   {
     "id": "gazzetta-2025-12-25",
@@ -1140,7 +1140,7 @@
     "groupLabel": "Italy",
     "date": "2025-12-25",
     "error": "Cannot read properties of null (reading 'localFile')",
-    "scrapedAt": "2025-12-25T04:34:58.381Z"
+    "scrapedAt": "2025-12-25T05:15:45.710Z"
   },
   {
     "id": "dailystar-2025-12-25",
@@ -1150,7 +1150,7 @@
     "groupLabel": "UK Back Pages",
     "date": "2025-12-25",
     "error": "No fetcher for dailystar",
-    "scrapedAt": "2025-12-25T04:34:58.381Z"
+    "scrapedAt": "2025-12-25T05:15:45.710Z"
   },
   {
     "id": "star-sport-2025-12-25",
@@ -1160,7 +1160,7 @@
     "groupLabel": "UK Back Pages",
     "date": "2025-12-25",
     "error": "No fetcher for star-sport",
-    "scrapedAt": "2025-12-25T04:34:58.381Z"
+    "scrapedAt": "2025-12-25T05:15:45.710Z"
   },
   {
     "id": "mirror-2025-12-25",
@@ -1170,7 +1170,7 @@
     "groupLabel": "UK Back Pages",
     "date": "2025-12-25",
     "error": "No fetcher for mirror",
-    "scrapedAt": "2025-12-25T04:34:58.382Z"
+    "scrapedAt": "2025-12-25T05:15:45.710Z"
   },
   {
     "id": "express-2025-12-25",
@@ -1180,7 +1180,7 @@
     "groupLabel": "UK Back Pages",
     "date": "2025-12-25",
     "error": "No fetcher for express",
-    "scrapedAt": "2025-12-25T04:34:58.382Z"
+    "scrapedAt": "2025-12-25T05:15:45.711Z"
   },
   {
     "id": "abola-2025-12-25",
@@ -1190,7 +1190,7 @@
     "groupLabel": "Portugal",
     "date": "2025-12-25",
     "error": "Cannot read properties of null (reading 'localFile')",
-    "scrapedAt": "2025-12-25T04:34:58.894Z"
+    "scrapedAt": "2025-12-25T05:15:46.432Z"
   },
   {
     "id": "record-2025-12-25",
@@ -1200,7 +1200,7 @@
     "groupLabel": "Portugal",
     "date": "2025-12-25",
     "error": "Cannot read properties of null (reading 'localFile')",
-    "scrapedAt": "2025-12-25T04:34:59.358Z"
+    "scrapedAt": "2025-12-25T05:15:46.726Z"
   },
   {
     "id": "ojogo-2025-12-25",
@@ -1210,7 +1210,7 @@
     "groupLabel": "Portugal",
     "date": "2025-12-25",
     "error": "Cannot read properties of null (reading 'localFile')",
-    "scrapedAt": "2025-12-25T04:34:59.891Z"
+    "scrapedAt": "2025-12-25T05:15:47.243Z"
   },
   {
     "id": "kicker-2025-12-25",
@@ -1220,6 +1220,6 @@
     "groupLabel": "Germany",
     "date": "2025-12-25",
     "error": "No fetcher for kicker",
-    "scrapedAt": "2025-12-25T04:34:59.891Z"
+    "scrapedAt": "2025-12-25T05:15:47.244Z"
   }
 ]
