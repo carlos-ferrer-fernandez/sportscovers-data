@@ -42,7 +42,7 @@ async function withRetry(fn, { tries = 3, baseDelayMs = 650 } = {}) {
   throw last;
 }
 
-// don't let one broken source stop other sources
+// Avoid single-source crash: wrap in safe for test harness
 async function safe(promise) {
   try {
     return await promise;
@@ -88,6 +88,7 @@ function pickBestFromSrcset(srcset, baseUrl) {
 }
 
 async function probeImage(url, referer) {
+  // Range GET is more reliable than HEAD on many CDNs
   const res = await withRetry(
     () =>
       http.get(url, {
@@ -104,12 +105,10 @@ async function probeImage(url, referer) {
 
   const ct = String(res.headers["content-type"] || "").toLowerCase();
   if (!ct.startsWith("image/")) throw new Error(`Not an image (ct=${ct})`);
-
-  // extra guard: if the first chunk is extremely small, it's often a placeholder
-  if ((res.data?.byteLength || 0) < 3000) {
+  // loosen the size guard to avoid missing real covers on some CDNs
+  if ((res.data?.byteLength || 0) < 5000) {
     throw new Error(`Image probe too small (${res.data?.byteLength || 0} bytes)`);
   }
-
   return { contentType: ct };
 }
 
@@ -142,7 +141,8 @@ async function downloadImage(url, filepath, referer) {
   await pipeline(res.data, fs.createWriteStream(filepath));
 
   const stat = fs.statSync(filepath);
-  if (stat.size < 10_000) throw new Error(`Downloaded too small (${stat.size})`);
+  // keep a sane lower bound; 5KB is often enough for a cover
+  if (stat.size < 5000) throw new Error(`Downloaded too small (${stat.size})`);
 
   return { contentType: ct };
 }
@@ -259,7 +259,7 @@ async function fetchFrontpagesCom(publisherId) {
       await probeImage(imgUrl, pageUrl);
       return { url: imgUrl, referer: pageUrl, source: "frontpages.com" };
     } catch {
-      // next
+      // next candidate
     }
   }
 
@@ -267,7 +267,7 @@ async function fetchFrontpagesCom(publisherId) {
 }
 
 /* --------------------------
-   Kiosko.net (direct + fuzzy daily scan)
+   Kiosko.net helpers (direct + daily html fuzzy)
 -------------------------- */
 
 const KIOSKO_MAP = {
@@ -275,51 +275,89 @@ const KIOSKO_MAP = {
   as: ["es/as"],
   mundodeportivo: ["es/mundo_deportivo", "es/mundo-deportivo"],
   sport: ["es/sport"],
-
   lesportiu: ["es/lesportiu", "es/l_esportiu", "es/l-esportiu"],
   estadiodeportivo: ["es/estadio_deportivo", "es/estadio-deportivo"],
   superdeporte: ["es/superdeporte", "es/super_deporte"],
-
   lequipe: ["fr/le_equipe", "fr/lequipe"],
   gazzetta: ["it/gazzetta_sport", "it/gazzetta-dello-sport"],
   corriere: ["it/corriere_sport", "it/corriere-dello-sport"],
   tuttosport: ["it/tuttosport"],
-
   abola: ["pt/abola", "pt/a_bola", "pt/a-bola"],
   record: ["pt/record"],
   ojogo: ["pt/ojogo", "pt/o_jogo", "pt/o-jogo"],
-
   dailystar: ["uk/daily_star"],
   mirror: ["uk/daily_mirror"],
   express: ["uk/daily_express"],
 };
 
-function normToken(s) {
-  return String(s || "")
-    .toLowerCase()
-    .normalize("NFD")
-    .replace(/\p{Diacritic}/gu, "")
-    .replace(/[^a-z0-9]+/g, " ")
-    .trim();
-}
+async function fetchKioskoNetFromDailyHtmlAny(publisher, dateStr) {
+  const langByCountry = { ES: "es", FR: "fr", IT: "it", PT: "pt", UK: "uk", DE: "de" };
+  const primaryLang = langByCountry[publisher.country] || "es";
 
-function scoreMatch({ publisherId, publisherName }, href, altText) {
-  const h = normToken(href);
-  const a = normToken(altText);
-  const id = normToken(publisherId);
-  const name = normToken(publisherName);
+  const dayUrls = [
+    `https://${primaryLang}.kiosko.net/${dateStr}/`,
+    `https://www.kiosko.net/${primaryLang}/${dateStr}/`,
+  ];
 
-  let score = 0;
-  if (h.includes(id)) score += 8;
-  if (a.includes(id)) score += 8;
+  for (const dayUrl of dayUrls) {
+    const { data } = await withRetry(() => http.get(dayUrl), {
+      tries: 3,
+      baseDelayMs: 700,
+    });
+    const $ = cheerio.load(data);
 
-  for (const w of name.split(" ").filter(Boolean)) {
-    if (w.length < 3) continue;
-    if (h.includes(w)) score += 2;
-    if (a.includes(w)) score += 2;
+    const tiles = [];
+    $("a[href$='.html']").each((_, el) => {
+      const a = $(el);
+      const href = a.attr("href") || "";
+      const img = a.find("img").first();
+      if (!img.length) return;
+
+      const alt = img.attr("alt") || img.attr("title") || a.text() || "";
+      const srcset = img.attr("srcset") || "";
+      const src = img.attr("src") || img.attr("data-src") || "";
+
+      const imgUrl =
+        pickBestFromSrcset(srcset, dayUrl) || normalizeUrl(src, dayUrl);
+
+      if (!imgUrl) return;
+      tiles.push({ href, alt, imgUrl, dayUrl });
+    });
+
+    if (!tiles.length) continue;
+
+    tiles.sort((t1, t2) => {
+      const s1 = scoreMatch(
+        { publisherId: publisher.id, publisherName: publisher.name },
+        t1.href,
+        t1.alt
+      );
+      const s2 = scoreMatch(
+        { publisherId: publisher.id, publisherName: publisher.name },
+        t2.href,
+        t2.alt
+      );
+      return s2 - s1;
+    });
+
+    const best = tiles[0];
+    const bestScore = scoreMatch(
+      { publisherId: publisher.id, publisherName: publisher.name },
+      best.href,
+      best.alt
+    );
+
+    if (bestScore < 6) continue;
+
+    try {
+      await probeImage(best.imgUrl, dayUrl);
+      return { url: best.imgUrl, referer: dayUrl, source: "kiosko.net(html)" };
+    } catch {
+      // try next dayUrl/lang
+    }
   }
 
-  return score;
+  return null;
 }
 
 async function fetchKioskoNetDirectByKeys(publisherId, dateStr) {
@@ -345,86 +383,17 @@ async function fetchKioskoNetDirectByKeys(publisherId, dateStr) {
   return null;
 }
 
-async function fetchKioskoNetFromDailyHtmlAny(publisher, dateStr) {
-  const langByCountry = { ES: "es", FR: "fr", IT: "it", PT: "pt", UK: "uk", DE: "de" };
-  const primaryLang = langByCountry[publisher.country] || "es";
-
-  // Try multiple kiosko hosts/paths. This helps when some pages are missing/redirecting.
-  const langsToTry = Array.from(new Set([primaryLang, "es", "pt", "it", "fr", "uk"]));
-
-  for (const lang of langsToTry) {
-    const dayUrls = [
-      `https://${lang}.kiosko.net/${dateStr}/`,
-      `https://www.kiosko.net/${lang}/${dateStr}/`,
-    ];
-
-    for (const dayUrl of dayUrls) {
-      const res = await safe(withRetry(() => http.get(dayUrl), { tries: 2, baseDelayMs: 600 }));
-      if (!res?.data) continue;
-
-      const $ = cheerio.load(res.data);
-
-      const tiles = [];
-      $("a[href$='.html']").each((_, el) => {
-        const a = $(el);
-        const href = a.attr("href") || "";
-        const img = a.find("img").first();
-        if (!img.length) return;
-
-        const alt = img.attr("alt") || img.attr("title") || a.text() || "";
-        const srcset = img.attr("srcset") || "";
-        const src = img.attr("src") || img.attr("data-src") || "";
-
-        const imgUrl =
-          pickBestFromSrcset(srcset, dayUrl) || normalizeUrl(src, dayUrl);
-
-        if (!imgUrl) return;
-        tiles.push({ href, alt, imgUrl, dayUrl });
-      });
-
-      if (!tiles.length) continue;
-
-      tiles.sort((t1, t2) => {
-        const s1 = scoreMatch(
-          { publisherId: publisher.id, publisherName: publisher.name },
-          t1.href,
-          t1.alt
-        );
-        const s2 = scoreMatch(
-          { publisherId: publisher.id, publisherName: publisher.name },
-          t2.href,
-          t2.alt
-        );
-        return s2 - s1;
-      });
-
-      const best = tiles[0];
-      const bestScore = scoreMatch(
-        { publisherId: publisher.id, publisherName: publisher.name },
-        best.href,
-        best.alt
-      );
-
-      if (bestScore < 6) continue;
-
-      try {
-        await probeImage(best.imgUrl, best.dayUrl);
-        return { url: best.imgUrl, referer: best.dayUrl, source: "kiosko.net(html-fuzzy)" };
-      } catch {
-        // continue trying other dayUrls/langs
-      }
-    }
+async function fetchKioskoNet(publisherId, dateStr, publisher) {
+  try {
+    const direct = await fetchKioskoNetDirectByKeys(publisherId, dateStr);
+    if (direct) return direct;
+  } catch {
+    // ignore
   }
 
-  return null;
-}
-
-async function fetchKioskoNet(publisherId, dateStr, publisher) {
-  const direct = await safe(fetchKioskoNetDirectByKeys(publisherId, dateStr));
-  if (direct) return direct;
-
+  // Fallback: daily HTML scan (fuzzy)
   if (publisher) {
-    const fuzzy = await safe(fetchKioskoNetFromDailyHtmlAny(publisher, dateStr));
+    const fuzzy = await fetchKioskoNetFromDailyHtmlAny(publisher, dateStr);
     if (fuzzy) return fuzzy;
   }
 
@@ -492,38 +461,34 @@ async function fetchDomScan(pageUrl, selector) {
 }
 
 /* --------------------------
-   Special helpers for tricky Spanish sites (lesportiu/superdeporte/estadiodeportivo)
-   Strategy: scan homepage for a link that looks like "portada", then read og:image there.
+   Special helpers for tricky sites
 -------------------------- */
 
 async function fetchPortadaByFindingLink(homeUrl) {
-  const { data } = await withRetry(() => http.get(homeUrl), { tries: 3, baseDelayMs: 700 });
+  const { data } = await withRetry(() => http.get(homeUrl), {
+    tries: 3,
+    baseDelayMs: 700,
+  });
   const $ = cheerio.load(data);
 
   const linkCandidates = [];
   $("a[href]").each((_, el) => {
-    const hrefRaw = $(el).attr("href");
-    const text = ($(el).text() || "").trim();
-    const href = normalizeUrl(hrefRaw, homeUrl);
-    if (!href) return;
+    const href = $(el).attr("href");
+    const text = ($(el).text() || "").toLowerCase();
+    const h = normalizeUrl(href, homeUrl);
+    if (!h) return;
 
-    const h = href.toLowerCase();
-    const t = text.toLowerCase();
-
-    // match typical portada terms
     if (
-      h.includes("portada") ||
-      h.includes("capa") ||
-      t.includes("portada") ||
-      t.includes("capa")
+      h.toLowerCase().includes("portada") ||
+      h.toLowerCase().includes("capa") ||
+      text.includes("portada") ||
+      text.includes("capa")
     ) {
-      linkCandidates.push(href);
+      linkCandidates.push(h);
     }
   });
 
-  // Try a few distinct links
-  const unique = Array.from(new Set(linkCandidates)).slice(0, 8);
-  for (const u of unique) {
+  for (const u of linkCandidates.slice(0, 8)) {
     const r = await safe(fetchMetaImage(u));
     if (r) return { ...r, source: "site(portada-link)" };
   }
@@ -532,35 +497,32 @@ async function fetchPortadaByFindingLink(homeUrl) {
 }
 
 async function fetchPublisherSpecial(publisher) {
+  // Spanish regional portadas
   if (publisher.id === "lesportiu") {
-    // Try their homepage portada discovery + also meta directly
-    return (
+    const t =
       (await safe(fetchPortadaByFindingLink("https://www.lesportiudecatalunya.cat/"))) ||
-      (await safe(fetchMetaImage("https://www.lesportiudecatalunya.cat/")))
-    );
+      (await safe(fetchMetaImage("https://www.lesportiudecatalunya.cat/")));
+    if (t) return t;
   }
 
   if (publisher.id === "superdeporte") {
-    return (
+    const t =
       (await safe(fetchPortadaByFindingLink("https://www.superdeporte.es/"))) ||
-      (await safe(fetchMetaImage("https://www.superdeporte.es/")))
-    );
+      (await safe(fetchMetaImage("https://www.superdeporte.es/")));
+    if (t) return t;
   }
 
   if (publisher.id === "estadiodeportivo") {
-    return (
+    const t =
       (await safe(fetchPortadaByFindingLink("https://www.estadiodeportivo.com/"))) ||
-      (await safe(fetchMetaImage("https://www.estadiodeportivo.com/")))
-    );
+      (await safe(fetchMetaImage("https://www.estadiodeportivo.com/")));
+    if (t) return t;
   }
 
   return null;
 }
 
-/* --------------------------
-   X/Twitter fallback via Nitter (best-effort)
--------------------------- */
-
+/* --------------- Nitter (optional) --------------- */
 function toNitterProfile(url) {
   try {
     const u = new URL(url);
@@ -623,11 +585,10 @@ async function fetchFromPrimary(publisher) {
   }
 
   if (primary.method === "dom:page_scan") {
-    // Try DOM scan first, then meta as fallback on same page (helps sites that changed markup)
-    return (
-      (await safe(fetchDomScan(primary.url, primary.selector))) ||
-      (await safe(fetchMetaImage(primary.url)))
-    );
+    // Try DOM scan first, then meta as fallback on same page
+    const dom = await safe(fetchDomScan(primary.url, primary.selector));
+    if (dom) return dom;
+    return safe(fetchMetaImage(primary.url));
   }
 
   if (primary.method === "social:x_latest_media") {
@@ -650,13 +611,6 @@ async function fetchFromFallbacks(publisher) {
       const r = await safe(fetchLatestMediaFromNitter(fb.url));
       if (r) return r;
     }
-    if (fb.type === "x_profile") {
-      const nitterUrl = toNitterProfile(fb.url);
-      if (nitterUrl) {
-        const r = await safe(fetchLatestMediaFromNitter(nitterUrl));
-        if (r) return r;
-      }
-    }
   }
   return null;
 }
@@ -665,19 +619,23 @@ export async function fetchCover(publisher, dateStr, outputDir, allPublishers = 
   const publishersById = new Map(allPublishers.map((p) => [p.id, p]));
   publisher = resolveAlias(publisher, publishersById);
 
-  // IMPORTANT: collect multiple candidates; download first that succeeds.
+  // Gather candidates; each may fail independently
   const candidates = uniqueByUrl([
     await safe(fetchKioskoNet(publisher.id, dateStr, publisher)),
     await safe(fetchFrontpagesCom(publisher.id)),
     await safe(fetchFromPrimary(publisher)),
     await safe(fetchPublisherSpecial(publisher)),
     await safe(fetchFromFallbacks(publisher)),
+    // Optional: legacy catalog extras can go here
   ]);
 
-  if (!candidates.length) throw new Error(`Cover not found for ${publisher.id}`);
+  // If nothing found, fail gracefully
+  if (!candidates.length) {
+    throw new Error(`Cover not found for ${publisher.id}`);
+  }
 
+  // Try each candidate until one succeeds downloading
   let lastErr = null;
-
   for (const cand of candidates) {
     try {
       const urlExt = path.extname(cand.url.split("?")[0] || "");

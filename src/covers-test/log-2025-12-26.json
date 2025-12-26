@@ -21,6 +21,21 @@
       "url": "https://img.kiosko.net/2025/12/26/es/sport.750.jpg"
     },
     {
+      "id": "lesportiu",
+      "source": "meta",
+      "url": "https://www.elpuntavui.cat/templates/s2016/favicons/apple-touch-icon-250x250.png"
+    },
+    {
+      "id": "superdeporte",
+      "source": "meta",
+      "url": "https://www.superdeporte.es/estaticos/logos/superdeporte.png"
+    },
+    {
+      "id": "estadiodeportivo",
+      "source": "meta",
+      "url": "https://www.estadiodeportivo.com/img/portadilla/compartir.png"
+    },
+    {
       "id": "spherasports",
       "source": "meta",
       "url": "https://www.spherasports.com/wp-content/uploads/2024/09/Cabecera-Sphera.jpg"
@@ -39,6 +54,11 @@
       "id": "tuttosport",
       "source": "kiosko.net(direct)",
       "url": "https://img.kiosko.net/2025/12/26/it/tuttosport.750.jpg"
+    },
+    {
+      "id": "gazzetta",
+      "source": "meta",
+      "url": "https://images2.gazzettaobjects.it/libs4/css/assets/defaultShareFB.jpg"
     },
     {
       "id": "dailystar",
@@ -72,22 +92,6 @@
     }
   ],
   "fail": [
-    {
-      "id": "lesportiu",
-      "error": "Cover not found for lesportiu"
-    },
-    {
-      "id": "superdeporte",
-      "error": "Cover not found for superdeporte"
-    },
-    {
-      "id": "estadiodeportivo",
-      "error": "Cover not found for estadiodeportivo"
-    },
-    {
-      "id": "gazzetta",
-      "error": "Downloaded too small (5355)"
-    },
     {
       "id": "record",
       "error": "Cover not found for record"
