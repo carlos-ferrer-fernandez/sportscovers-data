@@ -1,0 +1,100 @@
+{
+  "ok": [
+    {
+      "id": "marca",
+      "source": "kiosko.net(direct)",
+      "url": "https://img.kiosko.net/2025/12/26/es/marca.750.jpg"
+    },
+    {
+      "id": "as",
+      "source": "kiosko.net(direct)",
+      "url": "https://img.kiosko.net/2025/12/26/es/as.750.jpg"
+    },
+    {
+      "id": "mundodeportivo",
+      "source": "meta",
+      "url": "https://www.mundodeportivo.com/rsc/images/default_md_social_card.png"
+    },
+    {
+      "id": "sport",
+      "source": "kiosko.net(direct)",
+      "url": "https://img.kiosko.net/2025/12/26/es/sport.750.jpg"
+    },
+    {
+      "id": "spherasports",
+      "source": "meta",
+      "url": "https://www.spherasports.com/wp-content/uploads/2024/09/Cabecera-Sphera.jpg"
+    },
+    {
+      "id": "lequipe",
+      "source": "meta",
+      "url": "https://medias.lequipe.fr/img-photo-png/-/1500000000833469/0-0-0-70/0cb67.png"
+    },
+    {
+      "id": "corriere",
+      "source": "kiosko.net(direct)",
+      "url": "https://img.kiosko.net/2025/12/26/it/corriere_sport.750.jpg"
+    },
+    {
+      "id": "tuttosport",
+      "source": "kiosko.net(direct)",
+      "url": "https://img.kiosko.net/2025/12/26/it/tuttosport.750.jpg"
+    },
+    {
+      "id": "dailystar",
+      "source": "kiosko.net(direct)",
+      "url": "https://img.kiosko.net/2025/12/26/uk/daily_star.750.jpg"
+    },
+    {
+      "id": "star-sport",
+      "source": "kiosko.net(direct)",
+      "url": "https://img.kiosko.net/2025/12/26/uk/daily_star.750.jpg"
+    },
+    {
+      "id": "mirror",
+      "source": "frontpages.com",
+      "url": "https://www.frontpages.com/img/newspapers-01.jpg"
+    },
+    {
+      "id": "express",
+      "source": "kiosko.net(direct)",
+      "url": "https://img.kiosko.net/2025/12/26/uk/daily_express.750.jpg"
+    },
+    {
+      "id": "abola",
+      "source": "kiosko.net(direct)",
+      "url": "https://img.kiosko.net/2025/12/26/pt/a_bola.750.jpg"
+    },
+    {
+      "id": "ojogo",
+      "source": "meta",
+      "url": "https://staticx.noticiasilimitadas.pt/oj/default_1200x675.jpg"
+    }
+  ],
+  "fail": [
+    {
+      "id": "lesportiu",
+      "error": "Cover not found for lesportiu"
+    },
+    {
+      "id": "superdeporte",
+      "error": "Cover not found for superdeporte"
+    },
+    {
+      "id": "estadiodeportivo",
+      "error": "Cover not found for estadiodeportivo"
+    },
+    {
+      "id": "gazzetta",
+      "error": "Downloaded too small (5355)"
+    },
+    {
+      "id": "record",
+      "error": "Cover not found for record"
+    },
+    {
+      "id": "kicker",
+      "error": "Cover not found for kicker"
+    }
+  ]
+}
