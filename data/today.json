@@ -7,8 +7,8 @@
     "groupLabel": "Spain",
     "date": "2025-12-27",
     "imageMediumUrl": "./data/images/es/marca/2025-12-27-medium.jpg",
-    "sourceUrl": "https://objetos.estaticos-marca.com/assets/v33/img/destacadas/marca__logo-generica.jpg",
-    "scrapedAt": "2025-12-27T05:12:56.179Z"
+    "sourceUrl": "https://img.kiosko.net/2025/12/27/es/marca.750.jpg",
+    "scrapedAt": "2025-12-27T21:16:58.267Z"
   },
   {
     "id": "as-2025-12-27",
@@ -17,8 +17,9 @@
     "country": "ES",
     "groupLabel": "Spain",
     "date": "2025-12-27",
-    "error": "Cover not found for as",
-    "scrapedAt": "2025-12-27T05:13:04.192Z"
+    "imageMediumUrl": "./data/images/es/as/2025-12-27-medium.jpg",
+    "sourceUrl": "https://img.kiosko.net/2025/12/27/es/as.750.jpg",
+    "scrapedAt": "2025-12-27T21:17:06.425Z"
   },
   {
     "id": "mundodeportivo-2025-12-27",
@@ -29,7 +30,7 @@
     "date": "2025-12-27",
     "imageMediumUrl": "./data/images/es/mundodeportivo/2025-12-27-medium.png",
     "sourceUrl": "https://www.mundodeportivo.com/rsc/images/default_md_social_card.png",
-    "scrapedAt": "2025-12-27T05:13:15.895Z"
+    "scrapedAt": "2025-12-27T21:17:29.075Z"
   },
   {
     "id": "sport-2025-12-27",
@@ -38,9 +39,9 @@
     "country": "ES",
     "groupLabel": "Spain",
     "date": "2025-12-27",
-    "imageMediumUrl": "./data/images/es/sport/2025-12-27-medium.png",
-    "sourceUrl": "https://estaticos-cdn.sport.es/sport/logos/sport.png",
-    "scrapedAt": "2025-12-27T05:13:20.796Z"
+    "imageMediumUrl": "./data/images/es/sport/2025-12-27-medium.jpg",
+    "sourceUrl": "https://img.kiosko.net/2025/12/27/es/sport.750.jpg",
+    "scrapedAt": "2025-12-27T21:17:33.901Z"
   },
   {
     "id": "lesportiu-2025-12-27",
@@ -51,7 +52,7 @@
     "date": "2025-12-27",
     "imageMediumUrl": "./data/images/es/lesportiu/2025-12-27-medium.png",
     "sourceUrl": "https://www.elpuntavui.cat/templates/s2016/favicons/apple-touch-icon-250x250.png",
-    "scrapedAt": "2025-12-27T05:13:40.868Z"
+    "scrapedAt": "2025-12-27T21:18:09.801Z"
   },
   {
     "id": "superdeporte-2025-12-27",
@@ -62,7 +63,7 @@
     "date": "2025-12-27",
     "imageMediumUrl": "./data/images/es/superdeporte/2025-12-27-medium.png",
     "sourceUrl": "https://www.superdeporte.es/estaticos/logos/superdeporte.png",
-    "scrapedAt": "2025-12-27T05:13:51.806Z"
+    "scrapedAt": "2025-12-27T21:18:30.329Z"
   },
   {
     "id": "estadiodeportivo-2025-12-27",
@@ -73,7 +74,7 @@
     "date": "2025-12-27",
     "imageMediumUrl": "./data/images/es/estadiodeportivo/2025-12-27-medium.png",
     "sourceUrl": "https://www.estadiodeportivo.com/img/portadilla/compartir.png",
-    "scrapedAt": "2025-12-27T05:14:04.339Z"
+    "scrapedAt": "2025-12-27T21:18:53.431Z"
   },
   {
     "id": "spherasports-2025-12-27",
@@ -84,7 +85,7 @@
     "date": "2025-12-27",
     "imageMediumUrl": "./data/images/es/spherasports/2025-12-27-medium.jpg",
     "sourceUrl": "https://www.spherasports.com/wp-content/uploads/2024/09/Cabecera-Sphera.jpg",
-    "scrapedAt": "2025-12-27T05:14:07.418Z"
+    "scrapedAt": "2025-12-27T21:18:58.686Z"
   },
   {
     "id": "lequipe-2025-12-27",
@@ -95,7 +96,7 @@
     "date": "2025-12-27",
     "imageMediumUrl": "./data/images/fr/lequipe/2025-12-27-medium.png",
     "sourceUrl": "https://medias.lequipe.fr/img-photo-png/-/1500000000833469/0-0-0-70/0cb67.png",
-    "scrapedAt": "2025-12-27T05:14:27.517Z"
+    "scrapedAt": "2025-12-27T21:19:14.923Z"
   },
   {
     "id": "corriere-2025-12-27",
@@ -104,8 +105,9 @@
     "country": "IT",
     "groupLabel": "Italy",
     "date": "2025-12-27",
-    "error": "Cover not found for corriere",
-    "scrapedAt": "2025-12-27T05:14:46.420Z"
+    "imageMediumUrl": "./data/images/it/corriere/2025-12-27-medium.jpg",
+    "sourceUrl": "https://img.kiosko.net/2025/12/27/it/corriere_sport.750.jpg",
+    "scrapedAt": "2025-12-27T21:19:24.563Z"
   },
   {
     "id": "tuttosport-2025-12-27",
@@ -114,8 +116,9 @@
     "country": "IT",
     "groupLabel": "Italy",
     "date": "2025-12-27",
-    "error": "Cover not found for tuttosport",
-    "scrapedAt": "2025-12-27T05:14:58.246Z"
+    "imageMediumUrl": "./data/images/it/tuttosport/2025-12-27-medium.jpg",
+    "sourceUrl": "https://img.kiosko.net/2025/12/27/it/tuttosport.750.jpg",
+    "scrapedAt": "2025-12-27T21:19:32.408Z"
   },
   {
     "id": "gazzetta-2025-12-27",
@@ -125,8 +128,8 @@
     "groupLabel": "Italy",
     "date": "2025-12-27",
     "imageMediumUrl": "./data/images/it/gazzetta/2025-12-27-medium.jpg",
-    "sourceUrl": "https://images2.gazzettaobjects.it/libs4/css/assets/defaultShareFB.jpg",
-    "scrapedAt": "2025-12-27T05:15:11.518Z"
+    "sourceUrl": "https://img.kiosko.net/2025/12/27/it/gazzetta_sport.750.jpg",
+    "scrapedAt": "2025-12-27T21:19:40.877Z"
   },
   {
     "id": "dailystar-2025-12-27",
@@ -136,8 +139,8 @@
     "groupLabel": "UK Back Pages",
     "date": "2025-12-27",
     "imageMediumUrl": "./data/images/uk/dailystar/2025-12-27-medium.jpg",
-    "sourceUrl": "https://www.frontpages.com/img/newspapers-01.jpg",
-    "scrapedAt": "2025-12-27T05:15:25.880Z"
+    "sourceUrl": "https://img.kiosko.net/2025/12/27/uk/daily_star.750.jpg",
+    "scrapedAt": "2025-12-27T21:19:52.489Z"
   },
   {
     "id": "star-sport-2025-12-27",
@@ -148,7 +151,7 @@
     "date": "2025-12-27",
     "imageMediumUrl": "./data/images/uk/star-sport/2025-12-27-medium.jpg",
     "sourceUrl": "https://www.frontpages.com/img/newspapers-01.jpg",
-    "scrapedAt": "2025-12-27T05:15:29.622Z"
+    "scrapedAt": "2025-12-27T21:19:57.045Z"
   },
   {
     "id": "mirror-2025-12-27",
@@ -159,7 +162,7 @@
     "date": "2025-12-27",
     "imageMediumUrl": "./data/images/uk/mirror/2025-12-27-medium.jpg",
     "sourceUrl": "https://www.frontpages.com/img/newspapers-01.jpg",
-    "scrapedAt": "2025-12-27T05:15:40.499Z"
+    "scrapedAt": "2025-12-27T21:20:13.137Z"
   },
   {
     "id": "express-2025-12-27",
@@ -170,7 +173,7 @@
     "date": "2025-12-27",
     "imageMediumUrl": "./data/images/uk/express/2025-12-27-medium.jpg",
     "sourceUrl": "https://www.frontpages.com/img/newspapers-01.jpg",
-    "scrapedAt": "2025-12-27T05:15:53.242Z"
+    "scrapedAt": "2025-12-27T21:20:28.696Z"
   },
   {
     "id": "abola-2025-12-27",
@@ -180,8 +183,8 @@
     "groupLabel": "Portugal",
     "date": "2025-12-27",
     "imageMediumUrl": "./data/images/pt/abola/2025-12-27-medium.jpg",
-    "sourceUrl": "https://cdn.abola.pt/48c14594-1e8c-43ae-8d45-a37511588d0f/theme/pt/assets/og-image-CtqOal_D.jpg",
-    "scrapedAt": "2025-12-27T05:16:16.527Z"
+    "sourceUrl": "https://img.kiosko.net/2025/12/27/pt/a_bola.750.jpg",
+    "scrapedAt": "2025-12-27T21:20:43.543Z"
   },
   {
     "id": "record-2025-12-27",
@@ -191,7 +194,7 @@
     "groupLabel": "Portugal",
     "date": "2025-12-27",
     "error": "Cover not found for record",
-    "scrapedAt": "2025-12-27T05:16:28.241Z"
+    "scrapedAt": "2025-12-27T21:20:58.661Z"
   },
   {
     "id": "ojogo-2025-12-27",
@@ -202,7 +205,7 @@
     "date": "2025-12-27",
     "imageMediumUrl": "./data/images/pt/ojogo/2025-12-27-medium.jpg",
     "sourceUrl": "https://staticx.noticiasilimitadas.pt/oj/default_1200x675.jpg",
-    "scrapedAt": "2025-12-27T05:16:50.624Z"
+    "scrapedAt": "2025-12-27T21:21:27.630Z"
   },
   {
     "id": "kicker-2025-12-27",
@@ -212,6 +215,6 @@
     "groupLabel": "Germany",
     "date": "2025-12-27",
     "error": "Cover not found for kicker",
-    "scrapedAt": "2025-12-27T05:16:56.681Z"
+    "scrapedAt": "2025-12-27T21:21:34.113Z"
   }
 ]
