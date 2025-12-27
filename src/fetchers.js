@@ -6,19 +6,41 @@ import path from "path";
 import { pipeline } from "stream/promises";
 
 /**
- * Goal: fetch real newspaper covers (not logos) from:
- * - kiosko.net (direct image CDN + np pages + daily page)
- * - frontpages.com
- * - optional publisher primary/fallbacks (og/dom)
+ * Scrape & download sports newspaper covers (avoid logos/thumbnails).
  *
- * Key fixes vs your v2:
- * - Probe images and read dimensions/bytes to score “cover-likeness”
- * - Add Kiosko "np" fallback with #portada (like your old version)
- * - Improve frontpages.com extraction (golden selectors + json-ld + regex)
+ * Sources (in practice, most covers come from Kiosko CDN):
+ * 1) today.json (your repo truth) -> uses sourceUrl directly
+ * 2) kiosko.net direct CDN predictable URL
+ * 3) kiosko.net "np" page (#portada)
+ * 4) kiosko.net daily page (fuzzy tile match)
+ * 5) frontpages.com (golden selectors + json-ld + regex)
+ * 6) publisher.primary / publisher.fallbacks
+ *
+ * Big improvements vs your previous versions:
+ * - image probing reads bytes + dimensions (jpg/png/webp) and scores candidates
+ * - candidate ranking across ALL sources (not just first that downloads)
+ * - today.json uses fixed path (env var) + fallback discovery
+ * - stronger HTML fetch headers (consent cookie) + safer filters
  */
+
+const DEBUG = process.env.COVER_SCRAPER_DEBUG === "1";
+function debug(...args) {
+  if (DEBUG) console.log(...args);
+}
 
 const USER_AGENT =
   "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/122.0 Safari/537.36";
+
+// Try these today.json locations first (you can override with TODAY_JSON_PATH)
+const TODAY_JSON_CANDIDATES = [
+  process.env.TODAY_JSON_PATH,
+  // common repo layouts
+  path.resolve(process.cwd(), "docs/data/today.json"),
+  path.resolve(process.cwd(), "docs", "data", "today.json"),
+  path.resolve(process.cwd(), "data/today.json"),
+  // your machine (as last-resort fallback)
+  "/Users/carlos/Documents/GitHub/sportscovers-data/docs/data/today.json",
+].filter(Boolean);
 
 const http = axios.create({
   timeout: 25000,
@@ -27,7 +49,7 @@ const http = axios.create({
     "User-Agent": USER_AGENT,
     Accept:
       "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,image/*,*/*;q=0.8",
-    "Accept-Language": "en-US,en;q=0.9,es;q=0.8,fr;q=0.8,it;q=0.8,pt;q=0.8",
+    "Accept-Language": "en-US,en;q=0.9,es;q=0.8,fr;q=0.8,it;q=0.8,pt;q=0.8,de;q=0.8",
     "Cache-Control": "no-cache",
     Pragma: "no-cache",
   },
@@ -57,7 +79,7 @@ async function withRetry(fn, { tries = 3, baseDelayMs = 650 } = {}) {
 async function safe(promise) {
   try {
     return await promise;
-  } catch {
+  } catch (e) {
     return null;
   }
 }
@@ -109,12 +131,27 @@ function uniqueByUrl(list) {
   });
 }
 
+async function fetchHtml(url) {
+  const { data } = await withRetry(
+    () =>
+      http.get(url, {
+        headers: {
+          // Some sites behave better with consent cookie
+          Cookie: "euconsent-v2=ACCEPTED",
+          Accept:
+            "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8",
+        },
+      }),
+    { tries: 3, baseDelayMs: 700 }
+  );
+  return data;
+}
+
 /* --------------------------
-   Image probing: bytes + dimensions (reject logos)
+   Image probing: bytes + dimensions (jpg/png/webp)
 -------------------------- */
 
 function parseContentRangeTotal(cr) {
-  // "bytes 0-65535/1234567"
   const m = String(cr || "").match(/\/(\d+)\s*$/);
   return m ? parseInt(m[1], 10) : null;
 }
@@ -184,12 +221,11 @@ function getImageSizeFromBuffer(contentType, buf) {
   if (ct === "image/png") return getPngSize(buf);
   if (ct === "image/jpeg") return getJpegSize(buf);
   if (ct === "image/webp") return getWebpSize(buf);
-  // AVIF parsing omitted (hard). We'll score AVIF mostly by bytes + URL hints.
+  // AVIF parsing omitted; we score AVIF mostly by bytes + URL patterns.
   return null;
 }
 
 async function probeImage(url, referer) {
-  // Range GET is more reliable than HEAD on many CDNs
   const res = await withRetry(
     () =>
       http.get(url, {
@@ -206,6 +242,7 @@ async function probeImage(url, referer) {
 
   const ct = String(res.headers["content-type"] || "").toLowerCase();
   if (!ct.startsWith("image/")) throw new Error(`Not an image (ct=${ct})`);
+  if (ct.includes("svg")) throw new Error("SVG rejected");
 
   const buf = Buffer.from(res.data);
   if (buf.length < 8000) throw new Error(`Image probe too small (${buf.length} bytes)`);
@@ -224,43 +261,52 @@ async function probeImage(url, referer) {
   };
 }
 
-function scoreCoverCandidate(url, meta) {
+function scoreCoverCandidate(url, meta, source = "") {
   const lu = (url || "").toLowerCase();
   let s = 0;
 
+  // strong preference if candidate came from today.json (your curated truth)
+  if (String(source).startsWith("today.json")) s += 200;
+
   // hard negatives
   const bad = ["logo", "favicon", "sprite", "icon", "avatar", "profile", "ads", "banner", "placeholder"];
-  if (bad.some((k) => lu.includes(k))) s -= 100;
+  if (bad.some((k) => lu.includes(k))) s -= 200;
 
   // known good patterns
-  if (lu.includes("img.kiosko.net")) s += 60;
+  if (lu.includes("img.kiosko.net")) s += 120;
   if (lu.includes("wp-content/uploads")) s += 15;
   if (lu.includes("frontpage") || lu.includes("portada") || lu.includes("cover")) s += 10;
 
   // bytes heuristic
   if (meta?.bytes) {
-    if (meta.bytes > 400_000) s += 20;
-    else if (meta.bytes > 150_000) s += 10;
-    else if (meta.bytes < 40_000) s -= 10;
+    if (meta.bytes > 900_000) s += 35;
+    else if (meta.bytes > 400_000) s += 25;
+    else if (meta.bytes > 150_000) s += 12;
+    else if (meta.bytes < 40_000) s -= 20;
   }
 
-  // dimensions heuristic (logos are often small or very wide)
+  // dimensions heuristic
   if (meta?.width && meta?.height) {
-    const w = meta.width,
-      h = meta.height;
+    const w = meta.width;
+    const h = meta.height;
     const aspect = w / h;
 
-    if (w >= 700 && h >= 900) s += 40;
+    // covers usually portrait and reasonably large
+    if (w >= 900 && h >= 1200) s += 60;
+    else if (w >= 700 && h >= 900) s += 40;
     else if (w >= 500 && h >= 700) s += 20;
-    else s -= 10;
+    else s -= 30;
 
-    if (aspect >= 0.5 && aspect <= 0.85) s += 30;
-    else if (aspect > 1.2) s -= 30;
+    // portrait-ish aspect
+    if (aspect >= 0.5 && aspect <= 0.85) s += 40;
+    else if (aspect > 1.2) s -= 60; // wide header/logo
 
-    if (h >= 1200) s += 10;
+    // extra penalty for "tiny" logos
+    if (w <= 320 || h <= 320) s -= 100;
   }
 
-  if (lu.includes(".jpg") || lu.includes(".jpeg")) s += 3;
+  // extension preference
+  if (lu.includes(".jpg") || lu.includes(".jpeg")) s += 5;
 
   return s;
 }
@@ -290,6 +336,7 @@ async function downloadImage(url, filepath, referer) {
 
   const ct = String(res.headers["content-type"] || "").toLowerCase();
   if (!ct.startsWith("image/")) throw new Error(`Download not image (ct=${ct})`);
+  if (ct.includes("svg")) throw new Error("SVG rejected");
 
   await pipeline(res.data, fs.createWriteStream(filepath));
 
@@ -300,13 +347,13 @@ async function downloadImage(url, filepath, referer) {
 }
 
 /* --------------------------
-   Generic extraction (improved)
+   Generic extraction
 -------------------------- */
 
 function extractImageCandidates($, pageUrl, rawHtml = "") {
   const out = new Set();
 
-  // 0) Golden selectors for covers
+  // Golden selectors for covers
   const golden = [
     "#giornale-img",
     "img#giornale-img",
@@ -334,7 +381,7 @@ function extractImageCandidates($, pageUrl, rawHtml = "") {
     }
   }
 
-  // 1) OG/Twitter/link rel image
+  // OG/Twitter/link rel image
   [
     "meta[property='og:image']",
     "meta[property='og:image:url']",
@@ -347,7 +394,7 @@ function extractImageCandidates($, pageUrl, rawHtml = "") {
     if (u) out.add(u);
   });
 
-  // 2) JSON-LD
+  // JSON-LD
   $("script[type='application/ld+json']").each((_, el) => {
     const txt = $(el).text() || "";
     try {
@@ -370,7 +417,7 @@ function extractImageCandidates($, pageUrl, rawHtml = "") {
     }
   });
 
-  // 3) DOM scan (broad)
+  // DOM scan
   const imgSelectors = ["article img", "figure img", "main img", "img"];
   for (const sel of imgSelectors) {
     $(sel).each((_, el) => {
@@ -389,7 +436,7 @@ function extractImageCandidates($, pageUrl, rawHtml = "") {
     });
   }
 
-  // 4) Regex fallback for embedded URLs
+  // Regex fallback for embedded URLs
   const matches =
     String(rawHtml).match(/https?:\/\/[^"' )]+?\.(?:jpg|jpeg|png|webp|avif)(?:\?[^"') ]*)?/gi) || [];
   for (const m of matches) {
@@ -397,6 +444,7 @@ function extractImageCandidates($, pageUrl, rawHtml = "") {
     if (u) out.add(u);
   }
 
+  // light filter only
   return [...out].filter((u) => {
     const lu = u.toLowerCase();
     if (lu.includes("favicon") || lu.includes("sprite")) return false;
@@ -433,23 +481,23 @@ async function fetchFrontpagesCom(publisherId) {
   const slug = slugMap[publisherId] || publisherId;
   const pageUrl = `https://www.frontpages.com/${slug}/`;
 
-  const { data } = await withRetry(() => http.get(pageUrl), { tries: 3, baseDelayMs: 700 });
+  const data = await fetchHtml(pageUrl);
   const $ = cheerio.load(data);
 
   const candidates = extractImageCandidates($, pageUrl, data);
 
   let best = null;
-  for (const imgUrl of candidates.slice(0, 80)) {
+  for (const imgUrl of candidates.slice(0, 120)) {
     try {
       const meta = await probeImage(imgUrl, pageUrl);
-      const score = scoreCoverCandidate(imgUrl, meta);
+      const score = scoreCoverCandidate(imgUrl, meta, "frontpages.com");
       if (!best || score > best.score) best = { url: imgUrl, score };
     } catch {
       // ignore
     }
   }
 
-  if (best && best.score >= 35) {
+  if (best && best.score >= 55) {
     return { url: best.url, referer: pageUrl, source: "frontpages.com" };
   }
   return null;
@@ -489,10 +537,6 @@ function normalizeText(s) {
     .trim();
 }
 
-/**
- * Very small fuzzy score: tries to match publisher id/name within href/alt.
- * Not perfect, but good enough to pick the right tile on kiosko day pages.
- */
 function scoreMatch(publisher, href, alt) {
   const hay = normalizeText(`${href || ""} ${alt || ""}`);
   const pid = normalizeText(publisher.publisherId || publisher.id || "");
@@ -501,6 +545,7 @@ function scoreMatch(publisher, href, alt) {
   let s = 0;
 
   if (pid && hay.includes(pid)) s += 10;
+
   if (pname) {
     const parts = pname.split(" ").filter(Boolean);
     for (const p of parts) {
@@ -508,13 +553,6 @@ function scoreMatch(publisher, href, alt) {
     }
   }
 
-  // Some kiosko slugs use underscores; reward partial slug matches
-  const slugBits = pid.split(" ").filter(Boolean);
-  for (const b of slugBits) {
-    if (b.length >= 3 && hay.includes(b)) s += 2;
-  }
-
-  // Href ending with .html usually means a newspaper page
   if (String(href || "").toLowerCase().endsWith(".html")) s += 1;
 
   return s;
@@ -525,18 +563,22 @@ async function fetchKioskoNetDirectByKeys(publisherId, dateStr) {
   if (!keys) return null;
 
   const [year, month, day] = dateStr.split("-");
-  const sizes = ["1500", "1000", "750", "500", "300"];
+  // Add more sizes: sometimes 750 exists when 1000 doesn't, etc.
+  const sizes = ["2000", "1500", "1200", "1000", "750", "500", "300"];
 
   for (const pathKey of keys) {
     const base = `https://img.kiosko.net/${year}/${month}/${day}/${pathKey}`;
     for (const size of sizes) {
-      const url = `${base}.${size}.jpg`;
-      try {
-        const meta = await probeImage(url, null);
-        const score = scoreCoverCandidate(url, meta);
-        if (score >= 35) return { url, referer: null, source: "kiosko.net(direct)" };
-      } catch {
-        // next
+      // kiosko is usually jpg; but we try jpeg too as a rare edge case
+      for (const ext of [".jpg", ".jpeg"]) {
+        const url = `${base}.${size}${ext}`;
+        try {
+          const meta = await probeImage(url, null);
+          const score = scoreCoverCandidate(url, meta, "kiosko.net(direct)");
+          if (score >= 80) return { url, referer: null, source: "kiosko.net(direct)" };
+        } catch {
+          // next
+        }
       }
     }
   }
@@ -552,38 +594,37 @@ async function fetchKioskoNetNP(publisherId, publisher) {
 
   const npUrls = [];
   for (const k of keys) {
-    const last = k.split("/").pop(); // "marca" from "es/marca"
+    const last = k.split("/").pop();
     if (!last) continue;
     npUrls.push(`https://${primaryLang}.kiosko.net/${primaryLang}/np/${last}.html`);
     npUrls.push(`https://www.kiosko.net/${primaryLang}/np/${last}.html`);
   }
 
   for (const pageUrl of npUrls) {
-    const { data } = await withRetry(() => http.get(pageUrl), { tries: 2, baseDelayMs: 700 });
+    const data = await fetchHtml(pageUrl);
     const $ = cheerio.load(data);
 
     const portada = normalizeUrl($("#portada").attr("src"), pageUrl);
     if (portada) {
       try {
         const meta = await probeImage(portada, pageUrl);
-        const score = scoreCoverCandidate(portada, meta);
-        if (score >= 35) return { url: portada, referer: pageUrl, source: "kiosko.net(np:#portada)" };
+        const score = scoreCoverCandidate(portada, meta, "kiosko.net(np:#portada)");
+        if (score >= 70) return { url: portada, referer: pageUrl, source: "kiosko.net(np:#portada)" };
       } catch {
         // continue
       }
     }
 
-    // fallback: best scored image on page
     const imgs = extractImageCandidates($, pageUrl, data);
     let best = null;
-    for (const imgUrl of imgs.slice(0, 60)) {
+    for (const imgUrl of imgs.slice(0, 80)) {
       try {
         const meta = await probeImage(imgUrl, pageUrl);
-        const score = scoreCoverCandidate(imgUrl, meta);
+        const score = scoreCoverCandidate(imgUrl, meta, "kiosko.net(np-scan)");
         if (!best || score > best.score) best = { url: imgUrl, score };
       } catch {}
     }
-    if (best && best.score >= 35) {
+    if (best && best.score >= 70) {
       return { url: best.url, referer: pageUrl, source: "kiosko.net(np-scan)" };
     }
   }
@@ -601,7 +642,7 @@ async function fetchKioskoNetFromDailyHtmlAny(publisher, dateStr) {
   ];
 
   for (const dayUrl of dayUrls) {
-    const { data } = await withRetry(() => http.get(dayUrl), { tries: 3, baseDelayMs: 700 });
+    const data = await fetchHtml(dayUrl);
     const $ = cheerio.load(data);
 
     const tiles = [];
@@ -629,15 +670,14 @@ async function fetchKioskoNetFromDailyHtmlAny(publisher, dateStr) {
       return s2 - s1;
     });
 
-    // try top few
-    for (const t of tiles.slice(0, 6)) {
+    for (const t of tiles.slice(0, 10)) {
       const matchScore = scoreMatch({ publisherId: publisher.id, publisherName: publisher.name }, t.href, t.alt);
       if (matchScore < 6) continue;
 
       try {
         const meta = await probeImage(t.imgUrl, dayUrl);
-        const coverScore = scoreCoverCandidate(t.imgUrl, meta);
-        if (coverScore >= 35) {
+        const score = scoreCoverCandidate(t.imgUrl, meta, "kiosko.net(daily-html)");
+        if (score >= 70) {
           return { url: t.imgUrl, referer: dayUrl, source: "kiosko.net(daily-html)" };
         }
       } catch {
@@ -653,11 +693,9 @@ async function fetchKioskoNet(publisherId, dateStr, publisher) {
   const direct = await safe(fetchKioskoNetDirectByKeys(publisherId, dateStr));
   if (direct) return direct;
 
-  // VERY IMPORTANT fallback (like your old version)
   const np = publisher ? await safe(fetchKioskoNetNP(publisherId, publisher)) : null;
   if (np) return np;
 
-  // Fallback: daily HTML scan (fuzzy)
   const daily = publisher ? await safe(fetchKioskoNetFromDailyHtmlAny(publisher, dateStr)) : null;
   if (daily) return daily;
 
@@ -665,11 +703,11 @@ async function fetchKioskoNet(publisherId, dateStr, publisher) {
 }
 
 /* --------------------------
-   Generic meta / DOM scan
+   Generic meta / DOM scan (publisher.primary + fallbacks)
 -------------------------- */
 
 async function fetchMetaImage(pageUrl, selectors = []) {
-  const { data } = await withRetry(() => http.get(pageUrl), { tries: 3, baseDelayMs: 700 });
+  const data = await fetchHtml(pageUrl);
   const $ = cheerio.load(data);
 
   const defaults = [
@@ -687,15 +725,19 @@ async function fetchMetaImage(pageUrl, selectors = []) {
     const u = normalizeUrl(raw, pageUrl);
     if (!u) continue;
 
-    const meta = await probeImage(u, pageUrl);
-    const score = scoreCoverCandidate(u, meta);
-    if (score >= 35) return { url: u, referer: pageUrl, source: "meta" };
+    try {
+      const meta = await probeImage(u, pageUrl);
+      const score = scoreCoverCandidate(u, meta, "meta");
+      if (score >= 70) return { url: u, referer: pageUrl, source: "meta" };
+    } catch {
+      // ignore
+    }
   }
   return null;
 }
 
 async function fetchDomScan(pageUrl, selector) {
-  const { data } = await withRetry(() => http.get(pageUrl), { tries: 3, baseDelayMs: 700 });
+  const data = await fetchHtml(pageUrl);
   const $ = cheerio.load(data);
 
   const node = $(selector).first();
@@ -712,18 +754,18 @@ async function fetchDomScan(pageUrl, selector) {
   if (!imgUrl) return null;
 
   const meta = await probeImage(imgUrl, pageUrl);
-  const score = scoreCoverCandidate(imgUrl, meta);
-  if (score < 35) return null;
+  const score = scoreCoverCandidate(imgUrl, meta, "dom:page_scan");
+  if (score < 70) return null;
 
   return { url: imgUrl, referer: pageUrl, source: "dom:page_scan" };
 }
 
 /* --------------------------
-   Publisher special helpers
+   Publisher specials
 -------------------------- */
 
 async function fetchPortadaByFindingLink(homeUrl) {
-  const { data } = await withRetry(() => http.get(homeUrl), { tries: 3, baseDelayMs: 700 });
+  const data = await fetchHtml(homeUrl);
   const $ = cheerio.load(data);
 
   const linkCandidates = [];
@@ -733,15 +775,21 @@ async function fetchPortadaByFindingLink(homeUrl) {
     const h = normalizeUrl(href, homeUrl);
     if (!h) return;
 
-    if (h.toLowerCase().includes("portada") || h.toLowerCase().includes("capa") || text.includes("portada") || text.includes("capa")) {
+    if (
+      h.toLowerCase().includes("portada") ||
+      h.toLowerCase().includes("capa") ||
+      text.includes("portada") ||
+      text.includes("capa")
+    ) {
       linkCandidates.push(h);
     }
   });
 
-  for (const u of linkCandidates.slice(0, 10)) {
+  for (const u of linkCandidates.slice(0, 12)) {
     const r = await safe(fetchMetaImage(u));
     if (r) return { ...r, source: "site(portada-link)" };
   }
+
   return null;
 }
 
@@ -789,7 +837,7 @@ function toNitterProfile(url) {
 async function fetchLatestMediaFromNitter(nitterProfileUrl) {
   const rssUrl = nitterProfileUrl.replace(/\/+$/, "") + "/rss";
   const { data } = await withRetry(
-    () => http.get(rssUrl, { headers: { Accept: "application/rss+xml,text/xml,*/*" } }),
+    () => http.get(rssUrl, { headers: { Accept: "application/rss+xml,text/xml,*/*", "User-Agent": USER_AGENT } }),
     { tries: 2, baseDelayMs: 700 }
   );
 
@@ -800,9 +848,11 @@ async function fetchLatestMediaFromNitter(nitterProfileUrl) {
   const enc = item.find("enclosure").attr("url");
   const encUrl = normalizeUrl(enc, rssUrl);
   if (encUrl) {
-    const meta = await probeImage(encUrl, nitterProfileUrl);
-    const score = scoreCoverCandidate(encUrl, meta);
-    if (score >= 35) return { url: encUrl, referer: nitterProfileUrl, source: "nitter(rss)" };
+    try {
+      const meta = await probeImage(encUrl, nitterProfileUrl);
+      const score = scoreCoverCandidate(encUrl, meta, "nitter(rss)");
+      if (score >= 70) return { url: encUrl, referer: nitterProfileUrl, source: "nitter(rss)" };
+    } catch {}
   }
 
   const desc = item.find("description").text() || "";
@@ -810,9 +860,11 @@ async function fetchLatestMediaFromNitter(nitterProfileUrl) {
   const img = $$("img").first().attr("src");
   const imgUrl = normalizeUrl(img, nitterProfileUrl);
   if (imgUrl) {
-    const meta = await probeImage(imgUrl, nitterProfileUrl);
-    const score = scoreCoverCandidate(imgUrl, meta);
-    if (score >= 35) return { url: imgUrl, referer: nitterProfileUrl, source: "nitter(desc)" };
+    try {
+      const meta = await probeImage(imgUrl, nitterProfileUrl);
+      const score = scoreCoverCandidate(imgUrl, meta, "nitter(desc)");
+      if (score >= 70) return { url: imgUrl, referer: nitterProfileUrl, source: "nitter(desc)" };
+    } catch {}
   }
 
   return null;
@@ -868,16 +920,142 @@ async function fetchFromFallbacks(publisher) {
 }
 
 /* --------------------------
+   today.json integration (highest-priority)
+-------------------------- */
+
+function findTodayJsonPath(outputDir) {
+  // 1) Try explicit known candidates first
+  for (const p of TODAY_JSON_CANDIDATES) {
+    try {
+      if (p && fs.existsSync(p)) return p;
+    } catch {
+      // ignore invalid path
+    }
+  }
+
+  // 2) Fallback: walk up from outputDir (useful if repo moved)
+  let dir = outputDir;
+  for (let i = 0; i <= 8; i++) {
+    const p = path.join(dir, "today.json");
+    if (fs.existsSync(p)) return p;
+
+    const parent = path.dirname(dir);
+    if (parent === dir) break;
+    dir = parent;
+  }
+
+  return null;
+}
+
+function parseTodayJson(jsonText) {
+  const data = JSON.parse(jsonText);
+
+  // Accept formats:
+  // - array of items: [{...}, {...}]
+  // - object with `items`: { items: [...] }
+  // - object keyed by id: { "marca-2025-12-21": {...}, ... }
+  if (Array.isArray(data)) return data;
+  if (Array.isArray(data?.items)) return data.items;
+
+  if (data && typeof data === "object") {
+    const vals = Object.values(data);
+    if (vals.some((v) => v && typeof v === "object" && ("publisherId" in v || "date" in v))) {
+      return vals;
+    }
+  }
+  return [];
+}
+
+async function fetchCoverFromTodayJson(publisherId, dateStr, outputDir) {
+  const todayPath = findTodayJsonPath(outputDir);
+  if (!todayPath) {
+    debug("[today.json] not found (looked in candidates + up from outputDir)");
+    return null;
+  }
+
+  let items;
+  try {
+    items = parseTodayJson(fs.readFileSync(todayPath, "utf8"));
+  } catch (e) {
+    debug("[today.json] failed to read/parse:", todayPath, e?.message);
+    return null;
+  }
+
+  const hit = items.find(
+    (x) => String(x?.publisherId) === String(publisherId) && String(x?.date) === String(dateStr)
+  );
+
+  if (!hit?.sourceUrl) {
+    debug("[today.json] no match:", { publisherId, dateStr, todayPath });
+    return null;
+  }
+
+  debug("[today.json] match:", { publisherId, dateStr, sourceUrl: hit.sourceUrl, todayPath });
+
+  const imgUrl = normalizeUrl(hit.sourceUrl, "https://img.kiosko.net/");
+  if (!imgUrl) return null;
+
+  try {
+    const meta = await probeImage(imgUrl, null);
+    const score = scoreCoverCandidate(imgUrl, meta, `today.json:${todayPath}`);
+    if (score < 90) {
+      debug("[today.json] rejected by score:", score, imgUrl, meta);
+      return null;
+    }
+  } catch (e) {
+    debug("[today.json] probe failed:", imgUrl, e?.message);
+    return null;
+  }
+
+  debug("[today.json] using:", imgUrl);
+  return {
+    url: imgUrl,
+    referer: null,
+    source: `today.json:${path.relative(process.cwd(), todayPath)}`,
+  };
+}
+
+/* --------------------------
+   Candidate ranking across sources (important!)
+-------------------------- */
+
+async function rankCandidates(candidates) {
+  const ranked = [];
+
+  // Probe in sequence to avoid hammering (safe for low-skill debugging).
+  // If you want faster: we can add concurrency later.
+  for (const cand of candidates) {
+    try {
+      const meta = await probeImage(cand.url, cand.referer);
+      const score = scoreCoverCandidate(cand.url, meta, cand.source);
+      ranked.push({ ...cand, _score: score, _meta: meta });
+    } catch (e) {
+      debug("[rank] probe failed:", cand.source, cand.url, e?.message);
+    }
+  }
+
+  ranked.sort((a, b) => (b._score || 0) - (a._score || 0));
+  return ranked;
+}
+
+/* --------------------------
    MAIN: export fetchCover
 -------------------------- */
 
 export async function fetchCover(publisher, dateStr, outputDir, allPublishers = []) {
+  if (!outputDir) throw new Error("fetchCover: outputDir is required");
   if (!fs.existsSync(outputDir)) fs.mkdirSync(outputDir, { recursive: true });
+
+  debug("[fetchCover] cwd =", process.cwd());
+  debug("[fetchCover] outputDir =", outputDir);
+  debug("[fetchCover] outputDir (resolved) =", path.resolve(outputDir));
 
   const publishersById = new Map(allPublishers.map((p) => [p.id, p]));
   publisher = resolveAlias(publisher, publishersById);
 
-  const candidates = uniqueByUrl([
+  // Gather (many) candidates; each may fail independently
+  const rawCandidates = uniqueByUrl([
+    await safe(fetchCoverFromTodayJson(publisher.id, dateStr, outputDir)), // highest priority
     await safe(fetchKioskoNet(publisher.id, dateStr, publisher)),
     await safe(fetchFrontpagesCom(publisher.id)),
     await safe(fetchFromPrimary(publisher)),
@@ -885,8 +1063,20 @@ export async function fetchCover(publisher, dateStr, outputDir, allPublishers = 
     await safe(fetchFromFallbacks(publisher)),
   ]);
 
+  if (!rawCandidates.length) {
+    throw new Error(`Cover not found for ${publisher.id} (${dateStr})`);
+  }
+
+  // Rank candidates globally by "cover-likeness"
+  const candidates = await rankCandidates(rawCandidates);
+
+  debug(
+    "[fetchCover] candidates ranked:",
+    candidates.map((c) => ({ source: c.source, score: c._score, url: c.url }))
+  );
+
   if (!candidates.length) {
-    throw new Error(`Cover not found for ${publisher.id}`);
+    throw new Error(`All candidates invalid/unprobeable for ${publisher.id} (${dateStr})`);
   }
 
   let lastErr = null;
@@ -907,10 +1097,11 @@ export async function fetchCover(publisher, dateStr, outputDir, allPublishers = 
       return { url: cand.url, localFile: finalFilename, source: cand.source };
     } catch (e) {
       lastErr = e;
+      debug("[fetchCover] download failed:", cand.source, cand.url, e?.message);
     }
   }
 
   throw new Error(
-    `All candidate downloads failed for ${publisher.id}: ${lastErr?.message || String(lastErr)}`
+    `All candidate downloads failed for ${publisher.id} (${dateStr}): ${lastErr?.message || String(lastErr)}`
   );
 }
