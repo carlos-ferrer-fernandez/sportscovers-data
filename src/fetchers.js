@@ -508,23 +508,48 @@ async function fetchFrontpagesCom(publisherId) {
 -------------------------- */
 
 const KIOSKO_MAP = {
+  // Spain
   marca: ["es/marca"],
   as: ["es/as"],
-  mundodeportivo: ["es/mundo_deportivo", "es/mundo-deportivo"],
+  mundodeportivo: [
+    "es/mundodeportivo",     // NEW (current)
+    "es/mundo_deportivo",    // old
+    "es/mundo-deportivo",    // old
+  ],
   sport: ["es/sport"],
-  lesportiu: ["es/lesportiu", "es/l_esportiu", "es/l-esportiu"],
+  lesportiu: [
+    "es/el9",                // NEW (kiosko current for L'Esportiu)
+    "es/lesportiu",
+    "es/l_esportiu",
+    "es/l-esportiu",
+  ],
   estadiodeportivo: ["es/estadio_deportivo", "es/estadio-deportivo"],
   superdeporte: ["es/superdeporte", "es/super_deporte"],
-  lequipe: ["fr/le_equipe", "fr/lequipe"],
+
+  // France
+  lequipe: [
+    "fr/l_equip",            // NEW (current, truncated)
+    "fr/l_equipe",           // sometimes exists
+    "fr/lequipe",
+    "fr/le_equipe",          // old-ish
+  ],
+
+  // Italy
   gazzetta: ["it/gazzetta_sport", "it/gazzetta-dello-sport"],
   corriere: ["it/corriere_sport", "it/corriere-dello-sport"],
   tuttosport: ["it/tuttosport"],
+
+  // Portugal
   abola: ["pt/abola", "pt/a_bola", "pt/a-bola"],
   record: ["pt/record"],
   ojogo: ["pt/ojogo", "pt/o_jogo", "pt/o-jogo"],
+
+  // UK
   dailystar: ["uk/daily_star"],
   mirror: ["uk/daily_mirror"],
   express: ["uk/daily_express"],
+
+  // Germany
   kicker: ["de/kicker"],
 };
 
@@ -535,6 +560,63 @@ function normalizeText(s) {
     .replace(/[\u0300-\u036f]/g, "")
     .replace(/[^a-z0-9]+/g, " ")
     .trim();
+}
+
+function uniqueStrings(arr) {
+  const out = [];
+  const seen = new Set();
+  for (const x of arr) {
+    const v = String(x || "").trim();
+    if (!v) continue;
+    if (seen.has(v)) continue;
+    seen.add(v);
+    out.push(v);
+  }
+  return out;
+}
+
+function buildKioskoPathKeys(publisherId, publisher) {
+  // Kiosko uses language-like folder (es/fr/it/pt/uk/de)
+  const langByCountry = { ES: "es", FR: "fr", IT: "it", PT: "pt", UK: "uk", DE: "de" };
+  const lang = langByCountry[publisher?.country] || "es";
+
+  // 1) Strong: explicit map (including aliases)
+  const mapped = KIOSKO_MAP[publisherId] || [];
+
+  // 2) Auto-generate variants from publisherId + publisherName
+  const candidates = [];
+
+  // from publisherId
+  const pid = normalizeText(publisherId).replace(/\s+/g, "");
+  if (pid) {
+    candidates.push(pid); // mundodeportivo
+    candidates.push(pid.replace(/-/g, "_"));
+    candidates.push(pid.replace(/_/g, ""));
+  }
+
+  // from publisherName (handles "L'Equipe")
+  const pname = normalizeText(publisher?.name || "");
+  if (pname) {
+    const words = pname.split(" ").filter(Boolean); // e.g. ["l","equipe"]
+    if (words.length) {
+      candidates.push(words.join("_")); // l_equipe
+      candidates.push(words.join(""));  // lequipe
+      if (words.length >= 2 && words[0].length === 1) {
+        candidates.push(`${words[0]}_${words[1]}`); // l_equipe
+        // kiosko sometimes truncates last word: l_equip
+        if (words[1].length >= 4) candidates.push(`${words[0]}_${words[1].slice(0, 5)}`); // l_equi (try)
+        if (words[1].length >= 4) candidates.push(`${words[0]}_${words[1].slice(0, 5)}p`); // sometimes helps? harmless
+        if (words[1].length >= 4) candidates.push(`${words[0]}_${words[1].slice(0, 5)}`); // duplicate safe
+        if (words[1].length >= 4) candidates.push(`${words[0]}_${words[1].slice(0, words[1].length - 1)}`); // l_equip
+      }
+    }
+  }
+
+  // Turn slug variants into "lang/slug"
+  const generated = uniqueStrings(candidates).map((slug) => `${lang}/${slug}`);
+
+  // Return combined, unique, with mapped first (more reliable)
+  return uniqueStrings([...mapped, ...generated]);
 }
 
 function scoreMatch(publisher, href, alt) {
@@ -558,30 +640,31 @@ function scoreMatch(publisher, href, alt) {
   return s;
 }
 
-async function fetchKioskoNetDirectByKeys(publisherId, dateStr) {
-  const keys = KIOSKO_MAP[publisherId];
-  if (!keys) return null;
-
+async function fetchKioskoNetDirectByKeys(publisherId, dateStr, publisher) {
   const [year, month, day] = dateStr.split("-");
-  // Add more sizes: sometimes 750 exists when 1000 doesn't, etc.
   const sizes = ["2000", "1500", "1200", "1000", "750", "500", "300"];
+  const pathKeys = buildKioskoPathKeys(publisherId, publisher);
 
-  for (const pathKey of keys) {
+  if (!pathKeys.length) return null;
+
+  for (const pathKey of pathKeys) {
     const base = `https://img.kiosko.net/${year}/${month}/${day}/${pathKey}`;
     for (const size of sizes) {
-      // kiosko is usually jpg; but we try jpeg too as a rare edge case
       for (const ext of [".jpg", ".jpeg"]) {
         const url = `${base}.${size}${ext}`;
         try {
           const meta = await probeImage(url, null);
           const score = scoreCoverCandidate(url, meta, "kiosko.net(direct)");
-          if (score >= 80) return { url, referer: null, source: "kiosko.net(direct)" };
+          if (score >= 70) {
+            return { url, referer: null, source: "kiosko.net(direct)" };
+          }
         } catch {
-          // next
+          // try next
         }
       }
     }
   }
+
   return null;
 }
 
@@ -690,7 +773,7 @@ async function fetchKioskoNetFromDailyHtmlAny(publisher, dateStr) {
 }
 
 async function fetchKioskoNet(publisherId, dateStr, publisher) {
-  const direct = await safe(fetchKioskoNetDirectByKeys(publisherId, dateStr));
+  const direct = await safe(fetchKioskoNetDirectByKeys(publisherId, dateStr, publisher));
   if (direct) return direct;
 
   const np = publisher ? await safe(fetchKioskoNetNP(publisherId, publisher)) : null;
