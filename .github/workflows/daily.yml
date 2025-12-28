@@ -4,7 +4,7 @@ on:
   schedule:
     - cron: '0 5 * * *' # 05:00 UTC
     - cron: '0 4 * * *' # 04:00 UTC
-  workflow_dispatch: # Allows manual trigger
+  workflow_dispatch:
 
 permissions:
   contents: write
@@ -29,6 +29,28 @@ jobs:
         run: npm run scrape
         env:
           OCR_ENABLED: "false"
+
+      # New: show what was written to today.json (CI verification)
+      - name: Show today.json path and preview
+        run: |
+          echo "Today.json path (in CI): docs/data/today.json"
+          if [ -f docs/data/today.json ]; then
+            echo "Preview (first 200 lines):"
+            head -n 200 docs/data/today.json
+          else
+            echo "today.json not found in docs/data"
+          fi
+
+      - name: Show today.json stats
+        run: |
+          if [ -f docs/data/today.json ]; then
+            echo "today.json size (bytes):"
+            stat -c%s docs/data/today.json
+            echo "today.json line count:"
+            wc -l docs/data/today.json
+          else
+            echo "today.json not found"
+          fi
 
       - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v3
