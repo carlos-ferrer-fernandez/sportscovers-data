@@ -32,13 +32,10 @@ const TODAY_JSON_CANDIDATES = [
   path.resolve(process.cwd(), "docs/data/today.json"),
   path.resolve(process.cwd(), "docs", "data", "today.json"),
   path.resolve(process.cwd(), "data/today.json"),
-  "/Users/carlos/Documents/GitHub/sportscovers-data/docs/data/today.json",
+  // CI-friendly default (relative to repo)
+  path.resolve(process.cwd(), "docs/data/today.json"),
 ].filter(Boolean);
 
-const COVERS_JSON_URL = `https://carlos-ferrer-fernandez.github.io/sportscovers-data/data/covers.json`;
-const TODAY_JSON_URL = `https://carlos-ferrer-fernandez.github.io/sportscovers-data/data/today.json`;
-
-// helpful date helpers
 const http = axios.create({
   timeout: 25000,
   maxRedirects: 5,
@@ -124,7 +121,7 @@ function uniqueByUrl(list) {
 }
 
 /* --------------------------
-   Image probing: bytes + dimensions
+   Image probing: bytes + dimensions (jpg/png/webp)
 -------------------------- */
 
 function parseContentRangeTotal(cr) {
@@ -143,6 +140,7 @@ function getPngSize(buf) {
 function getJpegSize(buf) {
   if (buf.length < 4) return null;
   if (buf[0] !== 0xff || buf[1] !== 0xd8) return null;
+
   let i = 2;
   while (i + 9 < buf.length) {
     if (buf[i] !== 0xff) {
@@ -151,20 +149,25 @@ function getJpegSize(buf) {
     }
     const marker = buf[i + 1];
     i += 2;
+
     if (marker === 0xd9 || marker === 0xda) break;
     if (i + 2 > buf.length) break;
+
     const len = buf.readUInt16BE(i);
     if (!len || i + len > buf.length) break;
+
     const isSOF =
       (marker >= 0xc0 && marker <= 0xc3) ||
       (marker >= 0xc5 && marker <= 0xc7) ||
       (marker >= 0xc9 && marker <= 0xcb) ||
       (marker >= 0xcd && marker <= 0xcf);
+
     if (isSOF && i + 7 < buf.length) {
       const height = buf.readUInt16BE(i + 3);
       const width = buf.readUInt16BE(i + 5);
       return { width, height };
     }
+
     i += len;
   }
   return null;
@@ -174,6 +177,7 @@ function getWebpSize(buf) {
   if (buf.length < 30) return null;
   if (buf.slice(0, 4).toString("ascii") !== "RIFF") return null;
   if (buf.slice(8, 12).toString("ascii") !== "WEBP") return null;
+
   for (let i = 12; i + 16 < buf.length; i++) {
     const tag = buf.slice(i, i + 4).toString("ascii");
     if (tag === "VP8X" && i + 14 < buf.length) {
@@ -478,13 +482,12 @@ const KIOSKO_MAP = {
   marca: ["es/marca"],
   as: ["es/as"],
   mundodeportivo: [
-    "es/mundodeportivo", // current
+    "es/mundodeportivo",
     "es/mundo_deportivo",
     "es/mundo-deportivo",
   ],
   sport: ["es/sport"],
   lesportiu: [
-    // include known slugs
     "es/el9",
     "es/lesportiu",
     "es/l_esportiu",
@@ -641,7 +644,6 @@ async function fetchKioskoNetNP(publisherId, publisher, dateStr) {
         const kioskoDate = extractKioskoDateFromUrl(portada);
         if (kioskoDate && kioskoDate !== dateStr) {
           // skip this portada
-          // continue scanning other images
         } else {
           try {
             const meta = await probeImage(portada, pageUrl);
@@ -652,7 +654,6 @@ async function fetchKioskoNetNP(publisherId, publisher, dateStr) {
           }
         }
       } else {
-        // not a kiosko cdn URL; still probe
         try {
           const meta = await probeImage(portada, pageUrl);
           const score = scoreCoverCandidate(portada, meta, "kiosko.net(np:#portada)");
@@ -663,7 +664,7 @@ async function fetchKioskoNetNP(publisherId, publisher, dateStr) {
       }
     }
 
-    // fallback: best image on the page (with strict-date filter)
+    // fallback: best image on the page (with strict date filter)
     const imgs = extractImageCandidates($, pageUrl, data);
     let best = null;
     for (const imgUrl of imgs.slice(0, 80)) {
@@ -682,7 +683,6 @@ async function fetchKioskoNetNP(publisherId, publisher, dateStr) {
       return { url: best.url, referer: pageUrl, source: "kiosko.net(np-scan)" };
     }
   }
-
   return null;
 }
 
@@ -709,6 +709,7 @@ async function fetchKioskoNetFromDailyHtmlAny(publisher, dateStr) {
       const alt = img.attr("alt") || img.attr("title") || a.text() || "";
       const srcset = img.attr("srcset") || "";
       const src = img.attr("src") || img.attr("data-src") || "";
+
       const imgUrl = pickBestFromSrcset(srcset, dayUrl) || normalizeUrl(src, dayUrl);
       if (!imgUrl) return;
 
@@ -761,7 +762,7 @@ async function fetchKioskoNet(publisherId, dateStr, publisher) {
 }
 
 /* --------------------------
-   Generic meta / DOM scan
+   Generic meta / DOM scan (publisher.primary + fallbacks)
 -------------------------- */
 
 async function fetchMetaImage(pageUrl, selectors = []) {
@@ -831,6 +832,7 @@ async function fetchPortadaByFindingLink(homeUrl) {
     const text = ($(el).text() || "").toLowerCase();
     const h = normalizeUrl(href, homeUrl);
     if (!h) return;
+
     if (
       h.toLowerCase().includes("portada") ||
       h.toLowerCase().includes("capa") ||
@@ -845,6 +847,7 @@ async function fetchPortadaByFindingLink(homeUrl) {
     const r = await safe(fetchMetaImage(u));
     if (r) return { ...r, source: "site(portada-link)" };
   }
+
   return null;
 }
 
@@ -974,17 +977,16 @@ async function fetchFromFallbacks(publisher) {
    today.json integration (highest-priority)
 -------------------------- */
 
+// CI-friendly path helpers
 function getTodayJsonPath() {
   const p =
     process.env.TODAY_JSON_PATH ||
-    "/Users/carlos/Documents/GitHub/sportscovers-data/docs/data/today.json";
+    path.resolve(process.cwd(), "docs/data/today.json");
   return p;
 }
 
 function upsertTodayJsonEntry({ publisher, dateStr, localFile, sourceUrl }) {
   const todayPath = getTodayJsonPath();
-  const dataDir = path.dirname(todayPath);
-  const docsDir = path.dirname(dataDir);
 
   const countryLower = String(publisher.country || "").toLowerCase();
   const publisherId = publisher.id;
@@ -1018,9 +1020,10 @@ function upsertTodayJsonEntry({ publisher, dateStr, localFile, sourceUrl }) {
   arr = arr.filter((x) => !(x?.publisherId === publisherId && x?.date === dateStr));
   arr.push(entry);
 
-  // Sort stable
+  // Sort by publisherId for readability
   arr.sort((a, b) => String(a.publisherId).localeCompare(String(b.publisherId)));
 
+  // Ensure directory exists
   fs.mkdirSync(path.dirname(todayPath), { recursive: true });
   fs.writeFileSync(todayPath, JSON.stringify(arr, null, 2), "utf8");
 
@@ -1030,6 +1033,21 @@ function upsertTodayJsonEntry({ publisher, dateStr, localFile, sourceUrl }) {
 /* --------------------------
    fetchCoverFromTodayJson (prioritized)
 -------------------------- */
+
+function extractKioskoDateFromUrl(u) {
+  const m = String(u || "").match(/img\.kiosko\.net\/(\d{4})\/(\d{2})\/(\d{2})\//i);
+  if (!m) return null;
+  return `${m[1]}-${m[2]}-${m[3]}`;
+}
+
+function findTodayJsonPathForCI() {
+  // Prefer CI-friendly path if environment is GH Actions
+  // This helps when running in CI where process.cwd() is repo root
+  const p = path.resolve(process.cwd(), "docs/data/today.json");
+  if (fs.existsSync(p)) return p;
+  // Fallback to any candidate
+  return findTodayJsonPath(process.cwd());
+}
 
 function findTodayJsonPath(outputDir) {
   // 1) Check explicit candidates
@@ -1067,7 +1085,7 @@ function parseTodayJson(jsonText) {
 }
 
 async function fetchCoverFromTodayJson(publisherId, dateStr, outputDir) {
-  const todayPath = findTodayJsonPath(outputDir);
+  const todayPath = findTodayJsonPath(outputDir) || getTodayJsonPath();
   if (!todayPath) {
     debug("[today.json] not found (looked in candidates + up from outputDir)");
     return null;
@@ -1090,12 +1108,10 @@ async function fetchCoverFromTodayJson(publisherId, dateStr, outputDir) {
 
   debug("[today.json] match:", { publisherId, dateStr, sourceUrl: hit.sourceUrl, todayPath });
 
-  // Source URL may be protocol-relative
   const imgUrl = normalizeUrl(hit.sourceUrl, "https://img.kiosko.net/");
   if (!imgUrl) return null;
 
   // Strict date enforcement: only accept if kiosko date matches
-  // (via the URL date embedded in kiosko URL)
   if (imgUrl.includes("img.kiosko.net")) {
     const kioskoDate = extractKioskoDateFromUrl(imgUrl);
     if (kioskoDate && kioskoDate !== dateStr) {
@@ -1172,17 +1188,20 @@ export async function fetchCover(publisher, dateStr, outputDir, allPublishers = 
     throw new Error(`Cover not found for ${publisher.id} (${dateStr})`);
   }
 
-  // Rank all candidates by "cover-likeness"
+  // Rank candidates globally
   const candidates = await rankCandidates(rawCandidates);
+
   debug(
     "[fetchCover] candidates ranked:",
     candidates.map((c) => ({ source: c.source, score: c._score, url: c.url }))
   );
+
   if (!candidates.length) {
     throw new Error(`All candidates invalid/unprobeable for ${publisher.id} (${dateStr})`);
   }
 
   let lastErr = null;
+
   for (const cand of candidates) {
     try {
       const urlExt = path.extname(cand.url.split("?")[0] || "");
@@ -1203,6 +1222,21 @@ export async function fetchCover(publisher, dateStr, outputDir, allPublishers = 
         localFile: finalFilename,
         sourceUrl: cand.url,
       });
+
+            // DEBUG: confirm today.json was updated (useful in CI)
+      try {
+        const tpath = getTodayJsonPath();
+        console.log("[today.json] updated path:", tpath);
+        if (fs.existsSync(tpath)) {
+          const head = fs.readFileSync(tpath, "utf8");
+          const preview = head.length > 600 ? head.slice(0, 600) + "..." : head;
+          console.log("[today.json] preview (first 600 chars):\n" + preview);
+        } else {
+          console.log("[today.json] path does not exist after update.");
+        }
+      } catch {
+        // ignore logging errors in production; CI will catch issues
+      }
 
       return { url: cand.url, localFile: finalFilename, source: cand.source };
     } catch (e) {
