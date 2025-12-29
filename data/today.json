@@ -8,7 +8,7 @@
     "date": "2025-12-29",
     "imageMediumUrl": "./data/images/es/marca/2025-12-29-medium.jpg",
     "sourceUrl": "https://img.kiosko.net/2025/12/29/es/marca.750.jpg",
-    "scrapedAt": "2025-12-29T09:14:58.428Z"
+    "scrapedAt": "2025-12-29T09:44:23.819Z"
   },
   {
     "id": "as-2025-12-29",
@@ -19,7 +19,7 @@
     "date": "2025-12-29",
     "imageMediumUrl": "./data/images/es/as/2025-12-29-medium.jpg",
     "sourceUrl": "https://img.kiosko.net/2025/12/29/es/as.750.jpg",
-    "scrapedAt": "2025-12-29T09:15:35.596Z"
+    "scrapedAt": "2025-12-29T09:44:31.880Z"
   },
   {
     "id": "mundodeportivo-2025-12-29",
@@ -30,7 +30,7 @@
     "date": "2025-12-29",
     "imageMediumUrl": "./data/images/es/mundodeportivo/2025-12-29-medium.jpg",
     "sourceUrl": "https://img.kiosko.net/2025/12/29/es/mundodeportivo.750.jpg",
-    "scrapedAt": "2025-12-29T09:16:04.085Z"
+    "scrapedAt": "2025-12-29T09:44:41.423Z"
   },
   {
     "id": "sport-2025-12-29",
@@ -41,7 +41,7 @@
     "date": "2025-12-29",
     "imageMediumUrl": "./data/images/es/sport/2025-12-29-medium.jpg",
     "sourceUrl": "https://img.kiosko.net/2025/12/29/es/sport.750.jpg",
-    "scrapedAt": "2025-12-29T09:16:23.567Z"
+    "scrapedAt": "2025-12-29T09:44:47.661Z"
   },
   {
     "id": "lesportiu-2025-12-29",
@@ -52,7 +52,7 @@
     "date": "2025-12-29",
     "imageMediumUrl": "./data/images/es/lesportiu/2025-12-29-medium.jpg",
     "sourceUrl": "https://img.kiosko.net/2025/12/29/es/el9.750.jpg",
-    "scrapedAt": "2025-12-29T09:17:08.618Z"
+    "scrapedAt": "2025-12-29T09:44:55.953Z"
   },
   {
     "id": "superdeporte-2025-12-29",
@@ -61,9 +61,8 @@
     "country": "ES",
     "groupLabel": "Spain",
     "date": "2025-12-29",
-    "imageMediumUrl": "./data/images/es/superdeporte/2025-12-29-medium.jpg",
-    "sourceUrl": "https://img.kiosko.net/2025/07/11/es/superdeporte.750.jpg",
-    "scrapedAt": "2025-12-29T09:18:15.066Z"
+    "error": "Cover not found for superdeporte (2025-12-29)",
+    "scrapedAt": "2025-12-29T09:45:31.013Z"
   },
   {
     "id": "estadiodeportivo-2025-12-29",
@@ -73,7 +72,7 @@
     "groupLabel": "Spain",
     "date": "2025-12-29",
     "error": "Cover not found for estadiodeportivo (2025-12-29)",
-    "scrapedAt": "2025-12-29T09:19:19.328Z"
+    "scrapedAt": "2025-12-29T09:46:07.153Z"
   },
   {
     "id": "spherasports-2025-12-29",
@@ -83,7 +82,7 @@
     "groupLabel": "Spain",
     "date": "2025-12-29",
     "error": "Cover not found for spherasports (2025-12-29)",
-    "scrapedAt": "2025-12-29T09:20:11.129Z"
+    "scrapedAt": "2025-12-29T09:46:33.353Z"
   },
   {
     "id": "lequipe-2025-12-29",
@@ -94,7 +93,7 @@
     "date": "2025-12-29",
     "imageMediumUrl": "./data/images/fr/lequipe/2025-12-29-medium.jpg",
     "sourceUrl": "https://img.kiosko.net/2025/12/29/fr/l_equip.750.jpg",
-    "scrapedAt": "2025-12-29T09:20:26.067Z"
+    "scrapedAt": "2025-12-29T09:46:41.913Z"
   },
   {
     "id": "corriere-2025-12-29",
@@ -105,7 +104,7 @@
     "date": "2025-12-29",
     "imageMediumUrl": "./data/images/it/corriere/2025-12-29-medium.jpg",
     "sourceUrl": "https://img.kiosko.net/2025/12/29/it/corriere_sport.750.jpg",
-    "scrapedAt": "2025-12-29T09:21:05.663Z"
+    "scrapedAt": "2025-12-29T09:46:49.400Z"
   },
   {
     "id": "tuttosport-2025-12-29",
@@ -116,7 +115,7 @@
     "date": "2025-12-29",
     "imageMediumUrl": "./data/images/it/tuttosport/2025-12-29-medium.jpg",
     "sourceUrl": "https://img.kiosko.net/2025/12/29/it/tuttosport.750.jpg",
-    "scrapedAt": "2025-12-29T09:21:39.325Z"
+    "scrapedAt": "2025-12-29T09:46:58.698Z"
   },
   {
     "id": "gazzetta-2025-12-29",
@@ -127,7 +126,7 @@
     "date": "2025-12-29",
     "imageMediumUrl": "./data/images/it/gazzetta/2025-12-29-medium.jpg",
     "sourceUrl": "https://img.kiosko.net/2025/12/29/it/gazzetta_sport.750.jpg",
-    "scrapedAt": "2025-12-29T09:22:18.643Z"
+    "scrapedAt": "2025-12-29T09:47:06.481Z"
   },
   {
     "id": "dailystar-2025-12-29",
@@ -138,7 +137,7 @@
     "date": "2025-12-29",
     "imageMediumUrl": "./data/images/uk/dailystar/2025-12-29-medium.jpg",
     "sourceUrl": "https://img.kiosko.net/2025/12/29/uk/daily_star.750.jpg",
-    "scrapedAt": "2025-12-29T09:22:56.772Z"
+    "scrapedAt": "2025-12-29T09:47:17.760Z"
   },
   {
     "id": "star-sport-2025-12-29",
@@ -148,7 +147,7 @@
     "groupLabel": "UK Back Pages",
     "date": "2025-12-29",
     "error": "Cover not found for star-sport (2025-12-29)",
-    "scrapedAt": "2025-12-29T09:24:15.910Z"
+    "scrapedAt": "2025-12-29T09:47:49.291Z"
   },
   {
     "id": "mirror-2025-12-29",
@@ -158,7 +157,7 @@
     "groupLabel": "UK Back Pages",
     "date": "2025-12-29",
     "error": "Cover not found for mirror (2025-12-29)",
-    "scrapedAt": "2025-12-29T09:26:09.388Z"
+    "scrapedAt": "2025-12-29T09:48:36.423Z"
   },
   {
     "id": "express-2025-12-29",
@@ -169,7 +168,7 @@
     "date": "2025-12-29",
     "imageMediumUrl": "./data/images/uk/express/2025-12-29-medium.jpg",
     "sourceUrl": "https://img.kiosko.net/2025/12/29/uk/daily_express.750.jpg",
-    "scrapedAt": "2025-12-29T09:26:45.908Z"
+    "scrapedAt": "2025-12-29T09:48:44.462Z"
   },
   {
     "id": "abola-2025-12-29",
@@ -180,7 +179,7 @@
     "date": "2025-12-29",
     "imageMediumUrl": "./data/images/pt/abola/2025-12-29-medium.jpg",
     "sourceUrl": "https://img.kiosko.net/2025/12/29/pt/a_bola.750.jpg",
-    "scrapedAt": "2025-12-29T09:27:51.111Z"
+    "scrapedAt": "2025-12-29T09:48:59.611Z"
   },
   {
     "id": "record-2025-12-29",
@@ -190,7 +189,7 @@
     "groupLabel": "Portugal",
     "date": "2025-12-29",
     "error": "Cover not found for record (2025-12-29)",
-    "scrapedAt": "2025-12-29T09:28:26.603Z"
+    "scrapedAt": "2025-12-29T09:49:17.855Z"
   },
   {
     "id": "ojogo-2025-12-29",
@@ -200,7 +199,7 @@
     "groupLabel": "Portugal",
     "date": "2025-12-29",
     "error": "Cover not found for ojogo (2025-12-29)",
-    "scrapedAt": "2025-12-29T09:30:30.194Z"
+    "scrapedAt": "2025-12-29T09:50:07.345Z"
   },
   {
     "id": "kicker-2025-12-29",
@@ -210,6 +209,6 @@
     "groupLabel": "Germany",
     "date": "2025-12-29",
     "error": "Cover not found for kicker (2025-12-29)",
-    "scrapedAt": "2025-12-29T09:31:17.870Z"
+    "scrapedAt": "2025-12-29T09:50:20.344Z"
   }
 ]
