@@ -25,12 +25,25 @@ jobs:
       - name: Install dependencies
         run: npm install
 
+      # --- DETECTIVE STEP START ---
+      - name: Debug Fetchers File
+        run: |
+          echo "=== FILE STATS ==="
+          ls -l src/fetchers.js
+          wc -l src/fetchers.js
+          
+          echo "=== SEARCHING FOR DUPLICATES ==="
+          grep -n "extractKioskoDateFromUrl" src/fetchers.js
+          
+          echo "=== LAST 20 LINES ==="
+          tail -n 20 src/fetchers.js
+      # --- DETECTIVE STEP END ---
+
       - name: Run Scraper
         run: npm run scrape
         env:
           OCR_ENABLED: "false"
 
-      # New: show what was written to today.json (CI verification)
       - name: Show today.json path and preview
         run: |
           echo "Today.json path (in CI): docs/data/today.json"
