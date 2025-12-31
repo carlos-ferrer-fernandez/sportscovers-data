@@ -7,7 +7,7 @@
     "groupLabel": "Spain",
     "date": "2025-12-31",
     "error": "Cover not found for marca (2025-12-31)",
-    "scrapedAt": "2025-12-31T04:36:08.298Z"
+    "scrapedAt": "2025-12-31T05:23:46.653Z"
   },
   {
     "id": "as-2025-12-31",
@@ -17,7 +17,7 @@
     "groupLabel": "Spain",
     "date": "2025-12-31",
     "error": "Cover not found for as (2025-12-31)",
-    "scrapedAt": "2025-12-31T04:36:18.294Z"
+    "scrapedAt": "2025-12-31T05:24:08.719Z"
   },
   {
     "id": "mundodeportivo-2025-12-31",
@@ -27,7 +27,7 @@
     "groupLabel": "Spain",
     "date": "2025-12-31",
     "error": "Cover not found for mundodeportivo (2025-12-31)",
-    "scrapedAt": "2025-12-31T04:36:59.540Z"
+    "scrapedAt": "2025-12-31T05:24:49.919Z"
   },
   {
     "id": "sport-2025-12-31",
@@ -37,7 +37,7 @@
     "groupLabel": "Spain",
     "date": "2025-12-31",
     "error": "Cover not found for sport (2025-12-31)",
-    "scrapedAt": "2025-12-31T04:37:17.032Z"
+    "scrapedAt": "2025-12-31T05:25:04.607Z"
   },
   {
     "id": "lesportiu-2025-12-31",
@@ -47,7 +47,7 @@
     "groupLabel": "Spain",
     "date": "2025-12-31",
     "error": "Cover not found for lesportiu (2025-12-31)",
-    "scrapedAt": "2025-12-31T04:38:07.256Z"
+    "scrapedAt": "2025-12-31T05:25:54.937Z"
   },
   {
     "id": "superdeporte-2025-12-31",
@@ -57,7 +57,7 @@
     "groupLabel": "Spain",
     "date": "2025-12-31",
     "error": "Cover not found for superdeporte (2025-12-31)",
-    "scrapedAt": "2025-12-31T04:38:33.889Z"
+    "scrapedAt": "2025-12-31T05:26:25.526Z"
   },
   {
     "id": "estadiodeportivo-2025-12-31",
@@ -67,7 +67,7 @@
     "groupLabel": "Spain",
     "date": "2025-12-31",
     "error": "Cover not found for estadiodeportivo (2025-12-31)",
-    "scrapedAt": "2025-12-31T04:39:01.754Z"
+    "scrapedAt": "2025-12-31T05:27:00.640Z"
   },
   {
     "id": "spherasports-2025-12-31",
@@ -77,7 +77,7 @@
     "groupLabel": "Spain",
     "date": "2025-12-31",
     "error": "Cover not found for spherasports (2025-12-31)",
-    "scrapedAt": "2025-12-31T04:39:23.898Z"
+    "scrapedAt": "2025-12-31T05:27:33.793Z"
   },
   {
     "id": "lequipe-2025-12-31",
@@ -87,7 +87,7 @@
     "groupLabel": "France",
     "date": "2025-12-31",
     "error": "Cover not found for lequipe (2025-12-31)",
-    "scrapedAt": "2025-12-31T04:39:58.332Z"
+    "scrapedAt": "2025-12-31T05:28:24.861Z"
   },
   {
     "id": "corriere-2025-12-31",
@@ -97,7 +97,7 @@
     "groupLabel": "Italy",
     "date": "2025-12-31",
     "error": "Cover not found for corriere (2025-12-31)",
-    "scrapedAt": "2025-12-31T04:40:51.453Z"
+    "scrapedAt": "2025-12-31T05:29:20.077Z"
   },
   {
     "id": "tuttosport-2025-12-31",
@@ -107,7 +107,7 @@
     "groupLabel": "Italy",
     "date": "2025-12-31",
     "error": "Cover not found for tuttosport (2025-12-31)",
-    "scrapedAt": "2025-12-31T04:41:08.043Z"
+    "scrapedAt": "2025-12-31T05:29:34.838Z"
   },
   {
     "id": "gazzetta-2025-12-31",
@@ -117,7 +117,7 @@
     "groupLabel": "Italy",
     "date": "2025-12-31",
     "error": "Cover not found for gazzetta (2025-12-31)",
-    "scrapedAt": "2025-12-31T04:42:10.553Z"
+    "scrapedAt": "2025-12-31T05:30:35.672Z"
   },
   {
     "id": "dailystar-2025-12-31",
@@ -127,7 +127,7 @@
     "groupLabel": "UK Back Pages",
     "date": "2025-12-31",
     "error": "Cover not found for dailystar (2025-12-31)",
-    "scrapedAt": "2025-12-31T04:43:03.062Z"
+    "scrapedAt": "2025-12-31T05:31:33.517Z"
   },
   {
     "id": "star-sport-2025-12-31",
@@ -137,7 +137,7 @@
     "groupLabel": "UK Back Pages",
     "date": "2025-12-31",
     "error": "Cover not found for star-sport (2025-12-31)",
-    "scrapedAt": "2025-12-31T04:43:39.903Z"
+    "scrapedAt": "2025-12-31T05:32:13.870Z"
   },
   {
     "id": "mirror-2025-12-31",
@@ -147,7 +147,7 @@
     "groupLabel": "UK Back Pages",
     "date": "2025-12-31",
     "error": "Cover not found for mirror (2025-12-31)",
-    "scrapedAt": "2025-12-31T04:44:14.940Z"
+    "scrapedAt": "2025-12-31T05:32:55.547Z"
   },
   {
     "id": "express-2025-12-31",
@@ -157,7 +157,7 @@
     "groupLabel": "UK Back Pages",
     "date": "2025-12-31",
     "error": "Cover not found for express (2025-12-31)",
-    "scrapedAt": "2025-12-31T04:45:04.778Z"
+    "scrapedAt": "2025-12-31T05:33:52.628Z"
   },
   {
     "id": "abola-2025-12-31",
@@ -167,7 +167,7 @@
     "groupLabel": "Portugal",
     "date": "2025-12-31",
     "error": "Cover not found for abola (2025-12-31)",
-    "scrapedAt": "2025-12-31T04:45:45.398Z"
+    "scrapedAt": "2025-12-31T05:34:42.195Z"
   },
   {
     "id": "record-2025-12-31",
@@ -177,7 +177,7 @@
     "groupLabel": "Portugal",
     "date": "2025-12-31",
     "error": "Cover not found for record (2025-12-31)",
-    "scrapedAt": "2025-12-31T04:46:01.412Z"
+    "scrapedAt": "2025-12-31T05:35:03.429Z"
   },
   {
     "id": "ojogo-2025-12-31",
@@ -187,7 +187,7 @@
     "groupLabel": "Portugal",
     "date": "2025-12-31",
     "error": "Cover not found for ojogo (2025-12-31)",
-    "scrapedAt": "2025-12-31T04:46:43.379Z"
+    "scrapedAt": "2025-12-31T05:35:48.390Z"
   },
   {
     "id": "kicker-2025-12-31",
@@ -197,6 +197,6 @@
     "groupLabel": "Germany",
     "date": "2025-12-31",
     "error": "Cover not found for kicker (2025-12-31)",
-    "scrapedAt": "2025-12-31T04:47:05.228Z"
+    "scrapedAt": "2025-12-31T05:35:59.645Z"
   }
 ]
