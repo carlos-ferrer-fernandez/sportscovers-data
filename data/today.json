@@ -7,7 +7,7 @@
     "groupLabel": "Spain",
     "date": "2026-01-01",
     "error": "Cover not found for marca (2026-01-01)",
-    "scrapedAt": "2026-01-01T05:46:51.555Z"
+    "scrapedAt": "2026-01-01T06:53:58.880Z"
   },
   {
     "id": "as-2026-01-01",
@@ -17,7 +17,7 @@
     "groupLabel": "Spain",
     "date": "2026-01-01",
     "error": "Cover not found for as (2026-01-01)",
-    "scrapedAt": "2026-01-01T05:47:05.178Z"
+    "scrapedAt": "2026-01-01T06:54:18.014Z"
   },
   {
     "id": "mundodeportivo-2026-01-01",
@@ -27,7 +27,7 @@
     "groupLabel": "Spain",
     "date": "2026-01-01",
     "error": "Cover not found for mundodeportivo (2026-01-01)",
-    "scrapedAt": "2026-01-01T05:47:29.600Z"
+    "scrapedAt": "2026-01-01T06:54:50.393Z"
   },
   {
     "id": "sport-2026-01-01",
@@ -37,7 +37,7 @@
     "groupLabel": "Spain",
     "date": "2026-01-01",
     "error": "Cover not found for sport (2026-01-01)",
-    "scrapedAt": "2026-01-01T05:47:45.296Z"
+    "scrapedAt": "2026-01-01T06:54:59.183Z"
   },
   {
     "id": "lesportiu-2026-01-01",
@@ -47,7 +47,7 @@
     "groupLabel": "Spain",
     "date": "2026-01-01",
     "error": "Cover not found for lesportiu (2026-01-01)",
-    "scrapedAt": "2026-01-01T05:48:27.058Z"
+    "scrapedAt": "2026-01-01T06:55:35.699Z"
   },
   {
     "id": "superdeporte-2026-01-01",
@@ -57,7 +57,7 @@
     "groupLabel": "Spain",
     "date": "2026-01-01",
     "error": "Cover not found for superdeporte (2026-01-01)",
-    "scrapedAt": "2026-01-01T05:48:46.859Z"
+    "scrapedAt": "2026-01-01T06:55:55.658Z"
   },
   {
     "id": "estadiodeportivo-2026-01-01",
@@ -67,7 +67,7 @@
     "groupLabel": "Spain",
     "date": "2026-01-01",
     "error": "Cover not found for estadiodeportivo (2026-01-01)",
-    "scrapedAt": "2026-01-01T05:49:15.829Z"
+    "scrapedAt": "2026-01-01T06:56:22.878Z"
   },
   {
     "id": "spherasports-2026-01-01",
@@ -77,7 +77,7 @@
     "groupLabel": "Spain",
     "date": "2026-01-01",
     "error": "Cover not found for spherasports (2026-01-01)",
-    "scrapedAt": "2026-01-01T05:49:33.638Z"
+    "scrapedAt": "2026-01-01T06:56:40.802Z"
   },
   {
     "id": "lequipe-2026-01-01",
@@ -86,8 +86,9 @@
     "country": "FR",
     "groupLabel": "France",
     "date": "2026-01-01",
-    "error": "Cover not found for lequipe (2026-01-01)",
-    "scrapedAt": "2026-01-01T05:50:10.499Z"
+    "imageMediumUrl": "./data/images/fr/lequipe/2026-01-01-medium.jpg",
+    "sourceUrl": "https://img.kiosko.net/2026/01/01/fr/l_equip.750.jpg",
+    "scrapedAt": "2026-01-01T06:56:48.588Z"
   },
   {
     "id": "corriere-2026-01-01",
@@ -96,8 +97,9 @@
     "country": "IT",
     "groupLabel": "Italy",
     "date": "2026-01-01",
-    "error": "Cover not found for corriere (2026-01-01)",
-    "scrapedAt": "2026-01-01T05:50:51.315Z"
+    "imageMediumUrl": "./data/images/it/corriere/2026-01-01-medium.jpg",
+    "sourceUrl": "https://img.kiosko.net/2026/01/01/it/corriere_sport.750.jpg",
+    "scrapedAt": "2026-01-01T06:56:56.939Z"
   },
   {
     "id": "tuttosport-2026-01-01",
@@ -106,8 +108,9 @@
     "country": "IT",
     "groupLabel": "Italy",
     "date": "2026-01-01",
-    "error": "Cover not found for tuttosport (2026-01-01)",
-    "scrapedAt": "2026-01-01T05:51:02.897Z"
+    "imageMediumUrl": "./data/images/it/tuttosport/2026-01-01-medium.jpg",
+    "sourceUrl": "https://img.kiosko.net/2026/01/01/it/tuttosport.750.jpg",
+    "scrapedAt": "2026-01-01T06:57:05.343Z"
   },
   {
     "id": "gazzetta-2026-01-01",
@@ -117,7 +120,7 @@
     "groupLabel": "Italy",
     "date": "2026-01-01",
     "error": "Cover not found for gazzetta (2026-01-01)",
-    "scrapedAt": "2026-01-01T05:51:54.394Z"
+    "scrapedAt": "2026-01-01T06:57:55.392Z"
   },
   {
     "id": "dailystar-2026-01-01",
@@ -126,8 +129,9 @@
     "country": "UK",
     "groupLabel": "UK Back Pages",
     "date": "2026-01-01",
-    "error": "Cover not found for dailystar (2026-01-01)",
-    "scrapedAt": "2026-01-01T05:52:33.467Z"
+    "imageMediumUrl": "./data/images/uk/dailystar/2026-01-01-medium.jpg",
+    "sourceUrl": "https://img.kiosko.net/2026/01/01/uk/daily_star.750.jpg",
+    "scrapedAt": "2026-01-01T06:57:58.814Z"
   },
   {
     "id": "star-sport-2026-01-01",
@@ -137,7 +141,7 @@
     "groupLabel": "UK Back Pages",
     "date": "2026-01-01",
     "error": "Cover not found for star-sport (2026-01-01)",
-    "scrapedAt": "2026-01-01T05:53:08.147Z"
+    "scrapedAt": "2026-01-01T06:58:35.311Z"
   },
   {
     "id": "mirror-2026-01-01",
@@ -147,7 +151,7 @@
     "groupLabel": "UK Back Pages",
     "date": "2026-01-01",
     "error": "Cover not found for mirror (2026-01-01)",
-    "scrapedAt": "2026-01-01T05:53:43.221Z"
+    "scrapedAt": "2026-01-01T06:59:20.939Z"
   },
   {
     "id": "express-2026-01-01",
@@ -156,8 +160,9 @@
     "country": "UK",
     "groupLabel": "UK Back Pages",
     "date": "2026-01-01",
-    "error": "Cover not found for express (2026-01-01)",
-    "scrapedAt": "2026-01-01T05:54:19.354Z"
+    "imageMediumUrl": "./data/images/uk/express/2026-01-01-medium.jpg",
+    "sourceUrl": "https://img.kiosko.net/2026/01/01/uk/daily_express.750.jpg",
+    "scrapedAt": "2026-01-01T06:59:29.698Z"
   },
   {
     "id": "abola-2026-01-01",
@@ -167,7 +172,7 @@
     "groupLabel": "Portugal",
     "date": "2026-01-01",
     "error": "Cover not found for abola (2026-01-01)",
-    "scrapedAt": "2026-01-01T05:54:55.909Z"
+    "scrapedAt": "2026-01-01T07:00:17.910Z"
   },
   {
     "id": "record-2026-01-01",
@@ -177,7 +182,7 @@
     "groupLabel": "Portugal",
     "date": "2026-01-01",
     "error": "Cover not found for record (2026-01-01)",
-    "scrapedAt": "2026-01-01T05:55:06.255Z"
+    "scrapedAt": "2026-01-01T07:00:33.954Z"
   },
   {
     "id": "ojogo-2026-01-01",
@@ -187,7 +192,7 @@
     "groupLabel": "Portugal",
     "date": "2026-01-01",
     "error": "Cover not found for ojogo (2026-01-01)",
-    "scrapedAt": "2026-01-01T05:55:42.264Z"
+    "scrapedAt": "2026-01-01T07:01:20.035Z"
   },
   {
     "id": "kicker-2026-01-01",
@@ -197,6 +202,6 @@
     "groupLabel": "Germany",
     "date": "2026-01-01",
     "error": "Cover not found for kicker (2026-01-01)",
-    "scrapedAt": "2026-01-01T05:55:55.716Z"
+    "scrapedAt": "2026-01-01T07:01:35.717Z"
   }
 ]
