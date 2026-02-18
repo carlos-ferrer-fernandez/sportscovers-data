@@ -1019,215 +1019,215 @@
     "scrapedAt": "2025-12-21T22:29:18.224Z"
   },
   {
-    "id": "marca-2026-02-17",
+    "id": "marca-2026-02-18",
     "publisherId": "marca",
     "publisherName": "Marca",
     "country": "ES",
     "groupLabel": "Spain",
-    "date": "2026-02-17",
-    "imageMediumUrl": "./data/images/es/marca/2026-02-17-medium.jpg",
-    "sourceUrl": "https://img.kiosko.net/2026/02/17/es/marca.750.jpg",
-    "scrapedAt": "2026-02-17T07:30:23.485Z"
+    "date": "2026-02-18",
+    "imageMediumUrl": "./data/images/es/marca/2026-02-18-medium.jpg",
+    "sourceUrl": "https://img.kiosko.net/2026/02/18/es/marca.750.jpg",
+    "scrapedAt": "2026-02-18T06:35:46.685Z"
   },
   {
-    "id": "as-2026-02-17",
+    "id": "as-2026-02-18",
     "publisherId": "as",
     "publisherName": "AS",
     "country": "ES",
     "groupLabel": "Spain",
-    "date": "2026-02-17",
-    "imageMediumUrl": "./data/images/es/as/2026-02-17-medium.jpg",
-    "sourceUrl": "https://img.kiosko.net/2026/02/17/es/as.750.jpg",
-    "scrapedAt": "2026-02-17T07:30:24.980Z"
+    "date": "2026-02-18",
+    "imageMediumUrl": "./data/images/es/as/2026-02-18-medium.jpg",
+    "sourceUrl": "https://img.kiosko.net/2026/02/18/es/as.750.jpg",
+    "scrapedAt": "2026-02-18T06:35:48.073Z"
   },
   {
-    "id": "mundodeportivo-2026-02-17",
+    "id": "mundodeportivo-2026-02-18",
     "publisherId": "mundodeportivo",
     "publisherName": "Mundo Deportivo",
     "country": "ES",
     "groupLabel": "Spain",
-    "date": "2026-02-17",
-    "imageMediumUrl": "./data/images/es/mundodeportivo/2026-02-17-medium.jpg",
-    "sourceUrl": "https://img.kiosko.net/2026/02/17/es/mundodeportivo.750.jpg",
-    "scrapedAt": "2026-02-17T07:30:26.461Z"
+    "date": "2026-02-18",
+    "imageMediumUrl": "./data/images/es/mundodeportivo/2026-02-18-medium.jpg",
+    "sourceUrl": "https://img.kiosko.net/2026/02/18/es/mundodeportivo.750.jpg",
+    "scrapedAt": "2026-02-18T06:35:49.563Z"
   },
   {
-    "id": "sport-2026-02-17",
+    "id": "sport-2026-02-18",
     "publisherId": "sport",
     "publisherName": "Sport",
     "country": "ES",
     "groupLabel": "Spain",
-    "date": "2026-02-17",
-    "imageMediumUrl": "./data/images/es/sport/2026-02-17-medium.jpg",
-    "sourceUrl": "https://img.kiosko.net/2026/02/17/es/sport.750.jpg",
-    "scrapedAt": "2026-02-17T07:30:27.250Z"
+    "date": "2026-02-18",
+    "imageMediumUrl": "./data/images/es/sport/2026-02-18-medium.jpg",
+    "sourceUrl": "https://img.kiosko.net/2026/02/18/es/sport.750.jpg",
+    "scrapedAt": "2026-02-18T06:35:50.305Z"
   },
   {
-    "id": "lesportiu-2026-02-17",
+    "id": "lesportiu-2026-02-18",
     "publisherId": "lesportiu",
     "publisherName": "L'Esportiu",
     "country": "ES",
     "groupLabel": "Spain",
-    "date": "2026-02-17",
-    "imageMediumUrl": "./data/images/es/lesportiu/2026-02-17-medium.jpg",
-    "sourceUrl": "https://img.kiosko.net/2026/02/17/es/el9.750.jpg",
-    "scrapedAt": "2026-02-17T07:30:28.728Z"
+    "date": "2026-02-18",
+    "imageMediumUrl": "./data/images/es/lesportiu/2026-02-18-medium.jpg",
+    "sourceUrl": "https://img.kiosko.net/2026/02/18/es/el9.750.jpg",
+    "scrapedAt": "2026-02-18T06:35:51.744Z"
   },
   {
-    "id": "superdeporte-2026-02-17",
+    "id": "superdeporte-2026-02-18",
     "publisherId": "superdeporte",
     "publisherName": "Super Deporte",
     "country": "ES",
     "groupLabel": "Spain",
-    "date": "2026-02-17",
-    "error": "Cover not found for superdeporte (2026-02-17)",
-    "scrapedAt": "2026-02-17T07:30:36.147Z"
+    "date": "2026-02-18",
+    "error": "Cover not found for superdeporte (2026-02-18)",
+    "scrapedAt": "2026-02-18T06:35:56.683Z"
   },
   {
-    "id": "estadiodeportivo-2026-02-17",
+    "id": "estadiodeportivo-2026-02-18",
     "publisherId": "estadiodeportivo",
     "publisherName": "Estadio Deportivo",
     "country": "ES",
     "groupLabel": "Spain",
-    "date": "2026-02-17",
-    "error": "Cover not found for estadiodeportivo (2026-02-17)",
-    "scrapedAt": "2026-02-17T07:30:44.947Z"
+    "date": "2026-02-18",
+    "error": "Cover not found for estadiodeportivo (2026-02-18)",
+    "scrapedAt": "2026-02-18T06:35:59.360Z"
   },
   {
-    "id": "spherasports-2026-02-17",
+    "id": "spherasports-2026-02-18",
     "publisherId": "spherasports",
     "publisherName": "Sphera Sports",
     "country": "ES",
     "groupLabel": "Spain",
-    "date": "2026-02-17",
-    "error": "Cover not found for spherasports (2026-02-17)",
-    "scrapedAt": "2026-02-17T07:30:47.879Z"
+    "date": "2026-02-18",
+    "error": "Cover not found for spherasports (2026-02-18)",
+    "scrapedAt": "2026-02-18T06:36:01.515Z"
   },
   {
-    "id": "lequipe-2026-02-17",
+    "id": "lequipe-2026-02-18",
     "publisherId": "lequipe",
     "publisherName": "L'Équipe",
     "country": "FR",
     "groupLabel": "France",
-    "date": "2026-02-17",
-    "imageMediumUrl": "./data/images/fr/lequipe/2026-02-17-medium.jpg",
-    "sourceUrl": "https://img.kiosko.net/2026/02/17/fr/l_equip.750.jpg",
-    "scrapedAt": "2026-02-17T07:30:48.970Z"
+    "date": "2026-02-18",
+    "imageMediumUrl": "./data/images/fr/lequipe/2026-02-18-medium.jpg",
+    "sourceUrl": "https://img.kiosko.net/2026/02/18/fr/l_equip.750.jpg",
+    "scrapedAt": "2026-02-18T06:36:02.444Z"
   },
   {
-    "id": "corriere-2026-02-17",
+    "id": "corriere-2026-02-18",
     "publisherId": "corriere",
     "publisherName": "Corriere dello Sport",
     "country": "IT",
     "groupLabel": "Italy",
-    "date": "2026-02-17",
-    "imageMediumUrl": "./data/images/it/corriere/2026-02-17-medium.jpg",
-    "sourceUrl": "https://img.kiosko.net/2026/02/17/it/corriere_sport.750.jpg",
-    "scrapedAt": "2026-02-17T07:30:50.531Z"
+    "date": "2026-02-18",
+    "imageMediumUrl": "./data/images/it/corriere/2026-02-18-medium.jpg",
+    "sourceUrl": "https://img.kiosko.net/2026/02/18/it/corriere_sport.750.jpg",
+    "scrapedAt": "2026-02-18T06:36:03.982Z"
   },
   {
-    "id": "tuttosport-2026-02-17",
+    "id": "tuttosport-2026-02-18",
     "publisherId": "tuttosport",
     "publisherName": "Tuttosport",
     "country": "IT",
     "groupLabel": "Italy",
-    "date": "2026-02-17",
-    "imageMediumUrl": "./data/images/it/tuttosport/2026-02-17-medium.jpg",
-    "sourceUrl": "https://img.kiosko.net/2026/02/17/it/tuttosport.750.jpg",
-    "scrapedAt": "2026-02-17T07:30:52.094Z"
+    "date": "2026-02-18",
+    "imageMediumUrl": "./data/images/it/tuttosport/2026-02-18-medium.jpg",
+    "sourceUrl": "https://img.kiosko.net/2026/02/18/it/tuttosport.750.jpg",
+    "scrapedAt": "2026-02-18T06:36:06.376Z"
   },
   {
-    "id": "gazzetta-2026-02-17",
+    "id": "gazzetta-2026-02-18",
     "publisherId": "gazzetta",
     "publisherName": "La Gazzetta dello Sport",
     "country": "IT",
     "groupLabel": "Italy",
-    "date": "2026-02-17",
-    "imageMediumUrl": "./data/images/it/gazzetta/2026-02-17-medium.jpg",
-    "sourceUrl": "https://img.kiosko.net/2026/02/17/it/gazzetta_sport.750.jpg",
-    "scrapedAt": "2026-02-17T07:30:53.564Z"
+    "date": "2026-02-18",
+    "imageMediumUrl": "./data/images/it/gazzetta/2026-02-18-medium.jpg",
+    "sourceUrl": "https://img.kiosko.net/2026/02/18/it/gazzetta_sport.750.jpg",
+    "scrapedAt": "2026-02-18T06:36:08.925Z"
   },
   {
-    "id": "dailystar-2026-02-17",
+    "id": "dailystar-2026-02-18",
     "publisherId": "dailystar",
     "publisherName": "Daily Star Sport (Back Page)",
     "country": "UK",
     "groupLabel": "UK Back Pages",
-    "date": "2026-02-17",
-    "imageMediumUrl": "./data/images/uk/dailystar/2026-02-17-medium.jpg",
-    "sourceUrl": "https://img.kiosko.net/2026/02/17/uk/daily_star.750.jpg",
-    "scrapedAt": "2026-02-17T07:30:55.141Z"
+    "date": "2026-02-18",
+    "imageMediumUrl": "./data/images/uk/dailystar/2026-02-18-medium.jpg",
+    "sourceUrl": "https://img.kiosko.net/2026/02/18/uk/daily_star.750.jpg",
+    "scrapedAt": "2026-02-18T06:36:10.452Z"
   },
   {
-    "id": "star-sport-2026-02-17",
+    "id": "star-sport-2026-02-18",
     "publisherId": "star-sport",
     "publisherName": "Star Sport (Alias of Daily Star Sport)",
     "country": "UK",
     "groupLabel": "UK Back Pages",
-    "date": "2026-02-17",
-    "error": "Cover not found for star-sport (2026-02-17)",
-    "scrapedAt": "2026-02-17T07:31:03.447Z"
+    "date": "2026-02-18",
+    "error": "Cover not found for star-sport (2026-02-18)",
+    "scrapedAt": "2026-02-18T06:36:19.304Z"
   },
   {
-    "id": "mirror-2026-02-17",
+    "id": "mirror-2026-02-18",
     "publisherId": "mirror",
     "publisherName": "Mirror Sport (Back Page)",
     "country": "UK",
     "groupLabel": "UK Back Pages",
-    "date": "2026-02-17",
-    "error": "Cover not found for mirror (2026-02-17)",
-    "scrapedAt": "2026-02-17T07:31:16.009Z"
+    "date": "2026-02-18",
+    "error": "Cover not found for mirror (2026-02-18)",
+    "scrapedAt": "2026-02-18T06:36:27.956Z"
   },
   {
-    "id": "express-2026-02-17",
+    "id": "express-2026-02-18",
     "publisherId": "express",
     "publisherName": "Daily Express Sport (Back Page)",
     "country": "UK",
     "groupLabel": "UK Back Pages",
-    "date": "2026-02-17",
-    "imageMediumUrl": "./data/images/uk/express/2026-02-17-medium.jpg",
-    "sourceUrl": "https://img.kiosko.net/2026/02/17/uk/daily_express.750.jpg",
-    "scrapedAt": "2026-02-17T07:31:19.653Z"
+    "date": "2026-02-18",
+    "imageMediumUrl": "./data/images/uk/express/2026-02-18-medium.jpg",
+    "sourceUrl": "https://img.kiosko.net/2026/02/18/uk/daily_express.750.jpg",
+    "scrapedAt": "2026-02-18T06:36:32.679Z"
   },
   {
-    "id": "abola-2026-02-17",
+    "id": "abola-2026-02-18",
     "publisherId": "abola",
     "publisherName": "A Bola",
     "country": "PT",
     "groupLabel": "Portugal",
-    "date": "2026-02-17",
-    "imageMediumUrl": "./data/images/pt/abola/2026-02-17-medium.jpg",
-    "sourceUrl": "https://img.kiosko.net/2026/02/17/pt/a_bola.750.jpg",
-    "scrapedAt": "2026-02-17T07:31:21.723Z"
+    "date": "2026-02-18",
+    "imageMediumUrl": "./data/images/pt/abola/2026-02-18-medium.jpg",
+    "sourceUrl": "https://img.kiosko.net/2026/02/18/pt/a_bola.750.jpg",
+    "scrapedAt": "2026-02-18T06:36:35.622Z"
   },
   {
-    "id": "record-2026-02-17",
+    "id": "record-2026-02-18",
     "publisherId": "record",
     "publisherName": "Record",
     "country": "PT",
     "groupLabel": "Portugal",
-    "date": "2026-02-17",
-    "error": "Cover not found for record (2026-02-17)",
-    "scrapedAt": "2026-02-17T07:31:28.052Z"
+    "date": "2026-02-18",
+    "error": "Cover not found for record (2026-02-18)",
+    "scrapedAt": "2026-02-18T06:36:42.090Z"
   },
   {
-    "id": "ojogo-2026-02-17",
+    "id": "ojogo-2026-02-18",
     "publisherId": "ojogo",
     "publisherName": "O Jogo",
     "country": "PT",
     "groupLabel": "Portugal",
-    "date": "2026-02-17",
-    "error": "Cover not found for ojogo (2026-02-17)",
-    "scrapedAt": "2026-02-17T07:31:36.439Z"
+    "date": "2026-02-18",
+    "error": "Cover not found for ojogo (2026-02-18)",
+    "scrapedAt": "2026-02-18T06:36:51.982Z"
   },
   {
-    "id": "kicker-2026-02-17",
+    "id": "kicker-2026-02-18",
     "publisherId": "kicker",
     "publisherName": "kicker",
     "country": "DE",
     "groupLabel": "Germany",
-    "date": "2026-02-17",
-    "error": "Cover not found for kicker (2026-02-17)",
-    "scrapedAt": "2026-02-17T07:31:44.699Z"
+    "date": "2026-02-18",
+    "error": "Cover not found for kicker (2026-02-18)",
+    "scrapedAt": "2026-02-18T06:37:00.638Z"
   }
 ]
