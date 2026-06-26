@@ -1027,7 +1027,7 @@
     "date": "2026-06-26",
     "imageMediumUrl": "./data/images/es/marca/2026-06-26-medium.jpg",
     "sourceUrl": "https://img.kiosko.net/2026/06/26/es/marca.750.jpg",
-    "scrapedAt": "2026-06-26T08:37:12.190Z"
+    "scrapedAt": "2026-06-26T09:55:54.207Z"
   },
   {
     "id": "as-2026-06-26",
@@ -1038,7 +1038,7 @@
     "date": "2026-06-26",
     "imageMediumUrl": "./data/images/es/as/2026-06-26-medium.jpg",
     "sourceUrl": "https://img.kiosko.net/2026/06/26/es/as.750.jpg",
-    "scrapedAt": "2026-06-26T08:37:14.571Z"
+    "scrapedAt": "2026-06-26T09:55:55.718Z"
   },
   {
     "id": "mundodeportivo-2026-06-26",
@@ -1049,7 +1049,7 @@
     "date": "2026-06-26",
     "imageMediumUrl": "./data/images/es/mundodeportivo/2026-06-26-medium.jpg",
     "sourceUrl": "https://img.kiosko.net/2026/06/26/es/mundodeportivo.750.jpg",
-    "scrapedAt": "2026-06-26T08:37:17.120Z"
+    "scrapedAt": "2026-06-26T09:55:57.339Z"
   },
   {
     "id": "sport-2026-06-26",
@@ -1060,7 +1060,7 @@
     "date": "2026-06-26",
     "imageMediumUrl": "./data/images/es/sport/2026-06-26-medium.jpg",
     "sourceUrl": "https://img.kiosko.net/2026/06/26/es/sport.750.jpg",
-    "scrapedAt": "2026-06-26T08:37:18.343Z"
+    "scrapedAt": "2026-06-26T09:55:58.134Z"
   },
   {
     "id": "lesportiu-2026-06-26",
@@ -1071,7 +1071,7 @@
     "date": "2026-06-26",
     "imageMediumUrl": "./data/images/es/lesportiu/2026-06-26-medium.jpg",
     "sourceUrl": "https://img.kiosko.net/2026/06/26/es/el9.750.jpg",
-    "scrapedAt": "2026-06-26T08:37:20.892Z"
+    "scrapedAt": "2026-06-26T09:55:59.615Z"
   },
   {
     "id": "superdeporte-2026-06-26",
@@ -1081,7 +1081,7 @@
     "groupLabel": "Spain",
     "date": "2026-06-26",
     "error": "Cover not found for superdeporte (2026-06-26)",
-    "scrapedAt": "2026-06-26T08:37:34.436Z"
+    "scrapedAt": "2026-06-26T09:56:04.948Z"
   },
   {
     "id": "estadiodeportivo-2026-06-26",
@@ -1091,7 +1091,7 @@
     "groupLabel": "Spain",
     "date": "2026-06-26",
     "error": "Cover not found for estadiodeportivo (2026-06-26)",
-    "scrapedAt": "2026-06-26T08:37:43.432Z"
+    "scrapedAt": "2026-06-26T09:56:07.780Z"
   },
   {
     "id": "spherasports-2026-06-26",
@@ -1101,7 +1101,7 @@
     "groupLabel": "Spain",
     "date": "2026-06-26",
     "error": "Cover not found for spherasports (2026-06-26)",
-    "scrapedAt": "2026-06-26T08:37:47.096Z"
+    "scrapedAt": "2026-06-26T09:56:09.919Z"
   },
   {
     "id": "lequipe-2026-06-26",
@@ -1112,7 +1112,7 @@
     "date": "2026-06-26",
     "imageMediumUrl": "./data/images/fr/lequipe/2026-06-26-medium.jpg",
     "sourceUrl": "https://img.kiosko.net/2026/06/26/fr/l_equip.750.jpg",
-    "scrapedAt": "2026-06-26T08:37:48.916Z"
+    "scrapedAt": "2026-06-26T09:56:10.850Z"
   },
   {
     "id": "corriere-2026-06-26",
@@ -1123,7 +1123,7 @@
     "date": "2026-06-26",
     "imageMediumUrl": "./data/images/it/corriere/2026-06-26-medium.jpg",
     "sourceUrl": "https://img.kiosko.net/2026/06/26/it/corriere_sport.750.jpg",
-    "scrapedAt": "2026-06-26T08:37:51.517Z"
+    "scrapedAt": "2026-06-26T09:56:12.440Z"
   },
   {
     "id": "tuttosport-2026-06-26",
@@ -1134,7 +1134,7 @@
     "date": "2026-06-26",
     "imageMediumUrl": "./data/images/it/tuttosport/2026-06-26-medium.jpg",
     "sourceUrl": "https://img.kiosko.net/2026/06/26/it/tuttosport.750.jpg",
-    "scrapedAt": "2026-06-26T08:37:54.289Z"
+    "scrapedAt": "2026-06-26T09:56:14.468Z"
   },
   {
     "id": "gazzetta-2026-06-26",
@@ -1145,7 +1145,7 @@
     "date": "2026-06-26",
     "imageMediumUrl": "./data/images/it/gazzetta/2026-06-26-medium.jpg",
     "sourceUrl": "https://img.kiosko.net/2026/06/26/it/gazzetta_sport.750.jpg",
-    "scrapedAt": "2026-06-26T08:37:56.596Z"
+    "scrapedAt": "2026-06-26T09:56:15.960Z"
   },
   {
     "id": "dailystar-2026-06-26",
@@ -1156,7 +1156,7 @@
     "date": "2026-06-26",
     "imageMediumUrl": "./data/images/uk/dailystar/2026-06-26-medium.jpg",
     "sourceUrl": "https://img.kiosko.net/2026/06/26/uk/daily_star.750.jpg",
-    "scrapedAt": "2026-06-26T08:37:59.215Z"
+    "scrapedAt": "2026-06-26T09:56:18.103Z"
   },
   {
     "id": "star-sport-2026-06-26",
@@ -1166,7 +1166,7 @@
     "groupLabel": "UK Back Pages",
     "date": "2026-06-26",
     "error": "Cover not found for star-sport (2026-06-26)",
-    "scrapedAt": "2026-06-26T08:38:09.198Z"
+    "scrapedAt": "2026-06-26T09:56:26.841Z"
   },
   {
     "id": "mirror-2026-06-26",
@@ -1176,7 +1176,7 @@
     "groupLabel": "UK Back Pages",
     "date": "2026-06-26",
     "error": "Cover not found for mirror (2026-06-26)",
-    "scrapedAt": "2026-06-26T08:38:20.277Z"
+    "scrapedAt": "2026-06-26T09:56:36.775Z"
   },
   {
     "id": "express-2026-06-26",
@@ -1187,7 +1187,7 @@
     "date": "2026-06-26",
     "imageMediumUrl": "./data/images/uk/express/2026-06-26-medium.jpg",
     "sourceUrl": "https://img.kiosko.net/2026/06/26/uk/daily_express.750.jpg",
-    "scrapedAt": "2026-06-26T08:38:23.944Z"
+    "scrapedAt": "2026-06-26T09:56:39.220Z"
   },
   {
     "id": "abola-2026-06-26",
@@ -1198,7 +1198,7 @@
     "date": "2026-06-26",
     "imageMediumUrl": "./data/images/pt/abola/2026-06-26-medium.jpg",
     "sourceUrl": "https://img.kiosko.net/2026/06/26/pt/a_bola.750.jpg",
-    "scrapedAt": "2026-06-26T08:38:27.396Z"
+    "scrapedAt": "2026-06-26T09:56:41.321Z"
   },
   {
     "id": "record-2026-06-26",
@@ -1208,7 +1208,7 @@
     "groupLabel": "Portugal",
     "date": "2026-06-26",
     "error": "Cover not found for record (2026-06-26)",
-    "scrapedAt": "2026-06-26T08:38:34.650Z"
+    "scrapedAt": "2026-06-26T09:56:47.438Z"
   },
   {
     "id": "ojogo-2026-06-26",
@@ -1218,7 +1218,7 @@
     "groupLabel": "Portugal",
     "date": "2026-06-26",
     "error": "Cover not found for ojogo (2026-06-26)",
-    "scrapedAt": "2026-06-26T08:38:46.362Z"
+    "scrapedAt": "2026-06-26T09:56:56.936Z"
   },
   {
     "id": "kicker-2026-06-26",
@@ -1228,6 +1228,6 @@
     "groupLabel": "Germany",
     "date": "2026-06-26",
     "error": "Cover not found for kicker (2026-06-26)",
-    "scrapedAt": "2026-06-26T08:38:54.779Z"
+    "scrapedAt": "2026-06-26T09:57:03.977Z"
   }
 ]
